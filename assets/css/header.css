@@ -206,6 +206,7 @@
     text-align: center;
     min-width: 120px;
     height: 100%;
+    z-index: 999;
 }
 
 .btn-volunteer {
