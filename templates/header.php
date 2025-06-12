@@ -78,9 +78,9 @@ if (!defined('ABSPATH')) {
             </li>
           </ul>
 
-          <div class="UtilityNav-buttons">
-            <a href="#volunteer" class="UtilityNav-buttons-btn btn-solid btn-solid-dark-gray is-desktop UtilityNav-buttons-btn--volunteer">Volunteer</a>
-            <a href="#donate" target="_blank" class="UtilityNav-buttons-btn btn-solid">Donate</a>
+          <div class="wdm-utility-buttons">
+            <a href="#volunteer" class="wdm-utility-btn btn-volunteer is-desktop">VOLUNTEER</a>
+            <a href="#donate" target="_blank" class="wdm-utility-btn btn-donate">DONATE</a>
           </div>
         </div>
       </nav>

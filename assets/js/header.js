@@ -15,7 +15,7 @@
      * Initialize header functionality
      */
     function initializeHeader() {
-        const header = document.querySelector('.Header');
+        const header = document.querySelector('.wdm-main-header');
         if (!header) return;
         
         initializeNavigation(header);
@@ -27,11 +27,11 @@
      * Initialize navigation functionality
      */
     function initializeNavigation(header) {
-        const navItems = header.querySelectorAll('.Nav-item');
+        const navItems = header.querySelectorAll('.wdm-nav-item');
         
         navItems.forEach(function(item) {
-            const toggle = item.querySelector('.Nav-toggle');
-            const dropdown = item.querySelector('.Nav-dropdown, .Nav-megaDropdown');
+            const toggle = item.querySelector('.wdm-nav-toggle');
+            const dropdown = item.querySelector('.wdm-nav-dropdown, .wdm-nav-megadropdown');
             
             if (toggle && dropdown) {
                 toggle.addEventListener('click', function(e) {
