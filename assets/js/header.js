@@ -244,6 +244,10 @@
         let isProcessing = false;
         
         if (hamburger) {
+            // Ensure menu starts in closed state
+            header.classList.remove('nav-open');
+            hamburger.classList.remove('active');
+            
             hamburger.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -255,6 +259,7 @@
                 console.log('Hamburger clicked'); // Debug log
                 
                 const isOpen = header.classList.contains('nav-open');
+                console.log('Menu is currently open:', isOpen); // Debug log
                 
                 if (isOpen) {
                     header.classList.remove('nav-open');
