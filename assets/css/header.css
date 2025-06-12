@@ -20,6 +20,8 @@
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Logo */
@@ -54,6 +56,7 @@
 .wdm-nav {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 /* Secondary Navigation (Utility Nav) */
@@ -62,6 +65,7 @@
     border-bottom: 1px solid #e5e5e5;
     padding: 0;
     margin: 0 -20px;
+    height: 100%;
 }
 
 .wdm-toggle {
@@ -111,8 +115,10 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 20px;
     height: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .wdm-utility-list {
@@ -287,7 +293,10 @@
 .Nav-expandable-wrap {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .Nav-list {
@@ -298,6 +307,7 @@
     align-items: center;
     justify-content: center;
     gap: 0;
+    width: 100%;
 }
 
 .Nav-item {
