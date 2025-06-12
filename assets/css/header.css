@@ -231,23 +231,24 @@
 
 /* Hamburger Menu Styles */
 .wdm-hamburger-btn {
-    background: #f0f0f0;
-    border: none;
-    cursor: pointer;
-    padding: 15px 20px;
-    display: flex;
+    background: #f0f0f0 !important;
+    border: none !important;
+    cursor: pointer !important;
+    padding: 15px 20px !important;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     height: 100%;
-    transition: all 0.2s;
+    transition: all 0.2s !important;
+    border-radius: 0 !important;
 }
 
 .wdm-hamburger-btn:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.1) !important;
 }
 
 .wdm-hamburger-btn.active {
-    background: #333;
+    background: #333 !important;
 }
 
 .wdm-hamburger-btn.active .wdm-hamburger-icon span {
