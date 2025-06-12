@@ -29,11 +29,11 @@
      * Initialize navigation functionality
      */
     function initializeNavigation(header) {
-        const navItems = header.querySelectorAll('.wdm-nav-item');
+        const navItems = header.querySelectorAll('.Nav-item');
         
         navItems.forEach(function(item) {
-            const toggle = item.querySelector('.wdm-nav-toggle');
-            const dropdown = item.querySelector('.wdm-nav-dropdown, .wdm-nav-megadropdown');
+            const toggle = item.querySelector('.Nav-toggle');
+            const dropdown = item.querySelector('.Nav-dropdown, .Nav-megaDropdown');
             
             if (toggle && dropdown) {
                 toggle.addEventListener('click', function(e) {
@@ -70,7 +70,7 @@
      * Initialize mobile menu functionality
      */
     function initializeMobileMenu(header) {
-        const mobileToggle = header.querySelector('.Header-toggle');
+        const mobileToggle = header.querySelector('.wdm-hamburger-btn');
         const nav = header.querySelector('.Nav-expandable-wrap');
         
         if (mobileToggle && nav) {
@@ -135,12 +135,12 @@
      * Handle window resize
      */
     window.addEventListener('resize', function() {
-        const header = document.querySelector('.Header');
+        const header = document.querySelector('.wdm-main-header');
         if (!header) return;
         
         // Close mobile menu on desktop
         if (window.innerWidth > 768) {
-            const mobileToggle = header.querySelector('.Header-toggle');
+            const mobileToggle = header.querySelector('.wdm-hamburger-btn');
             const nav = header.querySelector('.Nav-expandable-wrap');
             
             if (mobileToggle && nav) {
@@ -158,12 +158,12 @@
      */
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            const header = document.querySelector('.Header');
+            const header = document.querySelector('.wdm-main-header');
             if (header) {
                 closeAllDropdowns(header);
                 
                 // Close mobile menu
-                const mobileToggle = header.querySelector('.Header-toggle');
+                const mobileToggle = header.querySelector('.wdm-hamburger-btn');
                 const nav = header.querySelector('.Nav-expandable-wrap');
                 
                 if (mobileToggle && nav && nav.classList.contains('active')) {
