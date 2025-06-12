@@ -269,9 +269,9 @@
     border-bottom: 1px solid #e5e5e5;
     padding: 0;
     margin: 0 -20px;
-    transition: height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+    transition: height 0.3s ease, transform 0.3s ease;
     overflow: hidden;
-    height: auto;
+    height: 100%;
     z-index: 1;
     position: relative;
 }
@@ -279,7 +279,6 @@
 /* Scroll States */
 .wdm-main-header.scrolled .Header-nav-main {
     height: 0;
-    opacity: 0;
     padding: 0;
     margin: 0 -20px;
     border-bottom: none;
@@ -292,8 +291,7 @@
 }
 
 .wdm-main-header.nav-open .Header-nav-main {
-    height: auto;
-    opacity: 1;
+    height: 100%;
     padding: 0;
     margin: 0 -20px;
     border-bottom: 1px solid #e5e5e5;
