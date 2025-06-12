@@ -248,11 +248,13 @@
     function initializeHamburgerMenu(header) {
         const hamburger = header.querySelector('.wdm-hamburger-btn');
         let isProcessing = false;
+        let menuIsOpen = false; // Track state independently
         
         if (hamburger) {
             // Ensure menu starts in closed state
             header.classList.remove('nav-open');
             hamburger.classList.remove('active');
+            menuIsOpen = false;
             
             hamburger.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -263,17 +265,17 @@
                 isProcessing = true;
                 
                 console.log('Hamburger clicked'); // Debug log
+                console.log('Menu state variable:', menuIsOpen); // Debug log
                 
-                const isOpen = header.classList.contains('nav-open');
-                console.log('Menu is currently open:', isOpen); // Debug log
-                
-                if (isOpen) {
+                if (menuIsOpen) {
                     header.classList.remove('nav-open');
                     hamburger.classList.remove('active');
+                    menuIsOpen = false;
                     console.log('Menu closed'); // Debug log
                 } else {
                     header.classList.add('nav-open');
                     hamburger.classList.add('active');
+                    menuIsOpen = true;
                     console.log('Menu opened'); // Debug log
                 }
                 
