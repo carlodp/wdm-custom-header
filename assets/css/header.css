@@ -303,6 +303,19 @@
     overflow: visible;
 }
 
+/* Remove overflow when dropdown is active */
+.Nav-item.active ~ * .Header-nav-main,
+.Nav-item.active .Header-nav-main,
+.Header-nav-main:has(.Nav-item.active) {
+    overflow: visible;
+}
+
+.Nav-item.active ~ * .Nav-expandable-wrap,
+.Nav-item.active .Nav-expandable-wrap,
+.Nav-expandable-wrap:has(.Nav-item.active) {
+    overflow: visible;
+}
+
 /* Secondary Navigation Transitions */
 .wdm-nav-secondary {
     transition: all 0.3s ease;
