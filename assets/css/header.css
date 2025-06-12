@@ -296,6 +296,11 @@
     margin: 0 -20px;
     border-bottom: 1px solid #e5e5e5;
     transform: translateY(0);
+    overflow: visible;
+}
+
+.wdm-main-header.nav-open .Nav-expandable-wrap {
+    overflow: visible;
 }
 
 /* Secondary Navigation Transitions */
