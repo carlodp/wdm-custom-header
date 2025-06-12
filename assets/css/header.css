@@ -269,21 +269,21 @@
     border-bottom: 1px solid #e5e5e5;
     padding: 0;
     margin: 0 -20px;
-    transition: all 0.3s ease;
+    transition: height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
     overflow: hidden;
-    height: 100%;
+    height: auto;
     z-index: 1;
     position: relative;
 }
 
 /* Scroll States */
 .wdm-main-header.scrolled .Header-nav-main {
-    max-height: 0;
+    height: 0;
     opacity: 0;
     padding: 0;
     margin: 0 -20px;
     border-bottom: none;
-    transform: translateY(-100%);
+    transform: translateY(-20px);
 }
 
 .wdm-main-header.scrolled .wdm-hamburger-btn {
@@ -292,13 +292,12 @@
 }
 
 .wdm-main-header.nav-open .Header-nav-main {
-    max-height: 500px;
+    height: auto;
     opacity: 1;
     padding: 0;
     margin: 0 -20px;
     border-bottom: 1px solid #e5e5e5;
     transform: translateY(0);
-    animation: slideDownNav 0.3s ease;
 }
 
 /* Secondary Navigation Transitions */
