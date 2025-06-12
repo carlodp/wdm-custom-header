@@ -117,7 +117,7 @@
 .wdm-utility-nav {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0;
@@ -176,7 +176,6 @@
 .wdm-utility-buttons {
     display: flex;
     gap: 0;
-    height: 100%;
 }
 
 .wdm-utility-btn {
