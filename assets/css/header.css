@@ -26,7 +26,7 @@
 }
 
 .wdm-main-header.scrolled .wdm-header-container {
-    height: 90px;
+    height: 110px;
     transition: all 0.3s ease;
 }
 
@@ -39,6 +39,8 @@
     margin: 0;
     display: flex;
     align-items: center;
+    width: 25%;
+    justify-content: center;
 }
 
 .wdm-logo-link {
@@ -208,7 +210,7 @@
 
 .btn-volunteer {
     background: #5a6c7d;
-    color: white;
+    color: white !important;
 }
 
 .btn-volunteer:hover {
@@ -218,7 +220,7 @@
 
 .btn-donate {
     background: #c9302c;
-    color: white;
+    color: white !important;
 }
 
 .btn-donate:hover {
@@ -403,32 +405,34 @@
 
 .Nav-toggle,
 .Nav-link {
-    color: #212529;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 20px 25px;
-    transition: all 0.2s;
-    cursor: pointer;
-    user-select: none;
+    color: #212529 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 18px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 20px 25px !important;
+    transition: all 0.2s !important;
+    cursor: pointer !important;
+    user-select: none !important;
     background: none;
-    border: none;
-    display: flex;
+    border: none !important;
+    display: flex !important;
     align-items: center;
     gap: 8px;
-    width: 100%;
+    width: 100% !important;
     height: 100%;
     justify-content: center;
+    border-radius: 0 !important;
+    background: #f8f9fa !important;
 }
 
 .Nav-toggle:hover,
 .Nav-link:hover,
 .Nav-item.active .Nav-toggle,
 .Nav-item.active .Nav-link {
-    background: #000;
-    color: #fff;
+    background: #000 !important;
+    color: #fff !important;
 }
 
 .Nav-toggle .icon,
@@ -447,15 +451,14 @@
 .Nav-megaDropdown {
     position: absolute;
     top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     background: white;
     border: 1px solid #e5e5e5;
     border-radius: 8px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-50%) translateY(-10px);
+    transform: translateY(-10px);
     transition: all 0.3s ease;
     z-index: 1001;
     min-width: 400px;
@@ -465,7 +468,7 @@
 .Nav-megaDropdown.active {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
 }
 
 /* Mega Dropdown Specific */
