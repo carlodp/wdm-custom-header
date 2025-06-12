@@ -270,7 +270,6 @@
     padding: 0;
     margin: 0 -20px;
     transition: height 0.3s ease, transform 0.3s ease;
-    overflow: hidden;
     height: 100%;
     z-index: 1;
     position: relative;
@@ -288,6 +287,10 @@
 .wdm-main-header.scrolled .wdm-hamburger-btn {
     display: flex !important;
     animation: slideInFromRight 0.3s ease;
+}
+
+.wdm-main-header.scrolled .Header-nav-main {
+    overflow: hidden;
 }
 
 
