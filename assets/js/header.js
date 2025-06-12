@@ -30,18 +30,14 @@
      */
     function initializeNavigation(header) {
         const navItems = header.querySelectorAll('.Nav-item');
-        console.log('Found nav items:', navItems.length);
         
         navItems.forEach(function(item) {
             const toggle = item.querySelector('.Nav-toggle');
             const dropdown = item.querySelector('.Nav-dropdown, .Nav-megaDropdown');
             
-            console.log('Nav item:', item, 'Toggle:', toggle, 'Dropdown:', dropdown);
-            
             if (toggle && dropdown) {
                 toggle.addEventListener('click', function(e) {
                     e.preventDefault();
-                    console.log('Dropdown toggle clicked');
                     toggleDropdown(item, dropdown, navItems);
                 });
             }
