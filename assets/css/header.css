@@ -119,7 +119,7 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
     height: 100%;
     width: 100%;
     box-sizing: border-box;
@@ -344,7 +344,7 @@
 .Nav-expandable-wrap {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -363,6 +363,7 @@
 
 .Nav-item {
     position: relative;
+    width: 100%;
 }
 
 .Nav-item.is-mobile {
@@ -386,6 +387,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    width: 100%;
+    justify-content: center;
 }
 
 .Nav-toggle:hover,
