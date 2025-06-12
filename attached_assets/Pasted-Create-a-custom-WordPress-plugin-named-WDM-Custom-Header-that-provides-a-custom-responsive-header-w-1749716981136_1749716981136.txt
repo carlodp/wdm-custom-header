@@ -1,0 +1,71 @@
+Create a custom WordPress plugin named WDM Custom Header that provides a custom, responsive header with a mega menu, inspired by https://teamrubiconusa.org.
+
+🧱 Plugin Overview:
+The header is rendered using the shortcode [wdm_custom_header].
+
+Designed to work with any WordPress theme and page builder, including Elementor.
+
+All mega menu items must open panels on click (not hover).
+
+The plugin must be organized into a modular file structure.
+
+📁 Directory and File Structure:
+less
+Copy
+Edit
+wdm-custom-header/
+├── wdm-custom-header.php          // Main plugin bootstrap file
+├── includes/
+│   ├── class-wdm-header.php      // Handles rendering and shortcode
+│   └── class-wdm-settings.php    // Adds admin toggle for enabling/disabling styles
+├── assets/
+│   ├── css/
+│   │   └── header.css            // Styles for header and mega menu
+│   └── js/
+│       └── header.js            // JS for toggle/click mega menu
+└── templates/
+    └── header.php                // HTML structure of the header
+✨ Header Layout Requirements:
+Left: Logo (placeholder or SVG).
+
+Top nav: Store, News & Stories, Roll Call (with icons for cart and login if possible).
+
+Mega menu items:
+
+How We Serve
+
+How to Get Involved
+
+Ways to Give
+
+About Team Rubicon
+
+Each item triggers a panel on click, supports multi-column HTML (headings, links, paragraphs).
+
+Search icon: Clicking it reveals a text search input.
+
+Right buttons: Volunteer (dark) and Donate (red).
+
+🔧 Technical Instructions:
+Use add_shortcode() to register [wdm_custom_header].
+
+Register and enqueue CSS/JS using wp_enqueue_scripts.
+
+Create an admin settings page under “Settings → WDM Header” to toggle whether to load default CSS.
+
+Wrap all PHP classes in a namespace like WDM_Custom_Header.
+
+Ensure JavaScript:
+
+Toggles only one mega menu panel at a time.
+
+Closes panel when clicking outside or selecting another item.
+
+Avoid Bootstrap/jQuery UI dependencies. Use lightweight vanilla JS or WordPress-embedded jQuery.
+
+Ensure full mobile responsiveness (you can include a hamburger toggle for mobile layouts if feasible).
+
+📦 Output Format:
+Return all plugin code across separate files as per the structure.
+
+Provide clean, commented code only — no explanation or narrative text.
