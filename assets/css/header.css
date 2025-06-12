@@ -249,9 +249,7 @@
     width: 20px;
     height: 16px;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    display: block;
 }
 
 .wdm-hamburger-icon span {
@@ -259,12 +257,27 @@
     height: 2px;
     width: 100%;
     background: #212529;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    position: absolute;
+    left: 0;
     transform-origin: center;
 }
 
+.wdm-hamburger-icon span:nth-child(1) {
+    top: 0;
+}
+
+.wdm-hamburger-icon span:nth-child(2) {
+    top: 7px;
+}
+
+.wdm-hamburger-icon span:nth-child(3) {
+    top: 14px;
+}
+
 .wdm-hamburger-btn.active .wdm-hamburger-icon span:nth-child(1) {
-    transform: rotate(45deg) translate(0px, 7px);
+    top: 7px;
+    transform: rotate(45deg);
 }
 
 .wdm-hamburger-btn.active .wdm-hamburger-icon span:nth-child(2) {
@@ -272,7 +285,8 @@
 }
 
 .wdm-hamburger-btn.active .wdm-hamburger-icon span:nth-child(3) {
-    transform: rotate(-45deg) translate(0px, -7px);
+    top: 7px;
+    transform: rotate(-45deg);
 }
 
 /* Main Navigation */
