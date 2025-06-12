@@ -213,18 +213,15 @@
                 
                 if (isScrolled) {
                     header.classList.add('scrolled');
-                    // Ensure nav starts closed when scrolled state is activated
-                    header.classList.remove('nav-open');
-                    const hamburger = header.querySelector('.wdm-hamburger-btn');
-                    if (hamburger) {
-                        hamburger.classList.remove('active');
+                    // Use the reset function to properly sync state
+                    if (header._resetHamburgerState) {
+                        header._resetHamburgerState();
                     }
                 } else {
                     header.classList.remove('scrolled');
-                    header.classList.remove('nav-open');
-                    const hamburger = header.querySelector('.wdm-hamburger-btn');
-                    if (hamburger) {
-                        hamburger.classList.remove('active');
+                    // Use the reset function to properly sync state
+                    if (header._resetHamburgerState) {
+                        header._resetHamburgerState();
                     }
                 }
             }
@@ -250,11 +247,18 @@
         let isProcessing = false;
         let menuIsOpen = false; // Track state independently
         
+        // Store reference to reset function for scroll behavior
+        header._resetHamburgerState = function() {
+            menuIsOpen = false;
+            header.classList.remove('nav-open');
+            if (hamburger) {
+                hamburger.classList.remove('active');
+            }
+        };
+        
         if (hamburger) {
             // Ensure menu starts in closed state
-            header.classList.remove('nav-open');
-            hamburger.classList.remove('active');
-            menuIsOpen = false;
+            header._resetHamburgerState();
             
             hamburger.addEventListener('click', function(e) {
                 e.preventDefault();
