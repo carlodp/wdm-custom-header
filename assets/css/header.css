@@ -1,75 +1,5 @@
 /* WDM Custom Header - Grey Bull Style */
 
-/* Nuclear Option: Disable ALL Elementor styling in header */
-.wdm-main-header *,
-.wdm-main-header *::before,
-.wdm-main-header *::after {
-    all: revert !important;
-}
-
-.wdm-main-header button[class*="elementor"],
-.wdm-main-header a[class*="elementor"],
-.wdm-main-header .elementor-button,
-.wdm-main-header .elementor-button-wrapper,
-.wdm-main-header [class*="elementor-button"] {
-    all: unset !important;
-    display: contents !important;
-}
-
-/* Complete isolation from Elementor */
-.wdm-main-header {
-    isolation: isolate !important;
-    contain: style !important;
-}
-
-/* Remove any Elementor classes from nav buttons */
-.wdm-main-header .Nav-toggle[class*="elementor"],
-.wdm-main-header .Nav-link[class*="elementor"] {
-    all: unset !important;
-    display: inline-flex !important;
-}
-
-/* Elementor Override Protection - High Specificity Rules */
-body .wdm-main-header,
-body .wdm-main-header *,
-.elementor-page .wdm-main-header,
-.elementor-page .wdm-main-header *,
-.elementor .wdm-main-header,
-.elementor .wdm-main-header * {
-    box-sizing: border-box !important;
-}
-
-/* Ultra-aggressive Elementor override protection */
-html body .wdm-main-header .Nav-link,
-html body .wdm-main-header .Nav-toggle,
-html .elementor-page .wdm-main-header .Nav-link,
-html .elementor-page .wdm-main-header .Nav-toggle,
-html .elementor .wdm-main-header .Nav-link,
-html .elementor .wdm-main-header .Nav-toggle,
-body .wdm-main-header .Nav-link,
-body .wdm-main-header .Nav-toggle,
-.elementor-page .wdm-main-header .Nav-link,
-.elementor-page .wdm-main-header .Nav-toggle,
-.elementor .wdm-main-header .Nav-link,
-.elementor .wdm-main-header .Nav-toggle {
-    all: unset !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    text-decoration: none !important;
-    cursor: pointer !important;
-    background-image: none !important;
-    background: transparent !important;
-    border: 0 !important;
-    border-width: 0 !important;
-    border-style: none !important;
-    border-color: transparent !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    outline: 0 !important;
-    outline-width: 0 !important;
-    outline-style: none !important;
-}
-
 /* Reset and base styles */
 .wdm-main-header * {
     box-sizing: border-box;
@@ -257,70 +187,43 @@ body .wdm-main-header .Nav-toggle,
     gap: 0;
 }
 
-/* Force override Elementor styles on utility buttons */
-body .wdm-main-header .wdm-utility-btn,
-.elementor-page .wdm-main-header .wdm-utility-btn,
-.elementor .wdm-main-header .wdm-utility-btn,
-.wdm-main-header .wdm-utility-btn {
-    padding: 0 24px !important;
-    border: none !important;
-    border-radius: 0 !important;
-    text-decoration: none !important;
-    font-weight: 700 !important;
-    font-size: 12px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    transition: all 0.2s !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    min-width: 120px !important;
-    height: 100% !important;
-    box-shadow: none !important;
-    outline: none !important;
-    margin: 0 !important;
-    line-height: normal !important;
-    font-family: inherit !important;
+.wdm-utility-btn {
+    padding: 0 24px;
+    border: none;
+    border-radius: 0;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 120px;
+    height: 100%;
 }
 
-/* Force override Elementor styles on volunteer button */
-body .wdm-main-header .btn-volunteer,
-.elementor-page .wdm-main-header .btn-volunteer,
-.elementor .wdm-main-header .btn-volunteer,
-.wdm-main-header .btn-volunteer {
-    background: #5a6c7d !important;
-    background-color: #5a6c7d !important;
-    color: white !important;
+.btn-volunteer {
+    background: #5a6c7d;
+    color: white;
 }
 
-body .wdm-main-header .btn-volunteer:hover,
-.elementor-page .wdm-main-header .btn-volunteer:hover,
-.elementor .wdm-main-header .btn-volunteer:hover,
-.wdm-main-header .btn-volunteer:hover {
-    background: #495761 !important;
-    background-color: #495761 !important;
-    color: white !important;
+.btn-volunteer:hover {
+    background: #495761;
+    color: white;
 }
 
-/* Force override Elementor styles on donate button */
-body .wdm-main-header .btn-donate,
-.elementor-page .wdm-main-header .btn-donate,
-.elementor .wdm-main-header .btn-donate,
-.wdm-main-header .btn-donate {
-    background: #c9302c !important;
-    background-color: #c9302c !important;
-    color: white !important;
+.btn-donate {
+    background: #c9302c;
+    color: white;
 }
 
-body .wdm-main-header .btn-donate:hover,
-.elementor-page .wdm-main-header .btn-donate:hover,
-.elementor .wdm-main-header .btn-donate:hover,
-.wdm-main-header .btn-donate:hover {
-    background: #ac2925 !important;
-    background-color: #ac2925 !important;
-    color: white !important;
+.btn-donate:hover {
+    background: #ac2925;
+    color: white;
 }
 
 /* Hamburger Menu Styles */
@@ -498,80 +401,34 @@ body .wdm-main-header .btn-donate:hover,
     display: none;
 }
 
-/* Ultra-aggressive navigation button override */
-html body .wdm-main-header .Nav-toggle,
-html body .wdm-main-header .Nav-link,
-html .elementor-page .wdm-main-header .Nav-toggle,
-html .elementor-page .wdm-main-header .Nav-link,
-html .elementor .wdm-main-header .Nav-toggle,
-html .elementor .wdm-main-header .Nav-link,
-body .wdm-main-header .Nav-toggle,
-body .wdm-main-header .Nav-link,
-.elementor-page .wdm-main-header .Nav-toggle,
-.elementor-page .wdm-main-header .Nav-link,
-.elementor .wdm-main-header .Nav-toggle,
-.elementor .wdm-main-header .Nav-link,
-.wdm-main-header .Nav-toggle,
-.wdm-main-header .Nav-link {
-    color: #212529 !important;
-    text-decoration: none !important;
-    font-weight: 600 !important;
-    font-size: 18px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    padding: 20px 25px !important;
-    transition: all 0.2s !important;
-    cursor: pointer !important;
-    user-select: none !important;
-    background: none !important;
-    background-color: transparent !important;
-    background-image: none !important;
-    border: none !important;
-    border: 0 !important;
-    border-width: 0 !important;
-    border-style: none !important;
-    border-color: transparent !important;
-    border-radius: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    width: 100% !important;
-    height: 100% !important;
-    justify-content: center !important;
-    box-shadow: none !important;
-    outline: none !important;
-    outline: 0 !important;
-    outline-width: 0 !important;
-    outline-style: none !important;
-    margin: 0 !important;
-    line-height: normal !important;
-    font-family: inherit !important;
-    min-height: unset !important;
-    max-height: unset !important;
-    min-width: unset !important;
-    max-width: unset !important;
+.Nav-toggle,
+.Nav-link {
+    color: #212529;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 20px 25px;
+    transition: all 0.2s;
+    cursor: pointer;
+    user-select: none;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
 }
 
-/* Force override Elementor hover states */
-body .wdm-main-header .Nav-toggle:hover,
-body .wdm-main-header .Nav-link:hover,
-body .wdm-main-header .Nav-item.active .Nav-toggle,
-body .wdm-main-header .Nav-item.active .Nav-link,
-.elementor-page .wdm-main-header .Nav-toggle:hover,
-.elementor-page .wdm-main-header .Nav-link:hover,
-.elementor-page .wdm-main-header .Nav-item.active .Nav-toggle,
-.elementor-page .wdm-main-header .Nav-item.active .Nav-link,
-.elementor .wdm-main-header .Nav-toggle:hover,
-.elementor .wdm-main-header .Nav-link:hover,
-.elementor .wdm-main-header .Nav-item.active .Nav-toggle,
-.elementor .wdm-main-header .Nav-item.active .Nav-link,
-.wdm-main-header .Nav-toggle:hover,
-.wdm-main-header .Nav-link:hover,
-.wdm-main-header .Nav-item.active .Nav-toggle,
-.wdm-main-header .Nav-item.active .Nav-link {
-    background: #000 !important;
-    background-color: #000 !important;
-    color: #fff !important;
+.Nav-toggle:hover,
+.Nav-link:hover,
+.Nav-item.active .Nav-toggle,
+.Nav-item.active .Nav-link {
+    background: #000;
+    color: #fff;
 }
 
 .Nav-toggle .icon,
