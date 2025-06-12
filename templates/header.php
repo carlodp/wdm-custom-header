@@ -24,10 +24,6 @@ if (!defined('ABSPATH')) {
       
       <nav class="wdm-nav-secondary" aria-label="Secondary" id="secondary-nav">
         
-        <button class="wdm-toggle is-hidden" type="button" data-expands="nav" data-primary-toggle="">
-          <span class="wdm-screen-reader">Menu</span>
-          <div class="wdm-toggle-hamburger" aria-hidden="true"></div>
-        </button>
         
 
         <div class="wdm-utility-nav">
