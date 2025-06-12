@@ -213,6 +213,12 @@
                 
                 if (isScrolled) {
                     header.classList.add('scrolled');
+                    // Ensure nav starts closed when scrolled state is activated
+                    header.classList.remove('nav-open');
+                    const hamburger = header.querySelector('.wdm-hamburger-btn');
+                    if (hamburger) {
+                        hamburger.classList.remove('active');
+                    }
                 } else {
                     header.classList.remove('scrolled');
                     header.classList.remove('nav-open');
