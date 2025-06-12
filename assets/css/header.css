@@ -291,6 +291,10 @@
     animation: slideInFromRight 0.3s ease;
 }
 
+.wdm-main-header.scrolled .wdm-nav {
+    height: auto;
+}
+
 .wdm-main-header.nav-open .Header-nav-main {
     height: 100%;
     padding: 0;
