@@ -1,0 +1,369 @@
+<header class="Header" id="Header">
+  <div class="Header-wrap l-wrap--nav">
+    
+          <h1 class="Header-logo">
+          <a class="Header-logo-link" href="https://teamrubiconusa.org/">
+        <span class="u-screenreader">Team Rubicon</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 288 98" focusable="false" aria-hidden="true" width="248" height="84.388888888889" class="Header-logo-image">
+  <path d="m107.825 79.315-4.854-9.252h-3.174v9.252h-7.655V51.738h16.803c3.735 0 5.602 1.707 5.602 5.39v7.186c0 3.054-1.307 4.76-3.921 5.21l5.041 9.79h-7.842Zm-1.867-15.001c.56 0 .747-.18.747-.719v-5.12c0-.539-.187-.718-.747-.718h-6.255v6.557h6.255ZM141.153 74.015c0 3.503-1.96 5.39-5.601 5.39h-11.016c-3.641 0-5.601-1.887-5.601-5.39V51.738h7.655v20.48c0 .45.28.72.747.72h5.321c.467 0 .747-.27.747-.72v-20.48h7.655v22.277h.093ZM162.345 51.738c3.734 0 5.601 1.707 5.601 6.917 0 4.401-.56 6.108-3.361 6.557 2.988.27 3.641 2.605 3.641 6.917 0 5.48-1.774 7.186-5.601 7.186h-16.897V51.738h16.617Zm-2.894 10.87c.56 0 .747-.18.747-2.606 0-2.425-.187-2.605-.747-2.605h-5.975v5.12h5.975v.09Zm.28 10.958c.56 0 .747-.18.747-2.874 0-2.695-.187-2.875-.747-2.875h-6.348v5.749h6.348ZM172.707 51.738h7.375v27.577h-7.375V51.738ZM190.164 79.315c-3.734 0-5.602-1.707-5.602-5.39V57.128c0-3.593 1.868-5.39 5.695-5.39h10.923c3.734 0 5.508 1.707 5.508 5.39v5.12h-7.655v-3.683c0-.539-.187-.719-.747-.719h-5.228c-.56 0-.747.18-.747.719v13.833c0 .54.187.719.747.719h5.228c.56 0 .747-.18.747-.719v-3.683h7.655v5.12c0 3.594-1.774 5.39-5.602 5.39h-10.922v.09ZM216.677 79.315c-3.734 0-5.601-1.707-5.601-5.39V57.128c0-3.593 1.774-5.39 5.601-5.39h11.483c3.734 0 5.601 1.707 5.601 5.39v16.887c0 3.593-1.773 5.39-5.601 5.39h-11.483v-.09Zm2.148-6.827c0 .539.186.719.746.719h5.788c.561 0 .747-.18.747-.719V58.655c0-.54-.186-.719-.747-.719h-5.788c-.56 0-.746.18-.746.719v13.833ZM262.701 51.738v27.577h-6.815l-10.175-15.81v15.81h-7.469V51.738h7.655l9.336 14.642V51.738h7.468ZM107.078 25.42v21.288h-7.655V25.42h-7.281v-6.288h22.311v6.288h-7.375ZM139.006 19.043v6.108H126.59v4.312h9.896v6.108h-9.896v4.94h12.416v6.108h-20.164V19.044h20.164ZM151.515 40.96l-1.494 5.66h-7.841l8.682-27.577h10.175l8.682 27.577h-8.215l-1.494-5.66h-8.495Zm4.201-15.809-2.707 9.97h5.321l-2.614-9.97ZM202.861 46.62h-7.469V30.81l-5.321 12.486h-4.668l-5.321-12.486v15.9h-7.375V19.042h8.682l6.442 14.462 6.441-14.462h8.589V46.62ZM267.368 54.075h-.373l-.28-.54h-.187v.54h-.466v-1.527h.933c.187 0 .28.09.28.27v.359c0 .18-.093.27-.187.27l.28.628Zm-.56-.809c.094 0 .094 0 0 0v-.359h-.373v.36h.373Z" fill="#C32033"></path>
+  <path d="M266.622 52.009c.747 0 1.4.629 1.4 1.347 0 .719-.653 1.347-1.4 1.347-.747 0-1.401-.628-1.401-1.347.094-.808.654-1.347 1.401-1.347Zm0-.36c-.934 0-1.681.719-1.681 1.617s.747 1.617 1.681 1.617c.933 0 1.68-.719 1.68-1.617.094-.898-.747-1.617-1.68-1.617Z" fill="#C32033"></path>
+  <path d="m50.784 28.385-9.709-9.342-21.191 20.48 9.989 9.701-9.99 9.702 21.192 20.39 1.68-1.617c1.961-1.796 5.322-4.94 7.096-7.725.84-1.437 1.4-3.862 1.307-5.48-.28-7.544-8.496-11.497-2.614-18.324 5.321-5.748 7.562-12.306 2.24-17.785Z" fill="#5B6771"></path>
+  <path d="m72.443 49.224 9.989-9.7L61.24 19.042l-6.348 6.108c-4.201 4.402 8.402 7.815-1.587 21.469-3.174 4.401 1.214 7.814 3.64 12.036 2.335 3.953 2.054 8.174.468 12.217-.747 2.155.186 5.03 3.734 8.353l21.285-20.48-9.99-9.522Z" fill="#C32033"></path>
+</svg>
+      </a>
+          </h1>
+        
+    <div class="Header-nav">
+      
+      <nav class="Header-nav-secondary" aria-label="Secondary" id="secondary-nav">
+        
+        <button class="Header-toggle is-hidden" type="button" data-expands="nav" data-primary-toggle="">
+          <span class="u-screenreader">Menu</span>
+          
+          <div class="Header-toggle-hamburger" aria-hidden="true"></div>
+        </button>
+        
+
+        <div class="UtilityNav">
+  <ul class="UtilityNav-list is-desktop" role="list">
+                  <li class="UtilityNav-item">
+          <a class="UtilityNav-link " href="https://store.teamrubiconusa.org/?_ga=2.73535185.2123104907.1695064714-1547489876.1695064713">
+            Store
+
+                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="13.125" viewBox="0 0 16 14" fill="none" focusable="false" aria-hidden="true" class="icon">
+  <path d="M4.03613 3.10352H14.194C14.7988 3.10352 15.2651 3.6362 15.1852 4.23568L14.529 9.15709H4.4397L4.03613 3.10352Z" fill="#38444A"></path>
+  <path d="M0 0.683594H4.64108L4.73019 1.89431H0V0.683594Z" fill="#38444A"></path>
+  <circle cx="4.43851" cy="12.3858" r="1.61429" fill="#38444A"></circle>
+  <circle cx="13.7207" cy="12.3858" r="1.61429" fill="#38444A"></circle>
+  <path d="M2.82422 1.08789H4.64029L5.64922 9.96647H3.83315L2.82422 1.08789Z" fill="#38444A"></path>
+  <path d="M3.83099 9.9668H14.1259V11.5811H4.03658L3.83099 9.9668Z" fill="#38444A"></path>
+</svg>
+                      </a>
+        </li>
+              <li class="UtilityNav-item">
+          <a class="UtilityNav-link " href="https://teamrubiconusa.org/team-rubicon-blog/">
+            News &amp; Stories
+
+                      </a>
+        </li>
+              <li class="UtilityNav-item">
+          <a class="UtilityNav-link  is-red " href="https://rollcall.teamrubiconusa.org/">
+            Roll Call
+
+                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none" focusable="false" aria-hidden="true" class="icon">
+  <path d="M6.4375 1H13C13.5523 1 14 1.44772 14 2V16C14 16.5523 13.5523 17 13 17H6.4375M1 9H9.25M9.25 9L5.125 4.63636M9.25 9L5.125 13.3636" stroke="#BE2437" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+                      </a>
+        </li>
+              <li class="UtilityNav-item">
+      <a class="UtilityNav-link UtilityNav-link--search" href="https://teamrubiconusa.org/?s=">
+        <span class="u-screenreader">Search</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15" focusable="false" aria-hidden="true" width="16" height="16" class="search-icon">
+  <circle cx="5.6" cy="5.6" r="4.6" stroke="var(--icon-color, #38444A)" stroke-width="2"></circle>
+  <path d="M13.293 14.707a1 1 0 0 0 1.415-1.414l-1.415 1.415Zm-5.6-5.6 5.6 5.6 1.415-1.414-5.6-5.6-1.415 1.415Z" fill="var(--icon-color, #38444A)"></path>
+</svg>
+      </a>
+    </li>
+  </ul>
+
+  <div class="UtilityNav-buttons">
+          <a href="https://teamrubiconusa.org/how-to-get-involved/volunteer-with-us" class="UtilityNav-buttons-btn btn-solid btn-solid-dark-gray is-desktop UtilityNav-buttons-btn--volunteer">Volunteer</a>
+    
+          <a href="https://support.teamrubiconusa.org/supportmgmt/donation/tr-25-web?utm_source=mainwebsite&amp;utm_medium=navigation&amp;utm_campaign=2025-GeneralDonations" target="_blank" class="UtilityNav-buttons-btn btn-solid">Donate</a>
+      </div>
+</div>
+      </nav>
+      
+      <nav class="Header-nav-main Nav-expandable" id="nav" role="navigation" aria-label="Main">
+        <div class="Nav-expandable-wrap" style="overflow: hidden;">
+          <ul class="Nav-list Nav-primary" role="list">
+  
+      <li class="Nav-item is-mobile">
+      <a href="https://teamrubiconusa.org/how-to-get-involved/volunteer-with-us" class="UtilityNav-buttons-btn btn-solid btn-solid-gray">Volunteer</a>
+    </li>
+    
+          <li class="Nav-item has-megadropdown">
+              
+        <button class="Nav-toggle Nav-link" data-expands="nav-150" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
+          How We Serve
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
+  <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
+</svg>
+        </button>
+            
+              <div class="Nav-megaDropdown" id="nav-150" aria-hidden="true">
+  <div class="Nav-megaDropdown-wrapper Nav-megaDropdown-wrap">
+      
+              
+        <div class="Nav-megaDropdown-col is-col-1">
+          <div class="Nav-megaDropdown-content">
+            
+                          <a id="mega-dropdown-title-684a8ec5a1110" class="Nav-megaDropdown-title is-col-1" href="https://teamrubiconusa.org/how-we-serve/">
+                How We Serve
+
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+  <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+  <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+</svg>
+              </a>
+            
+            <p class="Nav-megaDropdown-description">
+              Service, to us, is a mindset. It’s a resolve—a beacon of light amidst the fog of chaos—to bring equitable relief to vulnerable communities before, during, and after a disaster strikes.
+            </p>
+          </div>
+        </div>
+
+      
+      
+              
+        <div class="Nav-megaDropdown-col is-col-2">
+            
+                          <p id="mega-dropdown-title-684a8ec5a118e" class="Nav-megaDropdown-header">
+                What We Do
+              </p>
+            
+                          <ul class="Nav-megaDropdown-list" aria-labelledby="mega-dropdown-title-684a8ec5a118e" role="list">
+                                                      <li class="Nav-megaDropdown-item">
+                      <a href="https://teamrubiconusa.org/how-we-serve/disaster-response/" class="Nav-megaDropdown-link">Disaster Response</a>
+                    </li>
+                                                                        <li class="Nav-megaDropdown-item">
+                      <a href="https://teamrubiconusa.org/how-we-serve/long-term-recovery/" class="Nav-megaDropdown-link">Long Term Recovery</a>
+                    </li>
+                                                                        <li class="Nav-megaDropdown-item">
+                      <a href="https://teamrubiconusa.org/how-we-serve/international/" class="Nav-megaDropdown-link">International</a>
+                    </li>
+                                                </ul>
+                    </div>
+
+      
+      
+              
+        <div class="Nav-megaDropdown-col is-col-3">
+          
+                      <p id="mega-dropdown-title-684a8ec5a11a1" class="Nav-megaDropdown-header">
+              Where We Work
+            </p>
+          
+                      <ul class="Nav-megaDropdown-list" aria-labelledby="mega-dropdown-title-684a8ec5a11a1" role="list">
+                                                <li class="Nav-megaDropdown-item">
+                    <a href="https://teamrubiconusa.org/how-we-serve/domestically/" class="Nav-megaDropdown-link">Domestic Operations</a>
+                  </li>                  
+                                                                <li class="Nav-megaDropdown-item">
+                    <a href="https://teamrubiconusa.org/how-we-serve/international-work/" class="Nav-megaDropdown-link">International Work</a>
+                  </li>                  
+                                          </ul>
+                  </div>
+      
+  </div>
+</div>          </li>
+          <li class="Nav-item ">
+              
+        <button class="Nav-toggle Nav-link" data-expands="nav-394" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
+          How To Get Involved
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
+  <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
+</svg>
+        </button>
+            
+              <div class="Nav-dropdown " id="nav-394" aria-hidden="true">
+  <div class="Nav-dropdown-wrap">
+    <ul class="Nav-dropdown-list" role="list">
+              <li class="Nav-dropdown-parent">
+            <a class="Nav-dropdown-title" href="/how-to-get-involved">
+              How To Get Involved
+
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+  <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+  <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+</svg>
+            </a>
+
+            <p class="Nav-dropdown-description">
+              Team Rubicon is powered by people. There are countless ways to get involved, so pick your path and join the team.
+            </p>
+        </li> 
+      
+                        <li class="Nav-dropdown-item animate-nav-dropdown-1">
+            <a class="Nav-dropdown-link" href="https://teamrubiconusa.org/how-to-get-involved/volunteer-with-us/">
+              Volunteer With Us
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-2">
+            <a class="Nav-dropdown-link" href="https://teamrubiconusa.org/how-to-get-involved/become-a-partner/">
+              Become a Partner
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-3">
+            <a class="Nav-dropdown-link" href="https://teamrubiconusa.org/how-to-get-involved/build-your-skillset/">
+              Build Your Skillset
+            </a>
+          </li>
+                
+      
+    </ul>
+  </div>
+</div>          </li>
+          <li class="Nav-item ">
+              
+        <button class="Nav-toggle Nav-link" data-expands="nav-398" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
+          Ways to Give
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
+  <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
+</svg>
+        </button>
+            
+              <div class="Nav-dropdown " id="nav-398" aria-hidden="true">
+  <div class="Nav-dropdown-wrap">
+    <ul class="Nav-dropdown-list" role="list">
+              <li class="Nav-dropdown-parent">
+            <a class="Nav-dropdown-title" href="/ways-to-give">
+              Ways to Give
+
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+  <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+  <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+</svg>
+            </a>
+
+            <p class="Nav-dropdown-description">
+              Your donations help people on their worst days and allows us to launch responses when disaster strikes.
+            </p>
+        </li> 
+      
+                        <li class="Nav-dropdown-item animate-nav-dropdown-1">
+            <a class="Nav-dropdown-link" href="https://support.teamrubiconusa.org/supportmgmt/donation/tr-25-web?utm_source=mainwebsite&amp;utm_medium=donate-today&amp;utm_campaign=2025-GeneralDonations">
+              Donate Today
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-2">
+            <a class="Nav-dropdown-link" href="https://support.teamrubiconusa.org/supportmgmt/donation/support-squad-25?utm_source=mainwebsite&amp;utm_medium=donate-monthly&amp;utm_campaign=2025-GeneralDonations">
+              Donate Monthly
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-3">
+            <a class="Nav-dropdown-link" href="https://teamrubiconusa.org/ways-to-give/fundraising/">
+              Fundraise
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-4">
+            <a class="Nav-dropdown-link" href="https://teamrubiconusa.mylegacygift.org/">
+              Make a Planned Gift
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-5">
+            <a class="Nav-dropdown-link" href="https://support.teamrubiconusa.org/signin">
+              Your Donor Portal
+            </a>
+          </li>
+                
+      
+    </ul>
+  </div>
+</div>          </li>
+          <li class="Nav-item ">
+              
+        <button class="Nav-toggle Nav-link" data-expands="nav-403" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
+          About Team Rubicon
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
+  <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
+</svg>
+        </button>
+            
+              <div class="Nav-dropdown " id="nav-403" aria-hidden="true">
+  <div class="Nav-dropdown-wrap">
+    <ul class="Nav-dropdown-list" role="list">
+              <li class="Nav-dropdown-parent">
+            <a class="Nav-dropdown-title" href="/about-us">
+              About Team Rubicon
+
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+  <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+  <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+</svg>
+            </a>
+
+            <p class="Nav-dropdown-description">
+              Our unwavering commitment is to build resiliency for vulnerable communities across the globe.
+            </p>
+        </li> 
+      
+                        <li class="Nav-dropdown-item animate-nav-dropdown-1">
+            <a class="Nav-dropdown-link" href="/about-us/leadership-and-board">
+              Leadership &amp; Board
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-2">
+            <a class="Nav-dropdown-link" href="/about-us/partners">
+              Partners
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-3">
+            <a class="Nav-dropdown-link" href="/about-us/financials-annual-reports">
+              Financials &amp; Annual Reports
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-4">
+            <a class="Nav-dropdown-link" href="/about-us/press-center/">
+              Press Center
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-5">
+            <a class="Nav-dropdown-link" href="/about-us/government-relations">
+              Government Relations
+            </a>
+          </li>
+                  <li class="Nav-dropdown-item animate-nav-dropdown-6">
+            <a class="Nav-dropdown-link" href="/about-us/careers">
+              Careers
+            </a>
+          </li>
+                
+      
+    </ul>
+  </div>
+</div>          </li>
+  
+  
+      <li class="Nav-item is-mobile">
+      <a class="Nav-link Nav-link--util" href="https://store.teamrubiconusa.org/?_ga=2.73535185.2123104907.1695064714-1547489876.1695064713">
+        Store
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="13.125" viewBox="0 0 16 14" fill="none" focusable="false" aria-hidden="true" class="icon">
+  <path d="M4.03613 3.10352H14.194C14.7988 3.10352 15.2651 3.6362 15.1852 4.23568L14.529 9.15709H4.4397L4.03613 3.10352Z" fill="#38444A"></path>
+  <path d="M0 0.683594H4.64108L4.73019 1.89431H0V0.683594Z" fill="#38444A"></path>
+  <circle cx="4.43851" cy="12.3858" r="1.61429" fill="#38444A"></circle>
+  <circle cx="13.7207" cy="12.3858" r="1.61429" fill="#38444A"></circle>
+  <path d="M2.82422 1.08789H4.64029L5.64922 9.96647H3.83315L2.82422 1.08789Z" fill="#38444A"></path>
+  <path d="M3.83099 9.9668H14.1259V11.5811H4.03658L3.83099 9.9668Z" fill="#38444A"></path>
+</svg>
+              </a>
+    </li>
+      <li class="Nav-item is-mobile">
+      <a class="Nav-link Nav-link--util" href="https://teamrubiconusa.org/team-rubicon-blog/">
+        News &amp; Stories
+
+              </a>
+    </li>
+      <li class="Nav-item is-mobile">
+      <a class="Nav-link Nav-link--util" href="https://rollcall.teamrubiconusa.org/">
+        Roll Call
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none" focusable="false" aria-hidden="true" class="icon">
+  <path d="M6.4375 1H13C13.5523 1 14 1.44772 14 2V16C14 16.5523 13.5523 17 13 17H6.4375M1 9H9.25M9.25 9L5.125 4.63636M9.25 9L5.125 13.3636" stroke="#BE2437" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+              </a>
+    </li>
+  </ul>
+        </div>
+      </nav>
+    </div>
+    
+    
+      
+      
+      
+      
+    
+
+  </div><!-- end Header-wrap -->
+</header>

@@ -10,199 +10,304 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-<header class="wdm-header">
-    <!-- Main Header -->
-    <div class="wdm-main-header">
-        <div class="wdm-container">
-            <div class="wdm-header-content">
-                <!-- Logo -->
-                <div class="wdm-logo">
-                    <?php if (!empty($atts['logo_url'])): ?>
-                        <img src="<?php echo htmlspecialchars($atts['logo_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($atts['logo_alt'], ENT_QUOTES, 'UTF-8'); ?>">
-                    <?php else: ?>
-                        <svg width="120" height="50" viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="120" height="50" fill="#dc3545"/>
-                            <text x="60" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">LOGO</text>
-                        </svg>
-                    <?php endif; ?>
-                </div>
+<header class="Header" id="Header">
+  <div class="Header-wrap l-wrap--nav">
+    
+    <h1 class="Header-logo">
+      <a class="Header-logo-link" href="/">
+        <span class="u-screenreader">Team Rubicon</span>
+        <?php if (!empty($atts['logo_url'])): ?>
+            <img src="<?php echo htmlspecialchars($atts['logo_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($atts['logo_alt'], ENT_QUOTES, 'UTF-8'); ?>" class="Header-logo-image">
+        <?php else: ?>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 288 98" focusable="false" aria-hidden="true" width="248" height="84.388888888889" class="Header-logo-image">
+              <path d="m107.825 79.315-4.854-9.252h-3.174v9.252h-7.655V51.738h16.803c3.735 0 5.602 1.707 5.602 5.39v7.186c0 3.054-1.307 4.76-3.921 5.21l5.041 9.79h-7.842Zm-1.867-15.001c.56 0 .747-.18.747-.719v-5.12c0-.539-.187-.718-.747-.718h-6.255v6.557h6.255ZM141.153 74.015c0 3.503-1.96 5.39-5.601 5.39h-11.016c-3.641 0-5.601-1.887-5.601-5.39V51.738h7.655v20.48c0 .45.28.72.747.72h5.321c.467 0 .747-.27.747-.72v-20.48h7.655v22.277h.093ZM162.345 51.738c3.734 0 5.601 1.707 5.601 6.917 0 4.401-.5" fill="#C32033"/>
+              <path d="M266.622 52.009c.747 0 1.4.629 1.4 1.347 0 .719-.653 1.347-1.4 1.347-.747 0-1.401-.628-1.401-1.347.094-.808.654-1.347 1.401-1.347Zm0-.36c-.934 0-1.681.719-1.681 1.617s.747 1.617 1.681 1.617c.933 0 1.68-.719 1.68-1.617.094-.898-.747-1.617-1.68-1.617Z" fill="#C32033"/>
+              <path d="m50.784 28.385-9.709-9.342-21.191 20.48 9.989 9.701-9.99 9.702 21.192 20.39 1.68-1.617c1.961-1.796 5.322-4.94 7.096-7.725.84-1.437 1.4-3.862 1.307-5.48-.28-7.544-8.496-11.497-2.614-18.324 5.321-5.748 7.562-12.306 2.24-17.785Z" fill="#5B6771"/>
+              <path d="m72.443 49.224 9.989-9.7L61.24 19.042l-6.348 6.108c-4.201 4.402 8.402 7.815-1.587 21.469-3.174 4.401 1.214 7.814 3.64 12.036 2.335 3.953 2.054 8.174.468 12.217-.747 2.155.186 5.03 3.734 8.353l21.285-20.48-9.99-9.522Z" fill="#C32033"/>
+            </svg>
+        <?php endif; ?>
+      </a>
+    </h1>
+        
+    <div class="Header-nav">
+      
+      <nav class="Header-nav-secondary" aria-label="Secondary" id="secondary-nav">
+        
+        <button class="Header-toggle is-hidden" type="button" data-expands="nav" data-primary-toggle="">
+          <span class="u-screenreader">Menu</span>
+          <div class="Header-toggle-hamburger" aria-hidden="true"></div>
+        </button>
+        
 
-                <!-- Top Navigation Links -->
-                <div class="wdm-top-nav-section">
-                    <ul class="wdm-top-nav-links">
-                        <li><a href="#store">Store</a></li>
-                        <li><a href="#news">News & Stories</a></li>
-                        <li><a href="#request-help">Request Help</a></li>
-                    </ul>
-                </div>
+        <div class="UtilityNav">
+          <ul class="UtilityNav-list is-desktop" role="list">
+            <li class="UtilityNav-item">
+              <a class="UtilityNav-link" href="#store">
+                Store
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="13.125" viewBox="0 0 16 14" fill="none" focusable="false" aria-hidden="true" class="icon">
+                  <path d="M4.03613 3.10352H14.194C14.7988 3.10352 15.2651 3.6362 15.1852 4.23568L14.529 9.15709H4.4397L4.03613 3.10352Z" fill="#38444A"></path>
+                  <path d="M0 0.683594H4.64108L4.73019 1.89431H0V0.683594Z" fill="#38444A"></path>
+                  <circle cx="4.43851" cy="12.3858" r="1.61429" fill="#38444A"></circle>
+                  <circle cx="13.7207" cy="12.3858" r="1.61429" fill="#38444A"></circle>
+                  <path d="M2.82422 1.08789H4.64029L5.64922 9.96647H3.83315L2.82422 1.08789Z" fill="#38444A"></path>
+                  <path d="M3.83099 9.9668H14.1259V11.5811H4.03658L3.83099 9.9668Z" fill="#38444A"></path>
+                </svg>
+              </a>
+            </li>
+            <li class="UtilityNav-item">
+              <a class="UtilityNav-link" href="#news">
+                News &amp; Stories
+              </a>
+            </li>
+            <li class="UtilityNav-item">
+              <a class="UtilityNav-link is-red" href="#request-help">
+                Request Help
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none" focusable="false" aria-hidden="true" class="icon">
+                  <path d="M6.4375 1H13C13.5523 1 14 1.44772 14 2V16C14 16.5523 13.5523 17 13 17H6.4375M1 9H9.25M9.25 9L5.125 4.63636M9.25 9L5.125 13.3636" stroke="#BE2437" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </a>
+            </li>
+            <li class="UtilityNav-item">
+              <a class="UtilityNav-link UtilityNav-link--search" href="#search">
+                <span class="u-screenreader">Search</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15" focusable="false" aria-hidden="true" width="16" height="16" class="search-icon">
+                  <circle cx="5.6" cy="5.6" r="4.6" stroke="var(--icon-color, #38444A)" stroke-width="2"></circle>
+                  <path d="M13.293 14.707a1 1 0 0 0 1.415-1.414l-1.415 1.415Zm-5.6-5.6 5.6 5.6 1.415-1.414-5.6-5.6-1.415 1.415Z" fill="var(--icon-color, #38444A)"></path>
+                </svg>
+              </a>
+            </li>
+          </ul>
 
-                <!-- Search -->
-                <div class="wdm-search">
-                    <button class="wdm-search-toggle" aria-label="Search">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <path d="m21 21-4.35-4.35"></path>
-                        </svg>
-                    </button>
-                    <input type="search" class="wdm-search-input" placeholder="Search..." aria-label="Search">
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="wdm-actions">
-                    <a href="#volunteer" class="wdm-btn wdm-btn-volunteer">Volunteer</a>
-                    <a href="#donate" class="wdm-btn wdm-btn-donate">Donate</a>
-                </div>
-
-                <!-- Mobile Menu Toggle -->
-                <button class="wdm-mobile-toggle" aria-label="Toggle Menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
+          <div class="UtilityNav-buttons">
+            <a href="#volunteer" class="UtilityNav-buttons-btn btn-solid btn-solid-dark-gray is-desktop UtilityNav-buttons-btn--volunteer">Volunteer</a>
+            <a href="#donate" target="_blank" class="UtilityNav-buttons-btn btn-solid">Donate</a>
+          </div>
         </div>
-    </div>
-
-    <!-- Secondary Header with Mega Menu -->
-    <div class="wdm-secondary-header">
-        <div class="wdm-container">
-            <!-- Scroll Hamburger Menu (Hidden by default) -->
-            <button class="wdm-scroll-toggle" aria-label="Toggle Menu" style="display: none;">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-            <!-- Navigation -->
-            <nav class="wdm-nav">
-                    <!-- Mega Menu -->
-                    <ul class="wdm-mega-menu">
-                        <li class="wdm-mega-menu-item">
-                            <a href="#how-we-serve">How We Serve</a>
-                            <div class="wdm-mega-panel">
-                                <div class="wdm-mega-panel-content">
-                                    <div>
-                                        <h3>Disaster Response</h3>
-                                        <ul>
-                                            <li><a href="#emergency-response">Emergency Response</a></li>
-                                            <li><a href="#relief-operations">Relief Operations</a></li>
-                                            <li><a href="#recovery-support">Recovery Support</a></li>
-                                            <li><a href="#preparedness">Preparedness</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3>Community Impact</h3>
-                                        <ul>
-                                            <li><a href="#community-projects">Community Projects</a></li>
-                                            <li><a href="#veteran-services">Veteran Services</a></li>
-                                            <li><a href="#youth-programs">Youth Programs</a></li>
-                                            <li><a href="#partnerships">Partnerships</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3>Global Operations</h3>
-                                        <p>Learn about our international disaster response and humanitarian aid efforts around the world.</p>
-                                        <a href="#global-operations">View Global Impact →</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="wdm-mega-menu-item">
-                            <a href="#get-involved">How to Get Involved</a>
-                            <div class="wdm-mega-panel">
-                                <div class="wdm-mega-panel-content">
-                                    <div>
-                                        <h3>Volunteer</h3>
-                                        <ul>
-                                            <li><a href="#volunteer-opportunities">Volunteer Opportunities</a></li>
-                                            <li><a href="#training-programs">Training Programs</a></li>
-                                            <li><a href="#team-leader">Become a Team Leader</a></li>
-                                            <li><a href="#volunteer-resources">Volunteer Resources</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3>Corporate Partners</h3>
-                                        <ul>
-                                            <li><a href="#corporate-volunteering">Corporate Volunteering</a></li>
-                                            <li><a href="#sponsorship">Sponsorship Opportunities</a></li>
-                                            <li><a href="#employee-engagement">Employee Engagement</a></li>
-                                            <li><a href="#partnership-benefits">Partnership Benefits</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3>Join Our Mission</h3>
-                                        <p>Be part of a community dedicated to serving others in their time of greatest need.</p>
-                                        <a href="#join-mission">Get Started Today →</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="wdm-mega-menu-item">
-                            <a href="#ways-to-give">Ways to Give</a>
-                            <div class="wdm-mega-panel">
-                                <div class="wdm-mega-panel-content">
-                                    <div>
-                                        <h3>Make a Donation</h3>
-                                        <ul>
-                                            <li><a href="#one-time-donation">One-Time Donation</a></li>
-                                            <li><a href="#monthly-giving">Monthly Giving</a></li>
-                                            <li><a href="#disaster-relief">Disaster Relief Fund</a></li>
-                                            <li><a href="#memorial-giving">Memorial Giving</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3>Other Ways to Give</h3>
-                                        <ul>
-                                            <li><a href="#workplace-giving">Workplace Giving</a></li>
-                                            <li><a href="#planned-giving">Planned Giving</a></li>
-                                            <li><a href="#fundraise">Fundraise for Us</a></li>
-                                            <li><a href="#gift-cards">Gift Cards</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3>Impact Stories</h3>
-                                        <p>See how your generous donations directly support our mission and help communities in need.</p>
-                                        <a href="#impact-stories">Read Impact Stories →</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="wdm-mega-menu-item">
-                            <a href="#about">About Team Rubicon</a>
-                            <div class="wdm-mega-panel">
-                                <div class="wdm-mega-panel-content">
-                                    <div>
-                                        <h3>Our Story</h3>
-                                        <ul>
-                                            <li><a href="#mission">Our Mission</a></li>
-                                            <li><a href="#history">Our History</a></li>
-                                            <li><a href="#leadership">Leadership Team</a></li>
-                                            <li><a href="#board">Board of Directors</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3>Impact & Results</h3>
-                                        <ul>
-                                            <li><a href="#annual-report">Annual Report</a></li>
-                                            <li><a href="#financials">Financials</a></li>
-                                            <li><a href="#impact-metrics">Impact Metrics</a></li>
-                                            <li><a href="#testimonials">Testimonials</a></li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3>News & Media</h3>
-                                        <p>Stay updated with the latest news, press releases, and media coverage of our work.</p>
-                                        <a href="#news-media">View News & Media →</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+      </nav>
+      
+      <nav class="Header-nav-main Nav-expandable" id="nav" role="navigation" aria-label="Main">
+        <div class="Nav-expandable-wrap" style="overflow: hidden;">
+          <ul class="Nav-list Nav-primary" role="list">
+            
+            <li class="Nav-item is-mobile">
+              <a href="#volunteer" class="UtilityNav-buttons-btn btn-solid btn-solid-gray">Volunteer</a>
+            </li>
+            
+            <li class="Nav-item has-megadropdown">
+              <button class="Nav-toggle Nav-link" data-expands="nav-150" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
+                How We Serve
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
+                  <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
+                </svg>
+              </button>
+              
+              <div class="Nav-megaDropdown" id="nav-150" aria-hidden="true">
+                <div class="Nav-megaDropdown-wrapper Nav-megaDropdown-wrap">
+                  <div class="Nav-megaDropdown-col is-col-1">
+                    <div class="Nav-megaDropdown-content">
+                      <a id="mega-dropdown-title-684a8ec5a1110" class="Nav-megaDropdown-title is-col-1" href="#how-we-serve">
+                        How We Serve
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+                          <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+                          <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+                        </svg>
+                      </a>
+                      <p class="Nav-megaDropdown-description">
+                        Service, to us, is a mindset. It's a resolve—a beacon of light amidst the fog of chaos—to bring equitable relief to vulnerable communities before, during, and after a disaster strikes.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div class="Nav-megaDropdown-col is-col-2">
+                    <p id="mega-dropdown-title-684a8ec5a118e" class="Nav-megaDropdown-header">
+                      What We Do
+                    </p>
+                    <ul class="Nav-megaDropdown-list" aria-labelledby="mega-dropdown-title-684a8ec5a118e" role="list">
+                      <li class="Nav-megaDropdown-item">
+                        <a href="#disaster-response" class="Nav-megaDropdown-link">Disaster Response</a>
+                      </li>
+                      <li class="Nav-megaDropdown-item">
+                        <a href="#long-term-recovery" class="Nav-megaDropdown-link">Long Term Recovery</a>
+                      </li>
+                      <li class="Nav-megaDropdown-item">
+                        <a href="#international" class="Nav-megaDropdown-link">International</a>
+                      </li>
                     </ul>
-
-            </nav>
+                  </div>
+                  
+                  <div class="Nav-megaDropdown-col is-col-3">
+                    <p id="mega-dropdown-title-684a8ec5a11a1" class="Nav-megaDropdown-header">
+                      Where We Work
+                    </p>
+                    <ul class="Nav-megaDropdown-list" aria-labelledby="mega-dropdown-title-684a8ec5a11a1" role="list">
+                      <li class="Nav-megaDropdown-item">
+                        <a href="#domestic-operations" class="Nav-megaDropdown-link">Domestic Operations</a>
+                      </li>
+                      <li class="Nav-megaDropdown-item">
+                        <a href="#international-work" class="Nav-megaDropdown-link">International Work</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            
+            <li class="Nav-item">
+              <button class="Nav-toggle Nav-link" data-expands="nav-394" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
+                How To Get Involved
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
+                  <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
+                </svg>
+              </button>
+              
+              <div class="Nav-dropdown" id="nav-394" aria-hidden="true">
+                <div class="Nav-dropdown-wrap">
+                  <ul class="Nav-dropdown-list" role="list">
+                    <li class="Nav-dropdown-parent">
+                      <a class="Nav-dropdown-title" href="#how-to-get-involved">
+                        How To Get Involved
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+                          <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+                          <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+                        </svg>
+                      </a>
+                      <p class="Nav-dropdown-description">
+                        Team Rubicon is powered by people. There are countless ways to get involved, so pick your path and join the team.
+                      </p>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-1">
+                      <a class="Nav-dropdown-link" href="#volunteer-with-us">Volunteer With Us</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-2">
+                      <a class="Nav-dropdown-link" href="#become-a-partner">Become a Partner</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-3">
+                      <a class="Nav-dropdown-link" href="#build-your-skillset">Build Your Skillset</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            
+            <li class="Nav-item">
+              <button class="Nav-toggle Nav-link" data-expands="nav-398" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
+                Ways to Give
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
+                  <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
+                </svg>
+              </button>
+              
+              <div class="Nav-dropdown" id="nav-398" aria-hidden="true">
+                <div class="Nav-dropdown-wrap">
+                  <ul class="Nav-dropdown-list" role="list">
+                    <li class="Nav-dropdown-parent">
+                      <a class="Nav-dropdown-title" href="#ways-to-give">
+                        Ways to Give
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+                          <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+                          <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+                        </svg>
+                      </a>
+                      <p class="Nav-dropdown-description">
+                        Your donations help people on their worst days and allows us to launch responses when disaster strikes.
+                      </p>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-1">
+                      <a class="Nav-dropdown-link" href="#donate-today">Donate Today</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-2">
+                      <a class="Nav-dropdown-link" href="#donate-monthly">Donate Monthly</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-3">
+                      <a class="Nav-dropdown-link" href="#fundraise">Fundraise</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-4">
+                      <a class="Nav-dropdown-link" href="#make-a-planned-gift">Make a Planned Gift</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-5">
+                      <a class="Nav-dropdown-link" href="#your-donor-portal">Your Donor Portal</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            
+            <li class="Nav-item">
+              <button class="Nav-toggle Nav-link" data-expands="nav-403" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
+                About Team Rubicon
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
+                  <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
+                </svg>
+              </button>
+              
+              <div class="Nav-dropdown" id="nav-403" aria-hidden="true">
+                <div class="Nav-dropdown-wrap">
+                  <ul class="Nav-dropdown-list" role="list">
+                    <li class="Nav-dropdown-parent">
+                      <a class="Nav-dropdown-title" href="#about-us">
+                        About Team Rubicon
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+                          <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+                          <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+                        </svg>
+                      </a>
+                      <p class="Nav-dropdown-description">
+                        Our unwavering commitment is to build resiliency for vulnerable communities across the globe.
+                      </p>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-1">
+                      <a class="Nav-dropdown-link" href="#leadership-and-board">Leadership &amp; Board</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-2">
+                      <a class="Nav-dropdown-link" href="#partners">Partners</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-3">
+                      <a class="Nav-dropdown-link" href="#financials-annual-reports">Financials &amp; Annual Reports</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-4">
+                      <a class="Nav-dropdown-link" href="#press-center">Press Center</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-5">
+                      <a class="Nav-dropdown-link" href="#government-relations">Government Relations</a>
+                    </li>
+                    <li class="Nav-dropdown-item animate-nav-dropdown-6">
+                      <a class="Nav-dropdown-link" href="#careers">Careers</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            
+            <li class="Nav-item is-mobile">
+              <a class="Nav-link Nav-link--util" href="#store">
+                Store
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="13.125" viewBox="0 0 16 14" fill="none" focusable="false" aria-hidden="true" class="icon">
+                  <path d="M4.03613 3.10352H14.194C14.7988 3.10352 15.2651 3.6362 15.1852 4.23568L14.529 9.15709H4.4397L4.03613 3.10352Z" fill="#38444A"></path>
+                  <path d="M0 0.683594H4.64108L4.73019 1.89431H0V0.683594Z" fill="#38444A"></path>
+                  <circle cx="4.43851" cy="12.3858" r="1.61429" fill="#38444A"></circle>
+                  <circle cx="13.7207" cy="12.3858" r="1.61429" fill="#38444A"></circle>
+                  <path d="M2.82422 1.08789H4.64029L5.64922 9.96647H3.83315L2.82422 1.08789Z" fill="#38444A"></path>
+                  <path d="M3.83099 9.9668H14.1259V11.5811H4.03658L3.83099 9.9668Z" fill="#38444A"></path>
+                </svg>
+              </a>
+            </li>
+            <li class="Nav-item is-mobile">
+              <a class="Nav-link Nav-link--util" href="#news">
+                News &amp; Stories
+              </a>
+            </li>
+            <li class="Nav-item is-mobile">
+              <a class="Nav-link Nav-link--util" href="#request-help">
+                Request Help
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none" focusable="false" aria-hidden="true" class="icon">
+                  <path d="M6.4375 1H13C13.5523 1 14 1.44772 14 2V16C14 16.5523 13.5523 17 13 17H6.4375M1 9H9.25M9.25 9L5.125 4.63636M9.25 9L5.125 13.3636" stroke="#BE2437" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </a>
+            </li>
+          </ul>
         </div>
+      </nav>
     </div>
+    
+  </div><!-- end Header-wrap -->
 </header>
