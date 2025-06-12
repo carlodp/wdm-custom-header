@@ -235,7 +235,7 @@
     border: none !important;
     cursor: pointer !important;
     padding: 15px 20px !important;
-    display: flex !important;
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
