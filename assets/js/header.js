@@ -1,5 +1,5 @@
 /**
- * WDM Custom Header JavaScript - Team Rubicon Style
+ * WDM Custom Header JavaScript - Grey Bull Style
  * Handles navigation interactions and mobile responsiveness
  */
 

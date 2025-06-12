@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WDM Custom Header
  * Plugin URI: https://example.com
- * Description: A custom responsive header with mega menu functionality, inspired by Team Rubicon design.
+ * Description: A custom responsive header with mega menu functionality, inspired by Grey Bull design.
  * Version: 1.0.0
  * Author: Your Name
  * License: GPL v2 or later

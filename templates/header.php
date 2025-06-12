@@ -171,7 +171,7 @@ if (!defined('ABSPATH')) {
                         </svg>
                       </a>
                       <p class="Nav-dropdown-description">
-                        Team Rubicon is powered by people. There are countless ways to get involved, so pick your path and join the team.
+                        Grey Bull is powered by people. There are countless ways to get involved, so pick your path and join the team.
                       </p>
                     </li>
                     <li class="Nav-dropdown-item animate-nav-dropdown-1">
@@ -233,7 +233,7 @@ if (!defined('ABSPATH')) {
             
             <li class="Nav-item">
               <button class="Nav-toggle Nav-link" data-expands="nav-403" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
-                About Team Rubicon
+                About Grey Bull
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true" width="11" height="7" class="icon">
                   <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="var(--icon-color, #000)"></path>
                 </svg>
@@ -244,7 +244,7 @@ if (!defined('ABSPATH')) {
                   <ul class="Nav-dropdown-list" role="list">
                     <li class="Nav-dropdown-parent">
                       <a class="Nav-dropdown-title" href="#about-us">
-                        About Team Rubicon
+                        About Grey Bull
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
                           <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
                           <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
