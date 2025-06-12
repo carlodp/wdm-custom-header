@@ -11,19 +11,6 @@ if (!defined('ABSPATH')) {
 ?>
 
 <header class="wdm-header">
-    <!-- Top Navigation -->
-    <div class="wdm-top-nav">
-        <div class="wdm-container">
-            <ul class="wdm-top-nav-links">
-                <li><a href="#store">🛒 Store</a></li>
-                <li><a href="#news">📰 News & Stories</a></li>
-                <li><a href="#rollcall">📋 Roll Call</a></li>
-                <li><a href="#cart">🛒 Cart</a></li>
-                <li><a href="#login">👤 Login</a></li>
-            </ul>
-        </div>
-    </div>
-
     <!-- Main Header -->
     <div class="wdm-main-header">
         <div class="wdm-container">
@@ -40,15 +27,54 @@ if (!defined('ABSPATH')) {
                     <?php endif; ?>
                 </div>
 
+                <!-- Top Navigation Links -->
+                <div class="wdm-top-nav-section">
+                    <ul class="wdm-top-nav-links">
+                        <li><a href="#store">Store</a></li>
+                        <li><a href="#news">News & Stories</a></li>
+                        <li><a href="#request-help">Request Help</a></li>
+                    </ul>
+                </div>
+
+                <!-- Search -->
+                <div class="wdm-search">
+                    <button class="wdm-search-toggle" aria-label="Search">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </button>
+                    <input type="search" class="wdm-search-input" placeholder="Search..." aria-label="Search">
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="wdm-actions">
+                    <a href="#volunteer" class="wdm-btn wdm-btn-volunteer">Volunteer</a>
+                    <a href="#donate" class="wdm-btn wdm-btn-donate">Donate</a>
+                </div>
+
                 <!-- Mobile Menu Toggle -->
                 <button class="wdm-mobile-toggle" aria-label="Toggle Menu">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
+            </div>
+        </div>
+    </div>
 
-                <!-- Navigation -->
-                <nav class="wdm-nav">
+    <!-- Secondary Header with Mega Menu -->
+    <div class="wdm-secondary-header">
+        <div class="wdm-container">
+            <!-- Scroll Hamburger Menu (Hidden by default) -->
+            <button class="wdm-scroll-toggle" aria-label="Toggle Menu" style="display: none;">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Navigation -->
+            <nav class="wdm-nav">
                     <!-- Mega Menu -->
                     <ul class="wdm-mega-menu">
                         <li class="wdm-mega-menu-item">
@@ -176,24 +202,7 @@ if (!defined('ABSPATH')) {
                         </li>
                     </ul>
 
-                    <!-- Search -->
-                    <div class="wdm-search">
-                        <button class="wdm-search-toggle" aria-label="Search">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.35-4.35"></path>
-                            </svg>
-                        </button>
-                        <input type="search" class="wdm-search-input" placeholder="Search..." aria-label="Search">
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="wdm-actions">
-                        <a href="#volunteer" class="wdm-btn wdm-btn-volunteer">Volunteer</a>
-                        <a href="#donate" class="wdm-btn wdm-btn-donate">Donate</a>
-                    </div>
-                </nav>
-            </div>
+            </nav>
         </div>
     </div>
 </header>
