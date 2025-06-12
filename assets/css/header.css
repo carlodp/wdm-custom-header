@@ -307,13 +307,13 @@
 .Nav-item.active ~ * .Header-nav-main,
 .Nav-item.active .Header-nav-main,
 .Header-nav-main:has(.Nav-item.active) {
-    overflow: visible;
+    overflow: visible !important;
 }
 
 .Nav-item.active ~ * .Nav-expandable-wrap,
 .Nav-item.active .Nav-expandable-wrap,
 .Nav-expandable-wrap:has(.Nav-item.active) {
-    overflow: visible;
+    overflow: visible !important;
 }
 
 /* Secondary Navigation Transitions */
