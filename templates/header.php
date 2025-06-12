@@ -54,22 +54,22 @@ if (!defined('ABSPATH')) {
                 </svg>
               </a>
             </li>
-            <li class="UtilityNav-item">
-              <a class="UtilityNav-link" href="#news">
+            <li class="wdm-utility-item">
+              <a class="wdm-utility-link" href="#news">
                 News &amp; Stories
               </a>
             </li>
-            <li class="UtilityNav-item">
-              <a class="UtilityNav-link is-red" href="#request-help">
+            <li class="wdm-utility-item">
+              <a class="wdm-utility-link is-red" href="#request-help">
                 Request Help
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none" focusable="false" aria-hidden="true" class="icon">
                   <path d="M6.4375 1H13C13.5523 1 14 1.44772 14 2V16C14 16.5523 13.5523 17 13 17H6.4375M1 9H9.25M9.25 9L5.125 4.63636M9.25 9L5.125 13.3636" stroke="#BE2437" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
               </a>
             </li>
-            <li class="UtilityNav-item">
-              <a class="UtilityNav-link UtilityNav-link--search" href="#search">
-                <span class="u-screenreader">Search</span>
+            <li class="wdm-utility-item">
+              <a class="wdm-utility-link wdm-utility-link--search" href="#search">
+                <span class="wdm-screen-reader">Search</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15" focusable="false" aria-hidden="true" width="16" height="16" class="search-icon">
                   <circle cx="5.6" cy="5.6" r="4.6" stroke="var(--icon-color, #38444A)" stroke-width="2"></circle>
                   <path d="M13.293 14.707a1 1 0 0 0 1.415-1.414l-1.415 1.415Zm-5.6-5.6 5.6 5.6 1.415-1.414-5.6-5.6-1.415 1.415Z" fill="var(--icon-color, #38444A)"></path>
@@ -79,6 +79,14 @@ if (!defined('ABSPATH')) {
           </ul>
 
           <div class="wdm-utility-buttons">
+            <button class="wdm-hamburger-btn" type="button" data-expands="nav" style="display: none;">
+              <span class="wdm-screen-reader">Menu</span>
+              <div class="wdm-hamburger-icon" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
             <a href="#volunteer" class="wdm-utility-btn btn-volunteer is-desktop">VOLUNTEER</a>
             <a href="#donate" target="_blank" class="wdm-utility-btn btn-donate">DONATE</a>
           </div>
