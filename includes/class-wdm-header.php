@@ -17,15 +17,15 @@ class WDM_Header {
      * Constructor
      */
     public function __construct() {
-        add_action('init', array($this, 'init'));
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+        \add_action('init', array($this, 'init'));
+        \add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
     }
     
     /**
      * Initialize shortcode
      */
     public function init() {
-        add_shortcode('wdm_custom_header', array($this, 'render_header'));
+        \add_shortcode('wdm_custom_header', array($this, 'render_header'));
     }
     
     /**
@@ -36,7 +36,7 @@ class WDM_Header {
         $load_css = get_option('wdm_header_load_css', '1');
         
         if ($load_css === '1') {
-            wp_enqueue_style(
+            \wp_enqueue_style(
                 'wdm-header-css',
                 WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/css/header.css',
                 array(),
@@ -44,7 +44,7 @@ class WDM_Header {
             );
         }
         
-        wp_enqueue_script(
+        \wp_enqueue_script(
             'wdm-header-js',
             WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/js/header.js',
             array(),
@@ -58,7 +58,7 @@ class WDM_Header {
      */
     public function render_header($atts) {
         // Parse shortcode attributes
-        $atts = shortcode_atts(array(
+        $atts = \shortcode_atts(array(
             'logo_url' => '',
             'logo_alt' => 'Logo'
         ), $atts);

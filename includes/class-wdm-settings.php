@@ -17,15 +17,15 @@ class WDM_Settings {
      * Constructor
      */
     public function __construct() {
-        add_action('admin_menu', array($this, 'add_admin_menu'));
-        add_action('admin_init', array($this, 'settings_init'));
+        \add_action('admin_menu', array($this, 'add_admin_menu'));
+        \add_action('admin_init', array($this, 'settings_init'));
     }
     
     /**
      * Add admin menu item
      */
     public function add_admin_menu() {
-        add_options_page(
+        \add_options_page(
             'WDM Header Settings',
             'WDM Header',
             'manage_options',
@@ -38,16 +38,16 @@ class WDM_Settings {
      * Initialize settings
      */
     public function settings_init() {
-        register_setting('wdm_header_settings', 'wdm_header_load_css');
+        \register_setting('wdm_header_settings', 'wdm_header_load_css');
         
-        add_settings_section(
+        \add_settings_section(
             'wdm_header_general',
             'General Settings',
             array($this, 'settings_section_callback'),
             'wdm_header_settings'
         );
         
-        add_settings_field(
+        \add_settings_field(
             'wdm_header_load_css',
             'Load Default CSS',
             array($this, 'load_css_callback'),

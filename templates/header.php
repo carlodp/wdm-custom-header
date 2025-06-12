@@ -31,7 +31,7 @@ if (!defined('ABSPATH')) {
                 <!-- Logo -->
                 <div class="wdm-logo">
                     <?php if (!empty($atts['logo_url'])): ?>
-                        <img src="<?php echo esc_url($atts['logo_url']); ?>" alt="<?php echo esc_attr($atts['logo_alt']); ?>">
+                        <img src="<?php echo htmlspecialchars($atts['logo_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($atts['logo_alt'], ENT_QUOTES, 'UTF-8'); ?>">
                     <?php else: ?>
                         <svg width="120" height="50" viewBox="0 0 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="120" height="50" fill="#dc3545"/>
