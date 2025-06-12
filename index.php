@@ -130,6 +130,41 @@ $header_html = ob_get_clean();
                 <li>Add <code>[wdm_custom_header]</code> shortcode to any page</li>
             </ol>
         </div>
+        
+        <div class="demo-section">
+            <h2>Scroll Test Section</h2>
+            <p>Scroll down to test the header behavior. When you scroll past this section, the mega menu area should slide up and a hamburger menu should appear in the top header.</p>
+            <p>The hamburger menu will allow you to access the mega menu items even when scrolled down.</p>
+            
+            <h3>Key Features Tested:</h3>
+            <ul class="feature-list">
+                <li>Mega menu slides up on scroll</li>
+                <li>Hamburger menu appears when scrolled</li>
+                <li>Top navigation stays visible</li>
+                <li>Volunteer and Donate buttons remain accessible</li>
+                <li>Search functionality works in both states</li>
+            </ul>
+        </div>
+        
+        <div class="demo-section">
+            <h2>More Content for Scrolling</h2>
+            <p>Keep scrolling to see the scroll behavior in action. The header should transform as you scroll down past the first 100 pixels.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Additional Test Content</h2>
+            <p>This section provides more content to enable proper scroll testing of the header functionality.</p>
+            <p>The header should maintain its responsive behavior across different screen sizes while providing the scroll-based navigation changes.</p>
+            <p>Test the mega menu panels by clicking on the navigation items both in normal state and when the hamburger menu is active after scrolling.</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Final Section</h2>
+            <p>Continue testing all the interactive elements to ensure they work properly in both scroll states.</p>
+            <p>The plugin is designed to work seamlessly with any WordPress theme and page builder.</p>
+        </div>
     </div>
     
     <script src="/assets/js/header.js"></script>

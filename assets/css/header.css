@@ -255,6 +255,10 @@
     z-index: 1000;
 }
 
+.wdm-mega-menu-item {
+    position: relative;
+}
+
 .wdm-mega-panel.active {
     opacity: 1;
     visibility: visible;
@@ -298,6 +302,24 @@
     color: #6c757d;
     line-height: 1.5;
     margin: 0 0 15px 0;
+}
+
+/* Scroll Navigation State */
+.wdm-nav.active {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e5e5e5;
+    z-index: 1001;
+    padding: 15px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.wdm-scroll-toggle.visible {
+    display: flex !important;
 }
 
 /* Mobile Styles */

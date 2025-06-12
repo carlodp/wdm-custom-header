@@ -21,6 +21,7 @@
         initializeMegaMenu(header);
         initializeSearch(header);
         initializeMobileMenu(header);
+        initializeScrollBehavior(header);
         initializeOutsideClick(header);
     }
     
@@ -179,6 +180,55 @@
     }
     
     /**
+     * Initialize scroll behavior
+     */
+    function initializeScrollBehavior(header) {
+        const secondaryHeader = header.querySelector('.wdm-secondary-header');
+        const scrollToggle = header.querySelector('.wdm-scroll-toggle');
+        const nav = header.querySelector('.wdm-nav');
+        
+        if (!secondaryHeader || !scrollToggle) return;
+        
+        let lastScrollTop = 0;
+        let isScrolled = false;
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100 && !isScrolled) {
+                // Hide secondary header and show scroll toggle
+                secondaryHeader.classList.add('hidden');
+                scrollToggle.style.display = 'flex';
+                isScrolled = true;
+            } else if (scrollTop <= 100 && isScrolled) {
+                // Show secondary header and hide scroll toggle
+                secondaryHeader.classList.remove('hidden');
+                scrollToggle.style.display = 'none';
+                isScrolled = false;
+                
+                // Reset scroll toggle and nav states
+                scrollToggle.classList.remove('active');
+                if (nav) nav.classList.remove('active');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // Handle scroll toggle click
+        scrollToggle.addEventListener('click', function() {
+            scrollToggle.classList.toggle('active');
+            if (nav) {
+                nav.classList.toggle('active');
+                
+                // Close all mega panels when closing nav
+                if (!nav.classList.contains('active')) {
+                    closeAllPanels(header);
+                }
+            }
+        });
+    }
+
+    /**
      * Handle window resize
      */
     window.addEventListener('resize', function() {
@@ -189,10 +239,15 @@
         if (window.innerWidth > 768) {
             const mobileToggle = header.querySelector('.wdm-mobile-toggle');
             const nav = header.querySelector('.wdm-nav');
+            const scrollToggle = header.querySelector('.wdm-scroll-toggle');
             
             if (mobileToggle && nav) {
                 mobileToggle.classList.remove('active');
                 nav.classList.remove('active');
+            }
+            
+            if (scrollToggle) {
+                scrollToggle.classList.remove('active');
             }
         }
     });
