@@ -178,18 +178,21 @@
      * Initialize scroll behavior
      */
     function initializeScrollBehavior(header) {
-        let lastScrollTop = 0;
+        let isScrolled = false;
         let ticking = false;
+        const scrollThreshold = 100;
         
         function updateScrollState() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const shouldBeScrolled = scrollTop > scrollThreshold;
             
-            if (scrollTop > 100) {
-                if (!header.classList.contains('scrolled')) {
+            // Only update if state actually changed
+            if (shouldBeScrolled !== isScrolled) {
+                isScrolled = shouldBeScrolled;
+                
+                if (isScrolled) {
                     header.classList.add('scrolled');
-                }
-            } else {
-                if (header.classList.contains('scrolled')) {
+                } else {
                     header.classList.remove('scrolled');
                     header.classList.remove('nav-open');
                     const hamburger = header.querySelector('.wdm-hamburger-btn');
@@ -199,14 +202,13 @@
                 }
             }
             
-            lastScrollTop = scrollTop;
             ticking = false;
         }
         
         function requestTick() {
             if (!ticking) {
-                requestAnimationFrame(updateScrollState);
                 ticking = true;
+                requestAnimationFrame(updateScrollState);
             }
         }
         
