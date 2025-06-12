@@ -61,25 +61,6 @@
         
         // Open clicked dropdown if it wasn't already active
         if (!isActive) {
-            // Calculate position for fixed dropdown
-            const header = activeItem.closest('.wdm-main-header');
-            const isScrolled = header.classList.contains('scrolled');
-            const isNavOpen = header.classList.contains('nav-open');
-            
-            let topPosition;
-            
-            if (isScrolled && isNavOpen) {
-                // When scrolled and hamburger menu is open, position below the header
-                const headerRect = header.getBoundingClientRect();
-                topPosition = headerRect.bottom;
-            } else {
-                // Normal desktop mode, position below the navigation
-                const navRect = activeItem.closest('.Header-nav-main').getBoundingClientRect();
-                topPosition = navRect.bottom;
-            }
-            
-            activeDropdown.style.top = topPosition + 'px';
-            
             activeItem.classList.add('active');
             activeDropdown.classList.add('active');
         }
@@ -117,7 +98,6 @@
                 const dropdown = item.querySelector('.Nav-dropdown, .Nav-megaDropdown');
                 if (dropdown) {
                     dropdown.classList.remove('active');
-                    dropdown.style.top = '';
                 }
             });
             
@@ -132,10 +112,6 @@
             // Add nav-open class to header
             if (header) {
                 header.classList.add('nav-open');
-                // Update any active dropdown positions after menu opens
-                setTimeout(function() {
-                    updateDropdownPositions(header);
-                }, 50);
             }
         }
     }
@@ -162,33 +138,6 @@
             const dropdown = item.querySelector('.Nav-dropdown, .Nav-megaDropdown');
             if (dropdown) {
                 dropdown.classList.remove('active');
-                // Reset inline styles
-                dropdown.style.top = '';
-            }
-        });
-    }
-    
-    /**
-     * Update dropdown positions for all active dropdowns
-     */
-    function updateDropdownPositions(header) {
-        const activeItems = header.querySelectorAll('.Nav-item.active');
-        activeItems.forEach(function(item) {
-            const dropdown = item.querySelector('.Nav-dropdown, .Nav-megaDropdown');
-            if (dropdown && dropdown.classList.contains('active')) {
-                const isScrolled = header.classList.contains('scrolled');
-                const isNavOpen = header.classList.contains('nav-open');
-                
-                let topPosition;
-                if (isScrolled && isNavOpen) {
-                    const headerRect = header.getBoundingClientRect();
-                    topPosition = headerRect.bottom;
-                } else {
-                    const navRect = item.closest('.Header-nav-main').getBoundingClientRect();
-                    topPosition = navRect.bottom;
-                }
-                
-                dropdown.style.top = topPosition + 'px';
             }
         });
     }
