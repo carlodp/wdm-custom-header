@@ -10,16 +10,16 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-<header class="Header" id="Header">
-  <div class="Header-wrap l-wrap--nav">
+<header class="wdm-main-header" id="wdm-header">
+  <div class="wdm-header-container">
     
-    <h1 class="Header-logo">
-      <a class="Header-logo-link" href="/">
-        <span class="u-screenreader">Team Rubicon</span>
+    <h1 class="wdm-logo">
+      <a class="wdm-logo-link" href="/">
+        <span class="wdm-screen-reader">WDM Header</span>
         <?php if (!empty($atts['logo_url'])): ?>
-            <img src="<?php echo htmlspecialchars($atts['logo_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($atts['logo_alt'], ENT_QUOTES, 'UTF-8'); ?>" class="Header-logo-image">
+            <img src="<?php echo htmlspecialchars($atts['logo_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($atts['logo_alt'], ENT_QUOTES, 'UTF-8'); ?>" class="wdm-logo-image">
         <?php else: ?>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 288 98" focusable="false" aria-hidden="true" width="248" height="84.388888888889" class="Header-logo-image">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 288 98" focusable="false" aria-hidden="true" width="248" height="84.388888888889" class="wdm-logo-image">
               <path d="m107.825 79.315-4.854-9.252h-3.174v9.252h-7.655V51.738h16.803c3.735 0 5.602 1.707 5.602 5.39v7.186c0 3.054-1.307 4.76-3.921 5.21l5.041 9.79h-7.842Zm-1.867-15.001c.56 0 .747-.18.747-.719v-5.12c0-.539-.187-.718-.747-.718h-6.255v6.557h6.255ZM141.153 74.015c0 3.503-1.96 5.39-5.601 5.39h-11.016c-3.641 0-5.601-1.887-5.601-5.39V51.738h7.655v20.48c0 .45.28.72.747.72h5.321c.467 0 .747-.27.747-.72v-20.48h7.655v22.277h.093ZM162.345 51.738c3.734 0 5.601 1.707 5.601 6.917 0 4.401-.5" fill="#C32033"/>
               <path d="M266.622 52.009c.747 0 1.4.629 1.4 1.347 0 .719-.653 1.347-1.4 1.347-.747 0-1.401-.628-1.401-1.347.094-.808.654-1.347 1.401-1.347Zm0-.36c-.934 0-1.681.719-1.681 1.617s.747 1.617 1.681 1.617c.933 0 1.68-.719 1.68-1.617.094-.898-.747-1.617-1.68-1.617Z" fill="#C32033"/>
               <path d="m50.784 28.385-9.709-9.342-21.191 20.48 9.989 9.701-9.99 9.702 21.192 20.39 1.68-1.617c1.961-1.796 5.322-4.94 7.096-7.725.84-1.437 1.4-3.862 1.307-5.48-.28-7.544-8.496-11.497-2.614-18.324 5.321-5.748 7.562-12.306 2.24-17.785Z" fill="#5B6771"/>
@@ -29,20 +29,20 @@ if (!defined('ABSPATH')) {
       </a>
     </h1>
         
-    <div class="Header-nav">
+    <div class="wdm-nav">
       
-      <nav class="Header-nav-secondary" aria-label="Secondary" id="secondary-nav">
+      <nav class="wdm-nav-secondary" aria-label="Secondary" id="secondary-nav">
         
-        <button class="Header-toggle is-hidden" type="button" data-expands="nav" data-primary-toggle="">
-          <span class="u-screenreader">Menu</span>
-          <div class="Header-toggle-hamburger" aria-hidden="true"></div>
+        <button class="wdm-toggle is-hidden" type="button" data-expands="nav" data-primary-toggle="">
+          <span class="wdm-screen-reader">Menu</span>
+          <div class="wdm-toggle-hamburger" aria-hidden="true"></div>
         </button>
         
 
-        <div class="UtilityNav">
-          <ul class="UtilityNav-list is-desktop" role="list">
-            <li class="UtilityNav-item">
-              <a class="UtilityNav-link" href="#store">
+        <div class="wdm-utility-nav">
+          <ul class="wdm-utility-list is-desktop" role="list">
+            <li class="wdm-utility-item">
+              <a class="wdm-utility-link" href="#store">
                 Store
                 <svg xmlns="http://www.w3.org/2000/svg" width="15" height="13.125" viewBox="0 0 16 14" fill="none" focusable="false" aria-hidden="true" class="icon">
                   <path d="M4.03613 3.10352H14.194C14.7988 3.10352 15.2651 3.6362 15.1852 4.23568L14.529 9.15709H4.4397L4.03613 3.10352Z" fill="#38444A"></path>

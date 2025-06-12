@@ -1,12 +1,12 @@
 /* WDM Custom Header - Team Rubicon Style */
 
 /* Reset and base styles */
-.Header * {
+.wdm-main-header * {
     box-sizing: border-box;
 }
 
 /* Main Header Container */
-.Header {
+.wdm-main-header {
     background: #ffffff;
     border-bottom: 1px solid #e5e5e5;
     position: sticky;
@@ -15,29 +15,30 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-.Header-wrap {
+.wdm-header-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    display: flex;
 }
 
 /* Logo */
-.Header-logo {
+.wdm-logo {
     margin: 0;
     padding: 15px 0;
 }
 
-.Header-logo-link {
+.wdm-logo-link {
     display: inline-block;
     text-decoration: none;
 }
 
-.Header-logo-image {
+.wdm-logo-image {
     height: 60px;
     width: auto;
 }
 
-.u-screenreader {
+.wdm-screen-reader {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -50,20 +51,20 @@
 }
 
 /* Header Navigation Container */
-.Header-nav {
+.wdm-nav {
     display: flex;
     flex-direction: column;
 }
 
 /* Secondary Navigation (Utility Nav) */
-.Header-nav-secondary {
+.wdm-nav-secondary {
     background: #f8f9fa;
     border-bottom: 1px solid #e5e5e5;
     padding: 8px 0;
     margin: 0 -20px;
 }
 
-.Header-toggle {
+.wdm-toggle {
     display: none;
     background: none;
     border: none;
@@ -75,36 +76,36 @@
     transform: translateY(-50%);
 }
 
-.Header-toggle-hamburger {
+.wdm-toggle-hamburger {
     width: 25px;
     height: 20px;
     position: relative;
 }
 
-.Header-toggle-hamburger::before,
-.Header-toggle-hamburger::after,
-.Header-toggle-hamburger {
+.wdm-toggle-hamburger::before,
+.wdm-toggle-hamburger::after,
+.wdm-toggle-hamburger {
     background: #212529;
     height: 3px;
     transition: all 0.3s;
 }
 
-.Header-toggle-hamburger::before,
-.Header-toggle-hamburger::after {
+.wdm-toggle-hamburger::before,
+.wdm-toggle-hamburger::after {
     content: '';
     position: absolute;
     width: 25px;
 }
 
-.Header-toggle-hamburger::before {
+.wdm-toggle-hamburger::before {
     top: -8px;
 }
 
-.Header-toggle-hamburger::after {
+.wdm-toggle-hamburger::after {
     top: 8px;
 }
 
-.UtilityNav {
+.wdm-utility-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -113,7 +114,7 @@
     padding: 0 20px;
 }
 
-.UtilityNav-list {
+.wdm-utility-list {
     display: flex;
     list-style: none;
     margin: 0;
@@ -121,12 +122,12 @@
     gap: 30px;
 }
 
-.UtilityNav-item {
+.wdm-utility-item {
     display: flex;
     align-items: center;
 }
 
-.UtilityNav-link {
+.wdm-utility-link {
     color: #6c757d;
     text-decoration: none;
     font-size: 14px;
@@ -139,24 +140,24 @@
     transition: color 0.2s;
 }
 
-.UtilityNav-link:hover {
+.wdm-utility-link:hover {
     color: #212529;
 }
 
-.UtilityNav-link.is-red {
+.wdm-utility-link.is-red {
     color: #BE2437;
 }
 
-.UtilityNav-link.is-red:hover {
+.wdm-utility-link.is-red:hover {
     color: #a01e2f;
 }
 
-.UtilityNav-buttons {
+.wdm-utility-buttons {
     display: flex;
     gap: 15px;
 }
 
-.UtilityNav-buttons-btn {
+.wdm-utility-btn {
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
