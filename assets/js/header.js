@@ -241,20 +241,35 @@
      */
     function initializeHamburgerMenu(header) {
         const hamburger = header.querySelector('.wdm-hamburger-btn');
+        let isProcessing = false;
         
         if (hamburger) {
             hamburger.addEventListener('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
+                
+                // Prevent rapid clicks during animation
+                if (isProcessing) return;
+                isProcessing = true;
+                
+                console.log('Hamburger clicked'); // Debug log
                 
                 const isOpen = header.classList.contains('nav-open');
                 
                 if (isOpen) {
                     header.classList.remove('nav-open');
                     hamburger.classList.remove('active');
+                    console.log('Menu closed'); // Debug log
                 } else {
                     header.classList.add('nav-open');
                     hamburger.classList.add('active');
+                    console.log('Menu opened'); // Debug log
                 }
+                
+                // Reset processing flag after animation
+                setTimeout(function() {
+                    isProcessing = false;
+                }, 350);
             });
         }
     }
