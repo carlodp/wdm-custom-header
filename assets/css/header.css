@@ -270,7 +270,7 @@
     padding: 0;
     margin: 0 -20px;
     transition: height 0.3s ease, transform 0.3s ease;
-    overflow: visible;
+    overflow: hidden;
     height: 100%;
     z-index: 1;
     position: relative;
@@ -413,8 +413,8 @@
 /* Dropdown Styles */
 .Nav-dropdown,
 .Nav-megaDropdown {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: auto;
     left: 50%;
     transform: translateX(-50%);
     background: white;
@@ -425,7 +425,7 @@
     visibility: hidden;
     transform: translateX(-50%) translateY(-10px);
     transition: all 0.3s ease;
-    z-index: 1000;
+    z-index: 1001;
     min-width: 400px;
 }
 

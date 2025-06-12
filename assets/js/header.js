@@ -61,6 +61,13 @@
         
         // Open clicked dropdown if it wasn't already active
         if (!isActive) {
+            // Calculate position for fixed dropdown
+            const itemRect = activeItem.getBoundingClientRect();
+            const navRect = activeItem.closest('.Header-nav-main').getBoundingClientRect();
+            
+            // Position dropdown below the navigation bar
+            activeDropdown.style.top = (navRect.bottom) + 'px';
+            
             activeItem.classList.add('active');
             activeDropdown.classList.add('active');
         }
