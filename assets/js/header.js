@@ -181,10 +181,20 @@
         let isScrolled = false;
         let ticking = false;
         const scrollThreshold = 100;
+        const hysteresis = 10; // Add hysteresis to prevent flickering
         
         function updateScrollState() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const shouldBeScrolled = scrollTop > scrollThreshold;
+            let shouldBeScrolled;
+            
+            // Use different thresholds for scrolling down vs up to prevent flickering
+            if (isScrolled) {
+                // When already scrolled, need to go below threshold minus hysteresis to unscroll
+                shouldBeScrolled = scrollTop > (scrollThreshold - hysteresis);
+            } else {
+                // When not scrolled, need to go above threshold plus hysteresis to scroll
+                shouldBeScrolled = scrollTop > (scrollThreshold + hysteresis);
+            }
             
             // Only update if state actually changed
             if (shouldBeScrolled !== isScrolled) {
