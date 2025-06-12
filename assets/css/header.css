@@ -1,5 +1,29 @@
 /* WDM Custom Header - Grey Bull Style */
 
+/* Elementor Override Protection - High Specificity Rules */
+body .wdm-main-header,
+body .wdm-main-header *,
+.elementor-page .wdm-main-header,
+.elementor-page .wdm-main-header *,
+.elementor .wdm-main-header,
+.elementor .wdm-main-header * {
+    box-sizing: border-box !important;
+}
+
+/* Force override Elementor button styles */
+body .wdm-main-header .Nav-link,
+body .wdm-main-header .Nav-toggle,
+.elementor-page .wdm-main-header .Nav-link,
+.elementor-page .wdm-main-header .Nav-toggle,
+.elementor .wdm-main-header .Nav-link,
+.elementor .wdm-main-header .Nav-toggle {
+    all: unset !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+
 /* Reset and base styles */
 .wdm-main-header * {
     box-sizing: border-box;
@@ -187,43 +211,70 @@
     gap: 0;
 }
 
-.wdm-utility-btn {
-    padding: 0 24px;
-    border: none;
-    border-radius: 0;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.2s;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-width: 120px;
-    height: 100%;
+/* Force override Elementor styles on utility buttons */
+body .wdm-main-header .wdm-utility-btn,
+.elementor-page .wdm-main-header .wdm-utility-btn,
+.elementor .wdm-main-header .wdm-utility-btn,
+.wdm-main-header .wdm-utility-btn {
+    padding: 0 24px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.2s !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-width: 120px !important;
+    height: 100% !important;
+    box-shadow: none !important;
+    outline: none !important;
+    margin: 0 !important;
+    line-height: normal !important;
+    font-family: inherit !important;
 }
 
-.btn-volunteer {
-    background: #5a6c7d;
-    color: white;
+/* Force override Elementor styles on volunteer button */
+body .wdm-main-header .btn-volunteer,
+.elementor-page .wdm-main-header .btn-volunteer,
+.elementor .wdm-main-header .btn-volunteer,
+.wdm-main-header .btn-volunteer {
+    background: #5a6c7d !important;
+    background-color: #5a6c7d !important;
+    color: white !important;
 }
 
-.btn-volunteer:hover {
-    background: #495761;
-    color: white;
+body .wdm-main-header .btn-volunteer:hover,
+.elementor-page .wdm-main-header .btn-volunteer:hover,
+.elementor .wdm-main-header .btn-volunteer:hover,
+.wdm-main-header .btn-volunteer:hover {
+    background: #495761 !important;
+    background-color: #495761 !important;
+    color: white !important;
 }
 
-.btn-donate {
-    background: #c9302c;
-    color: white;
+/* Force override Elementor styles on donate button */
+body .wdm-main-header .btn-donate,
+.elementor-page .wdm-main-header .btn-donate,
+.elementor .wdm-main-header .btn-donate,
+.wdm-main-header .btn-donate {
+    background: #c9302c !important;
+    background-color: #c9302c !important;
+    color: white !important;
 }
 
-.btn-donate:hover {
-    background: #ac2925;
-    color: white;
+body .wdm-main-header .btn-donate:hover,
+.elementor-page .wdm-main-header .btn-donate:hover,
+.elementor .wdm-main-header .btn-donate:hover,
+.wdm-main-header .btn-donate:hover {
+    background: #ac2925 !important;
+    background-color: #ac2925 !important;
+    color: white !important;
 }
 
 /* Hamburger Menu Styles */
@@ -401,34 +452,62 @@
     display: none;
 }
 
-.Nav-toggle,
-.Nav-link {
-    color: #212529;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 18px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 20px 25px;
-    transition: all 0.2s;
-    cursor: pointer;
-    user-select: none;
-    background: none;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
+/* Force override Elementor styles on navigation buttons */
+body .wdm-main-header .Nav-toggle,
+body .wdm-main-header .Nav-link,
+.elementor-page .wdm-main-header .Nav-toggle,
+.elementor-page .wdm-main-header .Nav-link,
+.elementor .wdm-main-header .Nav-toggle,
+.elementor .wdm-main-header .Nav-link,
+.wdm-main-header .Nav-toggle,
+.wdm-main-header .Nav-link {
+    color: #212529 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 18px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 20px 25px !important;
+    transition: all 0.2s !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    height: 100% !important;
+    justify-content: center !important;
+    box-shadow: none !important;
+    outline: none !important;
+    margin: 0 !important;
+    line-height: normal !important;
+    font-family: inherit !important;
 }
 
-.Nav-toggle:hover,
-.Nav-link:hover,
-.Nav-item.active .Nav-toggle,
-.Nav-item.active .Nav-link {
-    background: #000;
-    color: #fff;
+/* Force override Elementor hover states */
+body .wdm-main-header .Nav-toggle:hover,
+body .wdm-main-header .Nav-link:hover,
+body .wdm-main-header .Nav-item.active .Nav-toggle,
+body .wdm-main-header .Nav-item.active .Nav-link,
+.elementor-page .wdm-main-header .Nav-toggle:hover,
+.elementor-page .wdm-main-header .Nav-link:hover,
+.elementor-page .wdm-main-header .Nav-item.active .Nav-toggle,
+.elementor-page .wdm-main-header .Nav-item.active .Nav-link,
+.elementor .wdm-main-header .Nav-toggle:hover,
+.elementor .wdm-main-header .Nav-link:hover,
+.elementor .wdm-main-header .Nav-item.active .Nav-toggle,
+.elementor .wdm-main-header .Nav-item.active .Nav-link,
+.wdm-main-header .Nav-toggle:hover,
+.wdm-main-header .Nav-link:hover,
+.wdm-main-header .Nav-item.active .Nav-toggle,
+.wdm-main-header .Nav-item.active .Nav-link {
+    background: #000 !important;
+    background-color: #000 !important;
+    color: #fff !important;
 }
 
 .Nav-toggle .icon,
