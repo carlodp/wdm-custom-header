@@ -230,7 +230,7 @@
 
 /* Hamburger Menu Styles */
 .wdm-hamburger-btn {
-    background: none;
+    background: #f0f0f0;
     border: none;
     cursor: pointer;
     padding: 15px 20px;
@@ -243,6 +243,14 @@
 
 .wdm-hamburger-btn:hover {
     background: rgba(0, 0, 0, 0.1);
+}
+
+.wdm-hamburger-btn.active {
+    background: #333;
+}
+
+.wdm-hamburger-btn.active .wdm-hamburger-icon span {
+    background: #fff;
 }
 
 .wdm-hamburger-icon {
