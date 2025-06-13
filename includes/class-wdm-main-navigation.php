@@ -14,10 +14,19 @@ class WDM_Main_Navigation {
 
     public function render_main_navigation_content() {
         $menu_items = get_option('wdm_menu_items', array());
-        
-        if (isset($_POST['submit']) && wp_verify_nonce($_POST['wdm_menu_nonce'], 'wdm_save_menu')) {
+
+
+
+        if (isset($_POST['submit'])) {
+            error_log('Submit key is present.');
+        }
+
+        if (isset($_POST['wdm_menu_nonce']) && wp_verify_nonce($_POST['wdm_menu_nonce'], 'wdm_save_menu')) {
+            error_log('Nonce verified, processing form.');
             $menu_items = $this->process_menu_submission();
             echo '<div class="notice notice-success is-dismissible"><p>Main navigation menu saved successfully!</p></div>';
+        } else {
+            error_log('Nonce check failed or not present.');
         }
 ?>
         <form method="post" action="" id="wdm-menu-settings-form">
@@ -60,8 +69,6 @@ class WDM_Main_Navigation {
                         'url'    => esc_url_raw($item['url']),
                         'target' => sanitize_text_field($item['target'])
                     );
-                    
-                    // Process submenu items
                     if (!empty($item['submenu']) && is_array($item['submenu'])) {
                         $submenu_items = array();
                         foreach ($item['submenu'] as $sub_item) {
@@ -73,15 +80,15 @@ class WDM_Main_Navigation {
                                 );
                             }
                         }
-                        $menu_item['submenu_items'] = $submenu_items;
+                        $menu_item['submenu'] = $submenu_items;
                     }
-                    
                     $menu_items[] = $menu_item;
                 }
             }
         }
-        
+
         update_option('wdm_menu_items', $menu_items);
+        error_log('Menu items updated: ' . print_r($menu_items, true));
         return $menu_items;
     }
 
@@ -91,8 +98,7 @@ class WDM_Main_Navigation {
             $text    = esc_attr($item['text'] ?? '');
             $url     = esc_attr($item['url'] ?? '');
             $target  = esc_attr($item['target'] ?? '_self');
-            // Handle both stored format (submenu_items) and admin format (submenu)
-            $submenu = $item['submenu'] ?? $item['submenu_items'] ?? array();
+            $submenu = $item['submenu'] ?? array();
 ?>
             <div class="wdm-menu-item" data-index="<?php echo $index; ?>">
                 <div class="wdm-menu-item-header">
