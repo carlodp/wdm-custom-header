@@ -82,6 +82,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 $_SESSION['wdm_header_utility_buttons'] = $utility_buttons;
                 $success_message = 'Button settings updated successfully.';
                 break;
+                
+            case 'update_github':
+                // GitHub updater settings
+                $_SESSION['wdm_enable_auto_updates'] = !empty($_POST['enable_auto_updates']);
+                $_SESSION['wdm_github_username'] = sanitize_text_field($_POST['github_username'] ?? '');
+                $_SESSION['wdm_github_repo'] = sanitize_text_field($_POST['github_repo'] ?? '');
+                $_SESSION['wdm_github_token'] = sanitize_text_field($_POST['github_token'] ?? '');
+                $success_message = 'Auto-update settings saved successfully.';
+                break;
         }
     } catch (Exception $e) {
         $error_message = 'Error updating settings: ' . $e->getMessage();
@@ -147,6 +156,12 @@ $utility_buttons = $_SESSION['wdm_header_utility_buttons'] ?? [
         'visibility' => 'both'
     ]
 ];
+
+// GitHub updater settings
+$enable_auto_updates = $_SESSION['wdm_enable_auto_updates'] ?? true;
+$github_username = $_SESSION['wdm_github_username'] ?? '';
+$github_repo = $_SESSION['wdm_github_repo'] ?? '';
+$github_token = $_SESSION['wdm_github_token'] ?? '';
 
 function sanitize_text_field($string) {
     return trim(strip_tags($string));
@@ -220,6 +235,7 @@ function sanitize_url($url) {
             <a href="#general" class="nav-tab nav-tab-active" onclick="showTab(event, 'general')">General Settings</a>
             <a href="#menu" class="nav-tab" onclick="showTab(event, 'menu')">Menu Settings</a>
             <a href="#buttons" class="nav-tab" onclick="showTab(event, 'buttons')">Utility Buttons</a>
+            <a href="#updates" class="nav-tab" onclick="showTab(event, 'updates')">Auto Updates</a>
         </nav>
         
         <div class="tab-content">
@@ -402,6 +418,84 @@ function sanitize_url($url) {
                     </p>
                 </form>
             </div>
+            
+            <!-- Auto Updates -->
+            <div id="updates-tab" class="tab-pane">
+                <form method="post" action="">
+                    <input type="hidden" name="action" value="update_github">
+                    
+                    <h3>Auto Updates</h3>
+                    <p>Configure automatic updates from GitHub repository.</p>
+                    
+                    <table class="form-table" role="presentation">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Enable Auto Updates</th>
+                                <td>
+                                    <fieldset>
+                                        <legend class="screen-reader-text"><span>Enable Auto Updates</span></legend>
+                                        <label for="enable_auto_updates">
+                                            <input name="enable_auto_updates" type="checkbox" id="enable_auto_updates" value="1" <?php checked($enable_auto_updates); ?>>
+                                            Automatically check for plugin updates from GitHub
+                                        </label>
+                                        <p class="description">When enabled, the plugin will check for new releases on GitHub and show update notifications.</p>
+                                    </fieldset>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="github_username">GitHub Username</label></th>
+                                <td>
+                                    <input name="github_username" type="text" id="github_username" value="<?php echo esc_attr($github_username); ?>" class="regular-text" placeholder="your-username">
+                                    <p class="description">The GitHub username or organization name where the repository is hosted.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="github_repo">Repository Name</label></th>
+                                <td>
+                                    <input name="github_repo" type="text" id="github_repo" value="<?php echo esc_attr($github_repo); ?>" class="regular-text" placeholder="wdm-custom-header">
+                                    <p class="description">The name of the GitHub repository containing the plugin code.</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="github_token">GitHub Token (Optional)</label></th>
+                                <td>
+                                    <input name="github_token" type="password" id="github_token" value="<?php echo esc_attr($github_token); ?>" class="regular-text" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                                    <p class="description">Personal access token for private repositories or higher rate limits. Leave empty for public repositories.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div style="background: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin: 20px 0; border-radius: 4px;">
+                        <h4>How it works:</h4>
+                        <ol style="margin-left: 20px;">
+                            <li>The plugin checks for new releases on your GitHub repository</li>
+                            <li>When a new version is available, you'll see an "Update Now" notification</li>
+                            <li>Click "Update Now" to automatically download and install the latest version</li>
+                            <li>Updates are fetched directly from GitHub releases</li>
+                        </ol>
+                        
+                        <h4 style="margin-top: 15px;">Setup Instructions:</h4>
+                        <ol style="margin-left: 20px;">
+                            <li>Create a GitHub repository for your plugin</li>
+                            <li>Tag releases using semantic versioning (e.g., v1.0.0, v1.1.0)</li>
+                            <li>Enter your GitHub username and repository name above</li>
+                            <li>For private repos, create a Personal Access Token with "repo" permissions</li>
+                        </ol>
+                        
+                        <p style="margin-top: 15px;"><strong>Example:</strong> For repository <code>https://github.com/yourusername/wdm-custom-header</code>, enter:</p>
+                        <ul style="margin-left: 20px;">
+                            <li>Username: <code>yourusername</code></li>
+                            <li>Repository: <code>wdm-custom-header</code></li>
+                        </ul>
+                    </div>
+                    
+                    <p class="submit">
+                        <input type="submit" name="submit" class="button button-primary" value="Save Changes">
+                        <button type="button" class="button button-secondary" onclick="checkForUpdates()" style="margin-left: 10px;">Check for Updates Now</button>
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
     
@@ -522,6 +616,37 @@ function sanitize_url($url) {
         
         function removeDropdownItem(button) {
             button.closest('.dropdown-item').remove();
+        }
+        
+        function checkForUpdates() {
+            const button = event.target;
+            const originalText = button.textContent;
+            
+            button.textContent = 'Checking...';
+            button.disabled = true;
+            
+            // Simulate checking for updates
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=force_update_check'
+            })
+            .then(response => response.text())
+            .then(() => {
+                button.textContent = 'Check Complete';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    // Refresh page to show any new update notifications
+                    window.location.reload();
+                }, 2000);
+            })
+            .catch(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+            });
         }
     </script>
 </body>

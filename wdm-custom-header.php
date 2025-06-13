@@ -46,6 +46,9 @@ class WDM_Custom_Header_Plugin {
         if (is_admin()) {
             WDM_Custom_Header\WDM_Admin::init();
         }
+        
+        // Initialize auto-updater
+        $this->init_updater();
     }
     
     /**
@@ -56,6 +59,30 @@ class WDM_Custom_Header_Plugin {
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-settings.php';
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-menu-renderer.php';
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-admin.php';
+        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-updater.php';
+    }
+    
+    /**
+     * Initialize the auto-updater
+     */
+    private function init_updater() {
+        // Get updater settings from session/options
+        session_start();
+        $enable_auto_updates = $_SESSION['wdm_enable_auto_updates'] ?? true;
+        $github_username = $_SESSION['wdm_github_username'] ?? '';
+        $github_repo = $_SESSION['wdm_github_repo'] ?? '';
+        $github_token = $_SESSION['wdm_github_token'] ?? '';
+        
+        // Only initialize if auto-updates are enabled and GitHub settings are configured
+        if ($enable_auto_updates && !empty($github_username) && !empty($github_repo)) {
+            new WDM_Custom_Header\WDM_Updater(
+                __FILE__,
+                WDM_CUSTOM_HEADER_VERSION,
+                $github_username,
+                $github_repo,
+                $github_token
+            );
+        }
     }
 }
 
