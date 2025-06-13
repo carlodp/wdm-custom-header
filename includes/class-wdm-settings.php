@@ -1,7 +1,7 @@
 <?php
 /**
  * WDM Settings Class
- * Handles admin settings page functionality with dynamic menu management and GitHub auto-update
+ * Main settings controller that coordinates all admin functionality
  */
 
 namespace WDM_Custom_Header;
@@ -10,9 +10,25 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Include modular settings classes
+require_once __DIR__ . '/class-wdm-main-navigation.php';
+require_once __DIR__ . '/class-wdm-utility-navigation.php';
+require_once __DIR__ . '/class-wdm-general-settings.php';
+require_once __DIR__ . '/class-wdm-plugin-info.php';
+
 class WDM_Settings {
 
+    private $main_navigation;
+    private $utility_navigation;
+    private $general_settings;
+    private $plugin_info;
+
     public function __construct() {
+        $this->main_navigation = new WDM_Main_Navigation();
+        $this->utility_navigation = new WDM_Utility_Navigation();
+        $this->general_settings = new WDM_General_Settings();
+        $this->plugin_info = new WDM_Plugin_Info();
+
         \add_action('admin_menu', array($this, 'add_admin_menu'));
         \add_action('admin_init', array($this, 'settings_init'));
         \add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
@@ -169,76 +185,42 @@ class WDM_Settings {
     }
 
     public function settings_page() {
-        // Handle form submissions
-        if (isset($_POST['wdm_save_menu']) && wp_verify_nonce($_POST['wdm_menu_nonce'], 'wdm_save_menu_settings')) {
-            $menu_items = $_POST['wdm_menu_items'] ?? array();
-            
-            // Transform the menu data to match the expected format for the template
-            $transformed_menu = array();
-            foreach ($menu_items as $item) {
-                if (empty($item['text'])) continue;
-                
-                $menu_item = array(
-                    'text' => sanitize_text_field($item['text']),
-                    'url' => esc_url_raw($item['url']),
-                    'has_submenu' => false,
-                    'submenu_items' => array()
-                );
-                
-                // Process submenu items if they exist
-                if (isset($item['submenu']) && is_array($item['submenu'])) {
-                    foreach ($item['submenu'] as $submenu_item) {
-                        if (!empty($submenu_item['text'])) {
-                            $menu_item['submenu_items'][] = array(
-                                'text' => sanitize_text_field($submenu_item['text']),
-                                'url' => esc_url_raw($submenu_item['url'])
-                            );
-                        }
-                    }
-                    if (!empty($menu_item['submenu_items'])) {
-                        $menu_item['has_submenu'] = true;
-                    }
-                }
-                
-                $transformed_menu[] = $menu_item;
-            }
-            
-            // Save using the correct option name that the template expects
-            update_option('wdm_header_menu_data', $transformed_menu);
-            add_settings_error('wdm_menu_settings', 'menu_updated', 'Menu settings saved successfully!', 'success');
-        }
-
-        if (isset($_POST['wdm_save_menu'])) {
-            error_log('Menu form submitted');
-        }
-
-        if (isset($_POST['wdm_save_general']) && wp_verify_nonce($_POST['wdm_general_nonce'], 'wdm_save_general_settings')) {
-            $options = $_POST['wdm_header_options'] ?? array();
-            $sanitized_options = $this->sanitize_options($options);
-            update_option('wdm_header_options', $sanitized_options);
-            add_settings_error('wdm_header_settings', 'options_updated', 'General settings saved successfully!', 'success');
-        }
-
-        // Fetch saved options only — NO DEFAULTS fallback
-        $options = get_option('wdm_header_options', array());
-        $menu_items = get_option('wdm_menu_items', array());
-        $menu_data = get_option('wdm_header_menu_data', array());
+        $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'main_menu';
 
         ?>
-        <div class="wrap wdm-admin-container">
-            <div class="wdm-admin-header">
-                <h1>WDM Custom Header Settings</h1>
-                <p>Manage your header menu content, appearance, and plugin settings.</p>
+        <div class="wrap wdm-admin-wrap">
+            <h1>WDM Custom Header Settings</h1>
+            
+            <h2 class="nav-tab-wrapper">
+                <a href="?page=wdm-header-settings&tab=main_menu" class="nav-tab <?php echo $active_tab == 'main_menu' ? 'nav-tab-active' : ''; ?>">Main Navigation Menu</a>
+                <a href="?page=wdm-header-settings&tab=utility_menu" class="nav-tab <?php echo $active_tab == 'utility_menu' ? 'nav-tab-active' : ''; ?>">Utility Navigation Menu</a>
+                <a href="?page=wdm-header-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General Settings</a>
+                <a href="?page=wdm-header-settings&tab=plugin_info" class="nav-tab <?php echo $active_tab == 'plugin_info' ? 'nav-tab-active' : ''; ?>">Plugin Information</a>
+            </h2>
+            
+            <div class="wdm-admin-container">
+                <?php
+                switch($active_tab) {
+                    case 'main_menu':
+                        $this->main_navigation->render_main_navigation_content();
+                        break;
+                    case 'utility_menu':
+                        $this->utility_navigation->render_utility_navigation_content();
+                        break;
+                    case 'general':
+                        $this->general_settings->render_general_settings_content();
+                        break;
+                    case 'plugin_info':
+                        $this->plugin_info->render_plugin_info_content();
+                        break;
+                    default:
+                        $this->main_navigation->render_main_navigation_content();
+                }
+                ?>
             </div>
-
-            <?php settings_errors(); ?>
-
-            <div class="wdm-tab-nav">
-                <button type="button" class="active" data-tab="main-navigation">Main Navigation Menu</button>
-                <button type="button" data-tab="utility-navigation">Utility Navigation Menu</button>
-                <button type="button" data-tab="general-settings">General Settings</button>
-                <button type="button" data-tab="plugin-info">Plugin Information</button>
-            </div>
+        </div>
+        <?php
+    }
 
             <div id="main-navigation" class="wdm-tab-content active">
                 <div class="wdm-settings-section">
