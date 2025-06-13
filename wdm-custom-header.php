@@ -135,5 +135,43 @@ function wdm_display_header() {
     }
 }
 
+/**
+ * Shortcode callback function
+ */
+function wdm_custom_header_shortcode($atts) {
+    // Start output buffering
+    ob_start();
+    
+    // Load CSS and JS
+    wp_enqueue_style(
+        'wdm-header-css',
+        WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/css/header.css',
+        array(),
+        WDM_CUSTOM_HEADER_VERSION
+    );
+    
+    wp_enqueue_script(
+        'wdm-header-js',
+        WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/js/header.js',
+        array(),
+        WDM_CUSTOM_HEADER_VERSION,
+        true
+    );
+    
+    // Include the header template
+    $template_path = WDM_CUSTOM_HEADER_PLUGIN_PATH . 'templates/header-dynamic.php';
+    if (file_exists($template_path)) {
+        include $template_path;
+    } else {
+        echo '<div class="wdm-error">WDM Header template not found at: ' . $template_path . '</div>';
+    }
+    
+    // Return buffered content
+    return ob_get_clean();
+}
+
+// Register shortcode
+add_shortcode('wdm_custom_header', 'wdm_custom_header_shortcode');
+
 // Initialize the plugin
 new WDM_Custom_Header_Plugin();
