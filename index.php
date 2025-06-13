@@ -4,6 +4,62 @@
  * This demonstrates the header functionality without WordPress
  */
 
+// Mock WordPress functions
+if (!function_exists('get_option')) {
+    function get_option($option, $default = false) {
+        // Return test menu data
+        if ($option === 'wdm_header_menu_data') {
+            return array(
+                array(
+                    'text' => 'Home',
+                    'url' => '#home',
+                    'has_submenu' => false,
+                    'submenu_items' => array()
+                ),
+                array(
+                    'text' => 'About',
+                    'url' => '#about',
+                    'has_submenu' => true,
+                    'submenu_items' => array(
+                        array('text' => 'Our Story', 'url' => '#story'),
+                        array('text' => 'Team', 'url' => '#team')
+                    )
+                ),
+                array(
+                    'text' => 'Services',
+                    'url' => '#services',
+                    'has_submenu' => false,
+                    'submenu_items' => array()
+                )
+            );
+        }
+        
+        if ($option === 'wdm_header_options') {
+            return array(
+                'volunteer_text' => 'VOLUNTEER',
+                'volunteer_url' => '#volunteer',
+                'donate_text' => 'DONATE',
+                'donate_url' => '#donate',
+                'show_search' => '1'
+            );
+        }
+        
+        return $default;
+    }
+}
+
+if (!function_exists('esc_html')) {
+    function esc_html($text) {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    }
+}
+
+if (!function_exists('esc_url')) {
+    function esc_url($url) {
+        return htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
+    }
+}
+
 // Simulate WordPress constants
 define('ABSPATH', __DIR__ . '/');
 
@@ -15,7 +71,7 @@ $atts = array(
 
 // Get the header HTML directly from template
 ob_start();
-include __DIR__ . '/templates/header.php';
+include __DIR__ . '/templates/header-dynamic.php';
 $header_html = ob_get_clean();
 ?>
 <!DOCTYPE html>
