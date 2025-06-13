@@ -41,6 +41,11 @@ class WDM_Custom_Header_Plugin {
         // Initialize components
         new WDM_Custom_Header\WDM_Header();
         new WDM_Custom_Header\WDM_Settings();
+        
+        // Initialize admin interface if in admin area
+        if (is_admin()) {
+            WDM_Custom_Header\WDM_Admin::init();
+        }
     }
     
     /**
@@ -50,6 +55,7 @@ class WDM_Custom_Header_Plugin {
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-header.php';
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-settings.php';
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-menu-renderer.php';
+        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-admin.php';
     }
 }
 
