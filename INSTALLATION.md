@@ -1,4 +1,4 @@
-# WDM Custom Header - Installation Guide
+# WDM Custom Header - Installation Guide v1.0.1
 
 ## Quick Installation
 
@@ -17,7 +17,8 @@
    │   └── js/header.js
    ├── includes/
    │   ├── class-wdm-header.php
-   │   └── class-wdm-settings.php
+   │   ├── class-wdm-settings.php
+   │   └── class-wdm-updater.php
    └── templates/
        └── header.php
    ```
@@ -28,45 +29,91 @@
    - Click "Activate"
 
 4. **Display Header**
-   Add to your theme's header.php or template files:
-   ```php
-   <?php wdm_display_header(); ?>
-   ```
+   Use the shortcode or PHP function:
+   - **Shortcode:** `[wdm_custom_header]` (works in posts, pages, widgets)
+   - **PHP Function:** `<?php wdm_display_header(); ?>` (theme files)
+
+## New Features in v1.0.1
+
+### Fixed Asset Loading
+- CSS and JS files now load correctly in WordPress
+- Proper WordPress asset enqueueing system
+- Cache-busting timestamps for immediate updates
+
+### Restored Shortcode
+- `[wdm_custom_header]` shortcode fully functional
+- Forces asset loading when shortcode is used
+- Works in posts, pages, and widgets
+
+### GitHub Auto-Update System
+- Complete GitHub integration for automatic updates
+- Admin settings in Settings > WDM Header
+- Manual update checking and forcing
+- Version comparison and update notifications
+
+## GitHub Auto-Update Setup
+
+1. **Go to Settings > WDM Header**
+2. **Configure GitHub Settings:**
+   - GitHub Username: Your GitHub username
+   - GitHub Repository: Repository name (e.g., wdm-custom-header)
+   - Enable Auto-Update: Check to enable automatic updates
+
+3. **Test Update System:**
+   - Click "Check for Updates" to manually check
+   - Click "Force Update Check" to refresh WordPress update cache
+
+## Usage
+
+### Shortcode Method
+```
+[wdm_custom_header]
+```
+Perfect for pages, posts, and widgets.
+
+### PHP Function Method
+```php
+<?php wdm_display_header(); ?>
+```
+For theme integration and template files.
 
 ## Troubleshooting
 
-### CSS/JS Not Loading
-- Check file permissions (644 for files, 755 for directories)
+### Assets Not Loading
+- Verify plugin activation
+- Check Settings > WDM Header > Load Default CSS is enabled
 - Clear any caching plugins
-- Verify plugin URL constants are correct
+- Force refresh browser (Ctrl+F5)
 
-### Header Not Displaying
-- Ensure you're calling `wdm_display_header()` in your theme
+### GitHub Updates Not Working
+- Verify GitHub username and repository are correct
+- Ensure repository is public or you have access
+- Check that repository has releases/tags
+- Test API connectivity in admin panel
+
+### Shortcode Not Working
+- Confirm shortcode spelling: `[wdm_custom_header]`
 - Check if plugin is activated
-- Verify template file exists
+- Verify in WordPress admin that WDM Header appears in settings
 
-### Mobile Menu Issues
-- Check browser console for JavaScript errors
-- Ensure jQuery is loaded by WordPress
-- Verify hamburger button elements exist
+## Advanced Configuration
 
-## Configuration
+### Custom GitHub Repository
+1. Fork or create your own repository
+2. Add releases with version tags (e.g., v1.0.2)
+3. Configure GitHub settings in admin panel
+4. Enable auto-update
 
-### Update Logo
-In `templates/header.php`, line 19:
-```html
-<img src="https://greybullrescue.org/wp-content/uploads/2025/02/GB_Rescue-Color.png" alt="Greybull Rescue" class="wdm-logo-image">
-```
-
-### Customize Navigation
-Edit the navigation menu in `templates/header.php` starting around line 95.
-
-### Styling Changes
-All styles are in `assets/css/header.css` with WDM-prefixed classes.
+### Asset Management
+- CSS loading can be disabled in settings if using custom styles
+- JavaScript always loads for functionality
+- All assets include cache-busting for development
 
 ## Support
 
-For issues with the plugin:
-1. Check browser console for errors
-2. Verify all files are uploaded correctly
-3. Ensure WordPress meets minimum requirements (5.0+, PHP 7.4+)
+For technical issues:
+1. Check WordPress error logs
+2. Verify file permissions (644 for files, 755 for directories)
+3. Test with default WordPress theme
+4. Disable other plugins to check for conflicts
+5. Use GitHub update system for latest fixes

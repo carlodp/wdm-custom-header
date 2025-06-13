@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('WDM_CUSTOM_HEADER_VERSION', '1.0.0');
+define('WDM_CUSTOM_HEADER_VERSION', '1.0.1');
 define('WDM_CUSTOM_HEADER_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WDM_CUSTOM_HEADER_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
