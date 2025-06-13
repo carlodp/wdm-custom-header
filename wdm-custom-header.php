@@ -3,7 +3,7 @@
  * Plugin Name: WDM Custom Header
  * Plugin URI: https://greybullrescue.org
  * Description: A custom responsive header with mega menu functionality for Grey Bull Rescue.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: WDM Developer
  * License: GPL v2 or later
  * Text Domain: wdm-custom-header
@@ -79,13 +79,33 @@ class WDM_Custom_Header_Plugin {
     private function load_dependencies() {
         $files = array(
             'includes/class-wdm-header.php',
-            'includes/class-wdm-settings.php'
+            'includes/class-wdm-settings.php',
+            'includes/class-wdm-updater.php'
         );
         
         foreach ($files as $file) {
             $filepath = WDM_CUSTOM_HEADER_PLUGIN_PATH . $file;
             if (file_exists($filepath)) {
                 require_once $filepath;
+            }
+        }
+        
+        // Initialize GitHub updater if configured
+        $this->init_updater();
+    }
+    
+    /**
+     * Initialize GitHub updater
+     */
+    private function init_updater() {
+        $options = get_option('wdm_header_options', array());
+        $auto_update = isset($options['auto_update']) ? $options['auto_update'] : '0';
+        $username = isset($options['github_username']) ? $options['github_username'] : '';
+        $repo = isset($options['github_repo']) ? $options['github_repo'] : '';
+        
+        if ($auto_update === '1' && !empty($username) && !empty($repo)) {
+            if (class_exists('WDM_Custom_Header\WDM_Updater')) {
+                new WDM_Custom_Header\WDM_Updater(__FILE__, $username, $repo, WDM_CUSTOM_HEADER_VERSION);
             }
         }
     }
