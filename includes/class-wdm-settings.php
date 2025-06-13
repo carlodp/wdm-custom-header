@@ -252,7 +252,7 @@ class WDM_Settings {
                             </div>
 
                             <div class="wdm-menu-items">
-                                <?php $this->render_menu_items($menu_items); ?>
+                                <?php $this->render_menu_items($menu_data); ?>
                             </div>
 
                             <div class="wdm-add-buttons">
@@ -348,41 +348,7 @@ class WDM_Settings {
                                 </tr>
                             </table>
 
-                            <h3>Utility Navigation Settings</h3>
-                            <table class="form-table">
-                                <tr>
-                                    <th scope="row">Volunteer Button Text</th>
-                                    <td>
-                                        <input type="text" name="wdm_header_options[volunteer_text]" value="<?php echo esc_attr($options['volunteer_text'] ?? 'Volunteer'); ?>" class="regular-text" />
-                                        <p class="description">Text for the volunteer button in utility navigation.</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Volunteer Button URL</th>
-                                    <td>
-                                        <input type="text" name="wdm_header_options[volunteer_url]" value="<?php echo esc_attr($options['volunteer_url'] ?? '#volunteer'); ?>" class="regular-text" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Donate Button Text</th>
-                                    <td>
-                                        <input type="text" name="wdm_header_options[donate_text]" value="<?php echo esc_attr($options['donate_text'] ?? 'Donate'); ?>" class="regular-text" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Donate Button URL</th>
-                                    <td>
-                                        <input type="text" name="wdm_header_options[donate_url]" value="<?php echo esc_attr($options['donate_url'] ?? '#donate'); ?>" class="regular-text" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Show Search</th>
-                                    <td>
-                                        <input type="checkbox" name="wdm_header_options[show_search]" value="1" <?php checked($options['show_search'] ?? '1', '1'); ?> />
-                                        <label>Enable search functionality in header</label>
-                                    </td>
-                                </tr>
-                            </table>
+
 
                             <h3>GitHub Auto-Update Settings</h3>
                             <table class="form-table">
@@ -477,7 +443,8 @@ class WDM_Settings {
             $text    = esc_attr($item['text'] ?? '');
             $url     = esc_attr($item['url'] ?? '');
             $target  = esc_attr($item['target'] ?? '_self');
-            $submenu = $item['submenu'] ?? array();
+            // Handle both stored format (submenu_items) and admin format (submenu)
+            $submenu = $item['submenu'] ?? $item['submenu_items'] ?? array();
 ?>
             <div class="wdm-menu-item" data-index="<?php echo $index; ?>">
                 <div class="wdm-menu-item-header">

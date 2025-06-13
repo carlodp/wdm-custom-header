@@ -3,7 +3,7 @@
  * Plugin Name: WDM Custom Header
  * Plugin URI: https://greybullrescue.org
  * Description: A custom responsive header with mega menu functionality for Grey Bull Rescue.
- * Version: 1.1.1
+ * Version: 1.2.0
  * Author: WDM Developer
  * License: GPL v2 or later
  * Text Domain: wdm-custom-header
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('WDM_CUSTOM_HEADER_VERSION', '1.1.1');
+define('WDM_CUSTOM_HEADER_VERSION', '1.2.0');
 define('WDM_CUSTOM_HEADER_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WDM_CUSTOM_HEADER_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
