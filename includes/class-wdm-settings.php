@@ -196,8 +196,101 @@ class WDM_Settings {
     private function get_default_menu_items() {
         return array(
             array(
-                'text' => 'Home',
-                'url' => '#',
+                'text' => 'How We Serve',
+                'url' => '#how-we-serve',
+                'target' => '_self',
+                'submenu' => array(
+                    array(
+                        'text' => 'Disaster Response',
+                        'url' => '#disaster-response',
+                        'target' => '_self',
+                        'description' => 'Rapid response to natural disasters and emergencies'
+                    ),
+                    array(
+                        'text' => 'Long Term Recovery',
+                        'url' => '#long-term-recovery',
+                        'target' => '_self',
+                        'description' => 'Sustainable rebuilding and community support'
+                    ),
+                    array(
+                        'text' => 'International',
+                        'url' => '#international',
+                        'target' => '_self',
+                        'description' => 'Global humanitarian assistance programs'
+                    ),
+                    array(
+                        'text' => 'Domestic Operations',
+                        'url' => '#domestic-operations',
+                        'target' => '_self',
+                        'description' => 'Local community disaster response services'
+                    ),
+                    array(
+                        'text' => 'International Work',
+                        'url' => '#international-work',
+                        'target' => '_self',
+                        'description' => 'Overseas humanitarian missions and support'
+                    )
+                )
+            ),
+            array(
+                'text' => 'How To Get Involved',
+                'url' => '#how-to-get-involved',
+                'target' => '_self',
+                'submenu' => array(
+                    array(
+                        'text' => 'Volunteer With Us',
+                        'url' => '#volunteer-with-us',
+                        'target' => '_self',
+                        'description' => 'Join our volunteer team and make a difference'
+                    ),
+                    array(
+                        'text' => 'Become a Partner',
+                        'url' => '#become-a-partner',
+                        'target' => '_self',
+                        'description' => 'Partner with us for greater impact'
+                    ),
+                    array(
+                        'text' => 'Build Your Skillset',
+                        'url' => '#build-your-skillset',
+                        'target' => '_self',
+                        'description' => 'Training and development opportunities'
+                    )
+                )
+            ),
+            array(
+                'text' => 'Ways to Give',
+                'url' => '#ways-to-give',
+                'target' => '_self',
+                'submenu' => array(
+                    array(
+                        'text' => 'One-Time Gifts',
+                        'url' => '#one-time-gifts',
+                        'target' => '_self',
+                        'description' => 'Make an immediate impact with a single donation'
+                    ),
+                    array(
+                        'text' => 'Monthly Giving',
+                        'url' => '#monthly-giving',
+                        'target' => '_self',
+                        'description' => 'Provide sustained support through recurring donations'
+                    ),
+                    array(
+                        'text' => 'Legacy Giving',
+                        'url' => '#legacy-giving',
+                        'target' => '_self',
+                        'description' => 'Leave a lasting impact through planned giving'
+                    ),
+                    array(
+                        'text' => 'Other Giving Options',
+                        'url' => '#other-giving-options',
+                        'target' => '_self',
+                        'description' => 'Alternative ways to support our mission'
+                    )
+                )
+            ),
+            array(
+                'text' => 'News',
+                'url' => '#news',
                 'target' => '_self',
                 'submenu' => array()
             ),
@@ -207,55 +300,48 @@ class WDM_Settings {
                 'target' => '_self',
                 'submenu' => array(
                     array(
-                        'text' => 'Our Mission',
-                        'url' => '#mission',
+                        'text' => 'Who We Are',
+                        'url' => '#who-we-are',
                         'target' => '_self',
-                        'description' => 'Learn about our rescue mission and values'
+                        'description' => 'Learn about our mission, vision, and values'
                     ),
                     array(
-                        'text' => 'Our Team',
-                        'url' => '#team',
+                        'text' => 'Strategic Plan',
+                        'url' => '#strategic-plan',
                         'target' => '_self',
-                        'description' => 'Meet our dedicated rescue team'
+                        'description' => 'Our roadmap for the future'
                     ),
                     array(
-                        'text' => 'Success Stories',
-                        'url' => '#stories',
+                        'text' => 'Program History',
+                        'url' => '#program-history',
                         'target' => '_self',
-                        'description' => 'Read inspiring rescue success stories'
+                        'description' => 'Our track record of service and impact'
+                    ),
+                    array(
+                        'text' => 'Leadership',
+                        'url' => '#leadership',
+                        'target' => '_self',
+                        'description' => 'Meet our executive team and board'
+                    ),
+                    array(
+                        'text' => 'Financials and Annual Reports',
+                        'url' => '#financials-and-annual-reports',
+                        'target' => '_self',
+                        'description' => 'Transparency in our operations and finances'
+                    ),
+                    array(
+                        'text' => 'Careers',
+                        'url' => '#careers',
+                        'target' => '_self',
+                        'description' => 'Join our team and build a meaningful career'
+                    ),
+                    array(
+                        'text' => 'Grey Bull Ventures',
+                        'url' => '#grey-bull-ventures',
+                        'target' => '_self',
+                        'description' => 'Our innovation and development initiatives'
                     )
                 )
-            ),
-            array(
-                'text' => 'Services',
-                'url' => '#services',
-                'target' => '_self',
-                'submenu' => array(
-                    array(
-                        'text' => 'Animal Rescue',
-                        'url' => '#rescue',
-                        'target' => '_self',
-                        'description' => 'Emergency animal rescue operations'
-                    ),
-                    array(
-                        'text' => 'Adoption',
-                        'url' => '#adoption',
-                        'target' => '_self',
-                        'description' => 'Find your perfect companion'
-                    ),
-                    array(
-                        'text' => 'Volunteer',
-                        'url' => '#volunteer',
-                        'target' => '_self',
-                        'description' => 'Join our volunteer program'
-                    )
-                )
-            ),
-            array(
-                'text' => 'Contact',
-                'url' => '#contact',
-                'target' => '_self',
-                'submenu' => array()
             )
         );
     }

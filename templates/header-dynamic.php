@@ -11,8 +11,89 @@ $menu_items = get_option('wdm_menu_items', array());
 if (empty($menu_items)) {
     $menu_items = array(
         array(
-            'text' => 'Home',
-            'url' => '#',
+            'text' => 'How We Serve',
+            'url' => '#how-we-serve',
+            'target' => '_self',
+            'submenu' => array(
+                array(
+                    'text' => 'Disaster Response',
+                    'url' => '#disaster-response',
+                    'target' => '_self',
+                    'description' => 'Rapid response to natural disasters and emergencies'
+                ),
+                array(
+                    'text' => 'Long Term Recovery',
+                    'url' => '#long-term-recovery',
+                    'target' => '_self',
+                    'description' => 'Sustainable rebuilding and community support'
+                ),
+                array(
+                    'text' => 'International',
+                    'url' => '#international',
+                    'target' => '_self',
+                    'description' => 'Global humanitarian assistance programs'
+                )
+            )
+        ),
+        array(
+            'text' => 'How To Get Involved',
+            'url' => '#how-to-get-involved',
+            'target' => '_self',
+            'submenu' => array(
+                array(
+                    'text' => 'Volunteer With Us',
+                    'url' => '#volunteer-with-us',
+                    'target' => '_self',
+                    'description' => 'Join our volunteer team and make a difference'
+                ),
+                array(
+                    'text' => 'Become a Partner',
+                    'url' => '#become-a-partner',
+                    'target' => '_self',
+                    'description' => 'Partner with us for greater impact'
+                ),
+                array(
+                    'text' => 'Build Your Skillset',
+                    'url' => '#build-your-skillset',
+                    'target' => '_self',
+                    'description' => 'Training and development opportunities'
+                )
+            )
+        ),
+        array(
+            'text' => 'Ways to Give',
+            'url' => '#ways-to-give',
+            'target' => '_self',
+            'submenu' => array(
+                array(
+                    'text' => 'One-Time Gifts',
+                    'url' => '#one-time-gifts',
+                    'target' => '_self',
+                    'description' => 'Make an immediate impact with a single donation'
+                ),
+                array(
+                    'text' => 'Monthly Giving',
+                    'url' => '#monthly-giving',
+                    'target' => '_self',
+                    'description' => 'Provide sustained support through recurring donations'
+                ),
+                array(
+                    'text' => 'Legacy Giving',
+                    'url' => '#legacy-giving',
+                    'target' => '_self',
+                    'description' => 'Leave a lasting impact through planned giving'
+                ),
+                array(
+                    'text' => 'Other Giving Options',
+                    'url' => '#other-giving-options',
+                    'target' => '_self',
+                    'description' => 'Alternative ways to support our mission'
+                )
+            )
+        ),
+        array(
+            'text' => 'News',
+            'url' => '#news',
             'target' => '_self',
             'submenu' => array()
         ),
@@ -22,55 +103,24 @@ if (empty($menu_items)) {
             'target' => '_self',
             'submenu' => array(
                 array(
-                    'text' => 'Our Mission',
-                    'url' => '#mission',
+                    'text' => 'Who We Are',
+                    'url' => '#who-we-are',
                     'target' => '_self',
-                    'description' => 'Learn about our rescue mission and values'
+                    'description' => 'Learn about our mission, vision, and values'
                 ),
                 array(
-                    'text' => 'Our Team',
-                    'url' => '#team',
+                    'text' => 'Leadership',
+                    'url' => '#leadership',
                     'target' => '_self',
-                    'description' => 'Meet our dedicated rescue team'
+                    'description' => 'Meet our executive team and board'
                 ),
                 array(
-                    'text' => 'Success Stories',
-                    'url' => '#stories',
+                    'text' => 'Careers',
+                    'url' => '#careers',
                     'target' => '_self',
-                    'description' => 'Read inspiring rescue success stories'
+                    'description' => 'Join our team and build a meaningful career'
                 )
             )
-        ),
-        array(
-            'text' => 'Services',
-            'url' => '#services',
-            'target' => '_self',
-            'submenu' => array(
-                array(
-                    'text' => 'Animal Rescue',
-                    'url' => '#rescue',
-                    'target' => '_self',
-                    'description' => 'Emergency animal rescue operations'
-                ),
-                array(
-                    'text' => 'Adoption',
-                    'url' => '#adoption',
-                    'target' => '_self',
-                    'description' => 'Find your perfect companion'
-                ),
-                array(
-                    'text' => 'Volunteer',
-                    'url' => '#volunteer',
-                    'target' => '_self',
-                    'description' => 'Join our volunteer program'
-                )
-            )
-        ),
-        array(
-            'text' => 'Contact',
-            'url' => '#contact',
-            'target' => '_self',
-            'submenu' => array()
         )
     );
 }
