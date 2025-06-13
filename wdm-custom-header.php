@@ -3,7 +3,7 @@
  * Plugin Name: WDM Custom Header
  * Plugin URI: https://example.com
  * Description: A custom responsive header with mega menu functionality, inspired by Grey Bull design.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Your Name
  * License: GPL v2 or later
  * Text Domain: wdm-custom-header
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('WDM_CUSTOM_HEADER_VERSION', '1.0.0');
+define('WDM_CUSTOM_HEADER_VERSION', '1.0.1');
 define('WDM_CUSTOM_HEADER_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WDM_CUSTOM_HEADER_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
@@ -42,7 +42,7 @@ class WDM_Custom_Header_Plugin {
         new WDM_Custom_Header\WDM_Header();
         new WDM_Custom_Header\WDM_Settings();
         
-        // Initialize admin interface if in admin area
+        // Initialize admin interface if in WordPress admin area
         if (function_exists('is_admin') && is_admin()) {
             WDM_Custom_Header\WDM_Admin::init();
         }
@@ -67,12 +67,12 @@ class WDM_Custom_Header_Plugin {
      * Initialize the auto-updater
      */
     private function init_updater() {
-        // Get updater settings from session/options
-        session_start();
-        $enable_auto_updates = $_SESSION['wdm_enable_auto_updates'] ?? true;
-        $github_username = $_SESSION['wdm_github_username'] ?? '';
-        $github_repo = $_SESSION['wdm_github_repo'] ?? '';
-        $github_token = $_SESSION['wdm_github_token'] ?? '';
+        // Get updater settings from WordPress options
+        $options = get_option('wdm_header_options', []);
+        $enable_auto_updates = $options['enable_auto_updates'] ?? true;
+        $github_username = $options['github_username'] ?? '';
+        $github_repo = $options['github_repo'] ?? '';
+        $github_token = $options['github_token'] ?? '';
         
         // Only initialize if auto-updates are enabled and GitHub settings are configured
         if ($enable_auto_updates && !empty($github_username) && !empty($github_repo)) {

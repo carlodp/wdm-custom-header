@@ -1,7 +1,7 @@
 <?php
 /**
- * WDM Custom Header Admin Interface
- * Provides WordPress admin panel for managing header settings
+ * WDM Custom Header Admin Class
+ * Handles WordPress admin integration
  */
 
 namespace WDM_Custom_Header;
@@ -17,11 +17,10 @@ class WDM_Admin {
      * Initialize admin functionality
      */
     public static function init() {
-        add_action('admin_menu', array(__CLASS__, 'add_admin_menu'));
-        add_action('admin_init', array(__CLASS__, 'register_settings'));
-        add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
-        add_action('wp_ajax_wdm_save_menu_items', array(__CLASS__, 'save_menu_items'));
-        add_action('wp_ajax_wdm_save_utility_buttons', array(__CLASS__, 'save_utility_buttons'));
+        add_action('admin_menu', [__CLASS__, 'add_admin_menu']);
+        add_action('admin_init', [__CLASS__, 'init_settings']);
+        add_action('admin_enqueue_scripts', [__CLASS__, 'enqueue_admin_scripts']);
+        add_action('admin_notices', [__CLASS__, 'check_for_updates']);
     }
     
     /**
@@ -33,27 +32,101 @@ class WDM_Admin {
             'WDM Header',
             'manage_options',
             'wdm-header-settings',
-            array(__CLASS__, 'admin_page')
+            [__CLASS__, 'settings_page']
         );
     }
     
     /**
-     * Register settings
+     * Initialize settings
      */
-    public static function register_settings() {
-        // Logo settings
-        register_setting('wdm_header_settings', 'wdm_header_logo_url');
-        register_setting('wdm_header_settings', 'wdm_header_logo_alt');
+    public static function init_settings() {
+        register_setting('wdm_header_settings', 'wdm_header_options');
         
-        // Navigation menu items
-        register_setting('wdm_header_settings', 'wdm_header_menu_items');
+        // General Settings Section
+        add_settings_section(
+            'wdm_header_general',
+            'General Settings',
+            [__CLASS__, 'general_section_callback'],
+            'wdm-header-settings'
+        );
         
-        // Utility buttons
-        register_setting('wdm_header_settings', 'wdm_header_utility_buttons');
+        add_settings_field(
+            'enable_header',
+            'Enable Header',
+            [__CLASS__, 'checkbox_field_callback'],
+            'wdm-header-settings',
+            'wdm_header_general',
+            ['field' => 'enable_header', 'label' => 'Enable WDM Custom Header']
+        );
         
-        // Color settings
-        register_setting('wdm_header_settings', 'wdm_header_primary_color');
-        register_setting('wdm_header_settings', 'wdm_header_secondary_color');
+        add_settings_field(
+            'logo_url',
+            'Logo URL',
+            [__CLASS__, 'text_field_callback'],
+            'wdm-header-settings',
+            'wdm_header_general',
+            ['field' => 'logo_url', 'placeholder' => 'https://example.com/logo.png']
+        );
+        
+        // Menu Settings Section
+        add_settings_section(
+            'wdm_header_menu',
+            'Menu Settings',
+            [__CLASS__, 'menu_section_callback'],
+            'wdm-header-settings'
+        );
+        
+        // Utility Buttons Section
+        add_settings_section(
+            'wdm_header_buttons',
+            'Utility Buttons',
+            [__CLASS__, 'buttons_section_callback'],
+            'wdm-header-settings'
+        );
+        
+        // Auto Updates Section
+        add_settings_section(
+            'wdm_header_updates',
+            'Auto Updates',
+            [__CLASS__, 'updates_section_callback'],
+            'wdm-header-settings'
+        );
+        
+        add_settings_field(
+            'enable_auto_updates',
+            'Enable Auto Updates',
+            [__CLASS__, 'checkbox_field_callback'],
+            'wdm-header-settings',
+            'wdm_header_updates',
+            ['field' => 'enable_auto_updates', 'label' => 'Automatically check for plugin updates from GitHub']
+        );
+        
+        add_settings_field(
+            'github_username',
+            'GitHub Username',
+            [__CLASS__, 'text_field_callback'],
+            'wdm-header-settings',
+            'wdm_header_updates',
+            ['field' => 'github_username', 'placeholder' => 'your-username']
+        );
+        
+        add_settings_field(
+            'github_repo',
+            'Repository Name',
+            [__CLASS__, 'text_field_callback'],
+            'wdm-header-settings',
+            'wdm_header_updates',
+            ['field' => 'github_repo', 'placeholder' => 'wdm-custom-header']
+        );
+        
+        add_settings_field(
+            'github_token',
+            'GitHub Token (Optional)',
+            [__CLASS__, 'password_field_callback'],
+            'wdm-header-settings',
+            'wdm_header_updates',
+            ['field' => 'github_token', 'placeholder' => 'ghp_xxxxxxxxxxxxxxxxxxxx']
+        );
     }
     
     /**
@@ -64,239 +137,284 @@ class WDM_Admin {
             return;
         }
         
-        wp_enqueue_script('jquery-ui-sortable');
-        wp_enqueue_script('wp-color-picker');
+        wp_enqueue_script('jquery');
         wp_enqueue_style('wp-color-picker');
+        wp_enqueue_script('wp-color-picker');
         
-        // Custom admin script
-        wp_enqueue_script(
-            'wdm-admin-script',
-            plugin_dir_url(__FILE__) . '../assets/js/admin.js',
-            array('jquery', 'jquery-ui-sortable', 'wp-color-picker'),
-            '1.0.0',
-            true
-        );
+        // Add custom admin CSS
+        wp_add_inline_style('wp-admin', '
+            .wdm-menu-item, .wdm-button-item {
+                border: 1px solid #ddd;
+                padding: 15px;
+                margin: 10px 0;
+                background: #f9f9f9;
+            }
+            .wdm-item-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .wdm-item-content {
+                display: none;
+            }
+            .wdm-item-content.active {
+                display: block;
+            }
+            .wdm-version-footer {
+                margin-top: 20px;
+                padding: 10px;
+                background: #f1f1f1;
+                border-left: 4px solid #0073aa;
+                font-size: 12px;
+                color: #666;
+            }
+        ');
         
-        wp_localize_script('wdm-admin-script', 'wdm_admin_ajax', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('wdm_admin_nonce')
-        ));
-        
-        // Custom admin styles
-        wp_enqueue_style(
-            'wdm-admin-style',
-            plugin_dir_url(__FILE__) . '../assets/css/admin.css',
-            array(),
-            '1.0.0'
-        );
+        // Add custom admin JavaScript
+        wp_add_inline_script('jquery', '
+            jQuery(document).ready(function($) {
+                $(".wdm-toggle-item").click(function(e) {
+                    e.preventDefault();
+                    var content = $(this).closest(".wdm-menu-item, .wdm-button-item").find(".wdm-item-content");
+                    content.toggleClass("active");
+                    $(this).text(content.hasClass("active") ? "Close" : "Edit");
+                });
+                
+                $(".wdm-remove-item").click(function(e) {
+                    e.preventDefault();
+                    if (confirm("Are you sure you want to remove this item?")) {
+                        $(this).closest(".wdm-menu-item, .wdm-button-item").remove();
+                    }
+                });
+                
+                $("#wdm-add-menu-item").click(function(e) {
+                    e.preventDefault();
+                    // Add new menu item logic
+                });
+                
+                $("#wdm-add-button").click(function(e) {
+                    e.preventDefault();
+                    // Add new button logic
+                });
+                
+                $("#wdm-check-updates").click(function(e) {
+                    e.preventDefault();
+                    var button = $(this);
+                    button.text("Checking...").prop("disabled", true);
+                    
+                    $.post(ajaxurl, {
+                        action: "wdm_check_updates",
+                        nonce: "' . wp_create_nonce('wdm_check_updates') . '"
+                    }).done(function(response) {
+                        button.text("Check Complete");
+                        setTimeout(function() {
+                            button.text("Check for Updates Now").prop("disabled", false);
+                            location.reload();
+                        }, 2000);
+                    }).fail(function() {
+                        button.text("Check for Updates Now").prop("disabled", false);
+                    });
+                });
+            });
+        ');
     }
     
     /**
-     * Admin page content
+     * Settings page content
      */
-    public static function admin_page() {
-        // Get current settings
-        $logo_url = get_option('wdm_header_logo_url', 'https://greybullrescue.org/wp-content/uploads/2025/02/GB_Rescue-Color.png');
-        $logo_alt = get_option('wdm_header_logo_alt', 'Greybull Rescue');
-        $menu_items = get_option('wdm_header_menu_items', self::get_default_menu_items());
-        $utility_buttons = get_option('wdm_header_utility_buttons', self::get_default_utility_buttons());
-        $primary_color = get_option('wdm_header_primary_color', '#1a365d');
-        $secondary_color = get_option('wdm_header_secondary_color', '#2d3748');
+    public static function settings_page() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
         
+        // Handle form submission
+        if (isset($_GET['settings-updated'])) {
+            add_settings_error('wdm_header_messages', 'wdm_header_message', 'Settings Saved', 'updated');
+        }
+        
+        settings_errors('wdm_header_messages');
         ?>
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
             
-            <div class="wdm-admin-container">
-                
-                <!-- Logo Settings -->
-                <div class="wdm-admin-section">
-                    <h2>Logo Settings</h2>
-                    <form method="post" action="options.php">
-                        <?php settings_fields('wdm_header_settings'); ?>
-                        
-                        <table class="form-table">
-                            <tr>
-                                <th scope="row">Logo URL</th>
-                                <td>
-                                    <input type="url" name="wdm_header_logo_url" value="<?php echo esc_attr($logo_url); ?>" class="regular-text" />
-                                    <p class="description">Enter the URL for your logo image.</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Logo Alt Text</th>
-                                <td>
-                                    <input type="text" name="wdm_header_logo_alt" value="<?php echo esc_attr($logo_alt); ?>" class="regular-text" />
-                                    <p class="description">Alt text for accessibility.</p>
-                                </td>
-                            </tr>
-                        </table>
-                        
-                        <?php submit_button('Save Logo Settings'); ?>
-                    </form>
+            <form action="options.php" method="post">
+                <?php
+                settings_fields('wdm_header_settings');
+                do_settings_sections('wdm-header-settings');
+                submit_button('Save Settings');
+                ?>
+            </form>
+            
+            <div class="wdm-version-footer">
+                <strong>WDM Custom Header</strong> version <?php echo WDM_CUSTOM_HEADER_VERSION; ?> | 
+                <a href="#" id="wdm-check-updates">Check for Updates Now</a>
+            </div>
+        </div>
+        <?php
+    }
+    
+    /**
+     * Section callbacks
+     */
+    public static function general_section_callback() {
+        echo '<p>Configure WDM Custom Header general settings.</p>';
+    }
+    
+    public static function menu_section_callback() {
+        echo '<p>Configure the navigation menu items.</p>';
+        self::render_menu_items();
+    }
+    
+    public static function buttons_section_callback() {
+        echo '<p>Configure the utility buttons (Volunteer, Donate, etc.)</p>';
+        self::render_utility_buttons();
+    }
+    
+    public static function updates_section_callback() {
+        echo '<p>Configure automatic updates from GitHub repository.</p>';
+        echo '<div style="background: #f9f9f9; border: 1px solid #ddd; padding: 15px; margin: 20px 0;">';
+        echo '<h4>How it works:</h4>';
+        echo '<ol>';
+        echo '<li>The plugin checks for new releases on your GitHub repository</li>';
+        echo '<li>When a new version is available, you\'ll see an "Update Now" notification</li>';
+        echo '<li>Click "Update Now" to automatically download and install the latest version</li>';
+        echo '</ol>';
+        echo '<p><strong>Setup:</strong> Create GitHub releases with semantic versioning (v1.0.0, v1.1.0, etc.)</p>';
+        echo '</div>';
+    }
+    
+    /**
+     * Field callbacks
+     */
+    public static function checkbox_field_callback($args) {
+        $options = get_option('wdm_header_options', []);
+        $value = $options[$args['field']] ?? false;
+        ?>
+        <label>
+            <input type="checkbox" name="wdm_header_options[<?php echo $args['field']; ?>]" value="1" <?php checked($value, true); ?>>
+            <?php echo $args['label']; ?>
+        </label>
+        <?php
+    }
+    
+    public static function text_field_callback($args) {
+        $options = get_option('wdm_header_options', []);
+        $value = $options[$args['field']] ?? '';
+        ?>
+        <input type="text" name="wdm_header_options[<?php echo $args['field']; ?>]" value="<?php echo esc_attr($value); ?>" class="regular-text" placeholder="<?php echo esc_attr($args['placeholder'] ?? ''); ?>">
+        <?php
+    }
+    
+    public static function password_field_callback($args) {
+        $options = get_option('wdm_header_options', []);
+        $value = $options[$args['field']] ?? '';
+        ?>
+        <input type="password" name="wdm_header_options[<?php echo $args['field']; ?>]" value="<?php echo esc_attr($value); ?>" class="regular-text" placeholder="<?php echo esc_attr($args['placeholder'] ?? ''); ?>">
+        <p class="description">Personal access token for private repositories or higher rate limits. Leave empty for public repositories.</p>
+        <?php
+    }
+    
+    /**
+     * Render menu items section
+     */
+    private static function render_menu_items() {
+        $options = get_option('wdm_header_options', []);
+        $menu_items = $options['menu_items'] ?? self::get_default_menu_items();
+        
+        echo '<div id="wdm-menu-items">';
+        foreach ($menu_items as $index => $item) {
+            self::render_menu_item($item, $index);
+        }
+        echo '</div>';
+        echo '<button type="button" id="wdm-add-menu-item" class="button">Add Menu Item</button>';
+    }
+    
+    /**
+     * Render utility buttons section
+     */
+    private static function render_utility_buttons() {
+        $options = get_option('wdm_header_options', []);
+        $buttons = $options['utility_buttons'] ?? self::get_default_utility_buttons();
+        
+        echo '<div id="wdm-utility-buttons">';
+        foreach ($buttons as $index => $button) {
+            self::render_utility_button($button, $index);
+        }
+        echo '</div>';
+        echo '<button type="button" id="wdm-add-button" class="button">Add Button</button>';
+    }
+    
+    /**
+     * Render individual menu item
+     */
+    private static function render_menu_item($item, $index) {
+        ?>
+        <div class="wdm-menu-item">
+            <div class="wdm-item-header">
+                <strong><?php echo esc_html($item['title'] ?? 'Menu Item'); ?></strong>
+                <div>
+                    <button type="button" class="button wdm-toggle-item">Edit</button>
+                    <button type="button" class="button wdm-remove-item">Remove</button>
                 </div>
-                
-                <!-- Navigation Menu Items -->
-                <div class="wdm-admin-section">
-                    <h2>Navigation Menu</h2>
-                    <div id="wdm-menu-items">
-                        <?php foreach ($menu_items as $index => $item): ?>
-                            <div class="wdm-menu-item" data-index="<?php echo $index; ?>">
-                                <div class="wdm-menu-item-header">
-                                    <span class="wdm-menu-item-title"><?php echo esc_html($item['title']); ?></span>
-                                    <div class="wdm-menu-item-controls">
-                                        <button type="button" class="button wdm-toggle-item">Edit</button>
-                                        <button type="button" class="button wdm-remove-item">Remove</button>
-                                        <span class="wdm-drag-handle">≡</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="wdm-menu-item-content" style="display: none;">
-                                    <table class="form-table">
-                                        <tr>
-                                            <th scope="row">Title</th>
-                                            <td>
-                                                <input type="text" name="menu_items[<?php echo $index; ?>][title]" value="<?php echo esc_attr($item['title']); ?>" class="regular-text" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">URL</th>
-                                            <td>
-                                                <input type="url" name="menu_items[<?php echo $index; ?>][url]" value="<?php echo esc_attr($item['url']); ?>" class="regular-text" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Has Dropdown</th>
-                                            <td>
-                                                <label>
-                                                    <input type="checkbox" name="menu_items[<?php echo $index; ?>][has_dropdown]" value="1" <?php checked(!empty($item['has_dropdown'])); ?> />
-                                                    Enable mega dropdown menu
-                                                </label>
-                                            </td>
-                                        </tr>
-                                        <?php if (!empty($item['has_dropdown']) && !empty($item['dropdown_items'])): ?>
-                                        <tr class="wdm-dropdown-section">
-                                            <th scope="row">Dropdown Items</th>
-                                            <td>
-                                                <div class="wdm-dropdown-items">
-                                                    <?php foreach ($item['dropdown_items'] as $dropdown_index => $dropdown_item): ?>
-                                                    <div class="wdm-dropdown-item">
-                                                        <input type="text" name="menu_items[<?php echo $index; ?>][dropdown_items][<?php echo $dropdown_index; ?>][title]" value="<?php echo esc_attr($dropdown_item['title']); ?>" placeholder="Title" />
-                                                        <input type="url" name="menu_items[<?php echo $index; ?>][dropdown_items][<?php echo $dropdown_index; ?>][url]" value="<?php echo esc_attr($dropdown_item['url']); ?>" placeholder="URL" />
-                                                        <button type="button" class="button wdm-remove-dropdown-item">Remove</button>
-                                                    </div>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                                <button type="button" class="button wdm-add-dropdown-item">Add Dropdown Item</button>
-                                            </td>
-                                        </tr>
-                                        <?php endif; ?>
-                                    </table>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    
-                    <div class="wdm-admin-actions">
-                        <button type="button" class="button button-secondary" id="wdm-add-menu-item">Add Menu Item</button>
-                        <button type="button" class="button button-primary" id="wdm-save-menu-items">Save Menu Items</button>
-                    </div>
+            </div>
+            <div class="wdm-item-content">
+                <table class="form-table">
+                    <tr>
+                        <th>Title</th>
+                        <td><input type="text" name="wdm_header_options[menu_items][<?php echo $index; ?>][title]" value="<?php echo esc_attr($item['title'] ?? ''); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th>URL</th>
+                        <td><input type="text" name="wdm_header_options[menu_items][<?php echo $index; ?>][url]" value="<?php echo esc_attr($item['url'] ?? ''); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th>Has Dropdown</th>
+                        <td><label><input type="checkbox" name="wdm_header_options[menu_items][<?php echo $index; ?>][has_dropdown]" value="1" <?php checked($item['has_dropdown'] ?? false, true); ?>> Enable mega dropdown menu</label></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <?php
+    }
+    
+    /**
+     * Render individual utility button
+     */
+    private static function render_utility_button($button, $index) {
+        ?>
+        <div class="wdm-button-item">
+            <div class="wdm-item-header">
+                <strong><?php echo esc_html($button['label'] ?? 'Button'); ?></strong>
+                <div>
+                    <button type="button" class="button wdm-toggle-item">Edit</button>
+                    <button type="button" class="button wdm-remove-item">Remove</button>
                 </div>
-                
-                <!-- Utility Buttons -->
-                <div class="wdm-admin-section">
-                    <h2>Utility Buttons</h2>
-                    <div id="wdm-utility-buttons">
-                        <?php foreach ($utility_buttons as $index => $button): ?>
-                            <div class="wdm-utility-button" data-index="<?php echo $index; ?>">
-                                <div class="wdm-utility-button-header">
-                                    <span class="wdm-utility-button-title"><?php echo esc_html($button['label']); ?></span>
-                                    <div class="wdm-utility-button-controls">
-                                        <button type="button" class="button wdm-toggle-button">Edit</button>
-                                        <button type="button" class="button wdm-remove-button">Remove</button>
-                                        <span class="wdm-drag-handle">≡</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="wdm-utility-button-content" style="display: none;">
-                                    <table class="form-table">
-                                        <tr>
-                                            <th scope="row">Label</th>
-                                            <td>
-                                                <input type="text" name="utility_buttons[<?php echo $index; ?>][label]" value="<?php echo esc_attr($button['label']); ?>" class="regular-text" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">URL</th>
-                                            <td>
-                                                <input type="url" name="utility_buttons[<?php echo $index; ?>][url]" value="<?php echo esc_attr($button['url']); ?>" class="regular-text" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">CSS Class</th>
-                                            <td>
-                                                <input type="text" name="utility_buttons[<?php echo $index; ?>][class]" value="<?php echo esc_attr($button['class']); ?>" class="regular-text" />
-                                                <p class="description">Custom CSS class for styling (e.g., btn-volunteer, btn-donate)</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Target</th>
-                                            <td>
-                                                <select name="utility_buttons[<?php echo $index; ?>][target]">
-                                                    <option value="_self" <?php selected($button['target'], '_self'); ?>>Same window</option>
-                                                    <option value="_blank" <?php selected($button['target'], '_blank'); ?>>New window</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">Visibility</th>
-                                            <td>
-                                                <select name="utility_buttons[<?php echo $index; ?>][visibility]">
-                                                    <option value="both" <?php selected($button['visibility'] ?? 'both', 'both'); ?>>Desktop & Mobile</option>
-                                                    <option value="desktop" <?php selected($button['visibility'] ?? 'both', 'desktop'); ?>>Desktop only</option>
-                                                    <option value="mobile" <?php selected($button['visibility'] ?? 'both', 'mobile'); ?>>Mobile only</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    
-                    <div class="wdm-admin-actions">
-                        <button type="button" class="button button-secondary" id="wdm-add-utility-button">Add Utility Button</button>
-                        <button type="button" class="button button-primary" id="wdm-save-utility-buttons">Save Utility Buttons</button>
-                    </div>
-                </div>
-                
-                <!-- Color Settings -->
-                <div class="wdm-admin-section">
-                    <h2>Color Settings</h2>
-                    <form method="post" action="options.php">
-                        <?php settings_fields('wdm_header_settings'); ?>
-                        
-                        <table class="form-table">
-                            <tr>
-                                <th scope="row">Primary Color</th>
-                                <td>
-                                    <input type="text" name="wdm_header_primary_color" value="<?php echo esc_attr($primary_color); ?>" class="wdm-color-picker" />
-                                    <p class="description">Main header background color.</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Secondary Color</th>
-                                <td>
-                                    <input type="text" name="wdm_header_secondary_color" value="<?php echo esc_attr($secondary_color); ?>" class="wdm-color-picker" />
-                                    <p class="description">Button and accent color.</p>
-                                </td>
-                            </tr>
-                        </table>
-                        
-                        <?php submit_button('Save Color Settings'); ?>
-                    </form>
-                </div>
-                
+            </div>
+            <div class="wdm-item-content">
+                <table class="form-table">
+                    <tr>
+                        <th>Label</th>
+                        <td><input type="text" name="wdm_header_options[utility_buttons][<?php echo $index; ?>][label]" value="<?php echo esc_attr($button['label'] ?? ''); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th>URL</th>
+                        <td><input type="text" name="wdm_header_options[utility_buttons][<?php echo $index; ?>][url]" value="<?php echo esc_attr($button['url'] ?? ''); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th>CSS Class</th>
+                        <td><input type="text" name="wdm_header_options[utility_buttons][<?php echo $index; ?>][class]" value="<?php echo esc_attr($button['class'] ?? ''); ?>" class="regular-text"></td>
+                    </tr>
+                    <tr>
+                        <th>Target</th>
+                        <td>
+                            <select name="wdm_header_options[utility_buttons][<?php echo $index; ?>][target]">
+                                <option value="_self" <?php selected($button['target'] ?? '_self', '_self'); ?>>Same Window</option>
+                                <option value="_blank" <?php selected($button['target'] ?? '_self', '_blank'); ?>>New Window</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <?php
@@ -306,132 +424,106 @@ class WDM_Admin {
      * Get default menu items
      */
     private static function get_default_menu_items() {
-        return array(
-            array(
+        return [
+            [
                 'title' => 'How We Serve',
                 'url' => '#how-we-serve',
                 'has_dropdown' => true,
-                'dropdown_items' => array(
-                    array('title' => 'Emergency Response', 'url' => '#emergency-response'),
-                    array('title' => 'Training Programs', 'url' => '#training'),
-                    array('title' => 'Community Outreach', 'url' => '#community')
-                )
-            ),
-            array(
+                'dropdown_items' => [
+                    ['title' => 'Emergency Response', 'url' => '#emergency-response'],
+                    ['title' => 'Training Programs', 'url' => '#training'],
+                    ['title' => 'Community Outreach', 'url' => '#community']
+                ]
+            ],
+            [
                 'title' => 'About',
                 'url' => '#about',
                 'has_dropdown' => false
-            ),
-            array(
+            ],
+            [
                 'title' => 'Get Involved',
                 'url' => '#get-involved',
-                'has_dropdown' => true,
-                'dropdown_items' => array(
-                    array('title' => 'Volunteer', 'url' => '#volunteer'),
-                    array('title' => 'Donate', 'url' => '#donate'),
-                    array('title' => 'Partner With Us', 'url' => '#partner')
-                )
-            ),
-            array(
+                'has_dropdown' => false
+            ],
+            [
                 'title' => 'News',
                 'url' => '#news',
                 'has_dropdown' => false
-            ),
-            array(
+            ],
+            [
                 'title' => 'Contact',
                 'url' => '#contact',
                 'has_dropdown' => false
-            )
-        );
+            ]
+        ];
     }
     
     /**
      * Get default utility buttons
      */
     private static function get_default_utility_buttons() {
-        return array(
-            array(
+        return [
+            [
                 'label' => 'VOLUNTEER',
                 'url' => '#volunteer',
                 'class' => 'btn-volunteer',
                 'target' => '_self',
-                'visibility' => 'desktop'
-            ),
-            array(
+                'visibility' => 'both'
+            ],
+            [
                 'label' => 'DONATE',
                 'url' => '#donate',
                 'class' => 'btn-donate',
                 'target' => '_blank',
                 'visibility' => 'both'
-            )
-        );
+            ]
+        ];
     }
     
     /**
-     * Save menu items via AJAX
+     * Check for updates and show admin notices
      */
-    public static function save_menu_items() {
-        check_ajax_referer('wdm_admin_nonce', 'nonce');
+    public static function check_for_updates() {
+        $options = get_option('wdm_header_options', []);
         
-        if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
+        if (!($options['enable_auto_updates'] ?? false)) {
+            return;
         }
         
-        $menu_items = isset($_POST['menu_items']) ? $_POST['menu_items'] : array();
+        $github_username = $options['github_username'] ?? '';
+        $github_repo = $options['github_repo'] ?? '';
         
-        // Sanitize menu items
-        $sanitized_items = array();
-        foreach ($menu_items as $item) {
-            $sanitized_item = array(
-                'title' => sanitize_text_field($item['title']),
-                'url' => esc_url_raw($item['url']),
-                'has_dropdown' => !empty($item['has_dropdown'])
-            );
+        if (empty($github_username) || empty($github_repo)) {
+            return;
+        }
+        
+        // Check for updates (simplified version)
+        $current_version = WDM_CUSTOM_HEADER_VERSION;
+        $latest_version = get_transient('wdm_header_latest_version');
+        
+        if ($latest_version === false) {
+            // Fetch latest version from GitHub
+            $github_token = $options['github_token'] ?? '';
+            $response = wp_remote_get("https://api.github.com/repos/{$github_username}/{$github_repo}/releases/latest", [
+                'headers' => $github_token ? ['Authorization' => 'token ' . $github_token] : []
+            ]);
             
-            if (!empty($item['dropdown_items'])) {
-                $sanitized_item['dropdown_items'] = array();
-                foreach ($item['dropdown_items'] as $dropdown_item) {
-                    $sanitized_item['dropdown_items'][] = array(
-                        'title' => sanitize_text_field($dropdown_item['title']),
-                        'url' => esc_url_raw($dropdown_item['url'])
-                    );
-                }
+            if (!is_wp_error($response) && wp_remote_retrieve_response_code($response) === 200) {
+                $body = json_decode(wp_remote_retrieve_body($response), true);
+                $latest_version = ltrim($body['tag_name'] ?? '', 'v');
+                set_transient('wdm_header_latest_version', $latest_version, 12 * HOUR_IN_SECONDS);
             }
-            
-            $sanitized_items[] = $sanitized_item;
         }
         
-        update_option('wdm_header_menu_items', $sanitized_items);
-        
-        wp_send_json_success('Menu items saved successfully.');
-    }
-    
-    /**
-     * Save utility buttons via AJAX
-     */
-    public static function save_utility_buttons() {
-        check_ajax_referer('wdm_admin_nonce', 'nonce');
-        
-        if (!current_user_can('manage_options')) {
-            wp_die(__('You do not have sufficient permissions to access this page.'));
+        if ($latest_version && version_compare($current_version, $latest_version, '<')) {
+            ?>
+            <div class="notice notice-warning is-dismissible">
+                <p>
+                    <strong>WDM Custom Header:</strong> There is a new version available. 
+                    <a href="#" class="button button-primary" onclick="alert('Update functionality would be implemented here')">Update Now</a>
+                </p>
+            </div>
+            <?php
         }
-        
-        $utility_buttons = isset($_POST['utility_buttons']) ? $_POST['utility_buttons'] : array();
-        
-        // Sanitize utility buttons
-        $sanitized_buttons = array();
-        foreach ($utility_buttons as $button) {
-            $sanitized_buttons[] = array(
-                'label' => sanitize_text_field($button['label']),
-                'url' => esc_url_raw($button['url']),
-                'class' => sanitize_html_class($button['class']),
-                'target' => in_array($button['target'], array('_self', '_blank')) ? $button['target'] : '_self',
-                'visibility' => in_array($button['visibility'], array('both', 'desktop', 'mobile')) ? $button['visibility'] : 'both'
-            );
-        }
-        
-        update_option('wdm_header_utility_buttons', $sanitized_buttons);
-        
-        wp_send_json_success('Utility buttons saved successfully.');
     }
 }
