@@ -5,7 +5,7 @@
 
 (function($) {
     'use strict';
-
+  
     // Initialize admin interface
     $(document).ready(function() {
         initializeMenuManagement();
@@ -13,7 +13,7 @@
         initializeTabInterface();
         bindEvents();
     });
-
+  
     /**
      * Initialize menu management functionality
      */
@@ -21,7 +21,7 @@
         updateMenuIndices();
         toggleSubmenuVisibility();
     }
-
+  
     /**
      * Initialize sortable functionality for menu items
      */
@@ -39,7 +39,7 @@
             });
         }
     }
-
+  
     /**
      * Initialize tab interface
      */
@@ -56,7 +56,7 @@
             $('#' + targetTab).addClass('active');
         });
     }
-
+  
     /**
      * Bind all event handlers
      */
@@ -65,13 +65,13 @@
         $(document).on('click', '.wdm-add-menu-item', function() {
             addNewMenuItem();
         });
-
+  
         // Add new submenu item
         $(document).on('click', '.wdm-add-submenu-item', function() {
             var menuIndex = $(this).closest('.wdm-menu-item').data('index');
             addNewSubmenuItem(menuIndex);
         });
-
+  
         // Remove menu item
         $(document).on('click', '.wdm-remove-menu-item', function() {
             if (confirm('Are you sure you want to remove this menu item?')) {
@@ -82,7 +82,7 @@
                 });
             }
         });
-
+  
         // Remove submenu item
         $(document).on('click', '.wdm-remove-submenu-item', function() {
             if (confirm('Are you sure you want to remove this submenu item?')) {
@@ -93,7 +93,7 @@
                 });
             }
         });
-
+  
         // Toggle submenu visibility
         $(document).on('click', '.wdm-toggle-submenu', function() {
             var $submenu = $(this).closest('.wdm-menu-item').find('.wdm-submenu-items');
@@ -102,23 +102,24 @@
             var isHidden = $submenu.hasClass('hidden');
             $(this).text(isHidden ? 'Show Submenu (' + $submenu.find('.wdm-submenu-item').length + ')' : 'Hide Submenu');
         });
-
+  
         // Form field changes
         $(document).on('input change', '.wdm-form-input, .wdm-form-select, .wdm-form-textarea', function() {
             markAsChanged();
         });
-
+  
         // Preview functionality
         $(document).on('click', '.wdm-preview-header', function() {
             generatePreview();
         });
-
+  
         // Form submission
         $('#wdm-menu-settings-form').on('submit', function() {
             showSavingState();
+            return true;
         });
     }
-
+  
     /**
      * Add new menu item
      */
@@ -137,7 +138,7 @@
         }, 500);
         $newItem.find('.wdm-form-input').first().focus();
     }
-
+  
     /**
      * Add new submenu item
      */
@@ -162,7 +163,7 @@
         var $newSubmenu = $submenuContainer.find('.wdm-submenu-item').last();
         $newSubmenu.find('.wdm-form-input').first().focus();
     }
-
+  
     /**
      * Get menu item template
      */
@@ -205,7 +206,7 @@
             </div>
         `;
     }
-
+  
     /**
      * Get submenu item template
      */
@@ -245,7 +246,7 @@
             </div>
         `;
     }
-
+  
     /**
      * Update menu item indices after reordering
      */
@@ -264,7 +265,7 @@
             });
         });
     }
-
+  
     /**
      * Update submenu item indices
      */
@@ -296,7 +297,7 @@
             $toggle.text(isHidden ? 'Show Submenu (' + submenuCount + ')' : 'Hide Submenu');
         });
     }
-
+  
     /**
      * Toggle submenu sections visibility on load
      */
@@ -306,16 +307,11 @@
             var $submenu = $(this).find('.wdm-submenu-items');
             var $toggle = $(this).find('.wdm-toggle-submenu');
             
-            if (submenuCount > 0) {
-                $submenu.removeClass('hidden');
-                $toggle.text('Hide Submenu');
-            } else {
-                $submenu.addClass('hidden');
-                $toggle.text('Show Submenu (0)');
-            }
+            $submenu.addClass('hidden');
+            $toggle.text('Show Submenu (' + submenuCount + ')');
         });
     }
-
+  
     /**
      * Mark form as changed
      */
@@ -325,7 +321,7 @@
             $('.wdm-save-changes-notice').fadeIn();
         }
     }
-
+  
     /**
      * Show saving state
      */
@@ -333,7 +329,7 @@
         $('.wdm-admin-container').addClass('wdm-loading');
         $('input[type="submit"]').val('Saving...').prop('disabled', true);
     }
-
+  
     /**
      * Generate preview of current menu structure
      */
@@ -342,7 +338,7 @@
         var previewHtml = generatePreviewHtml(menuData);
         $('.wdm-preview-content').html(previewHtml);
     }
-
+  
     /**
      * Collect current menu data from form
      */
@@ -374,7 +370,7 @@
         
         return menuItems;
     }
-
+  
     /**
      * Generate preview HTML
      */
@@ -408,7 +404,7 @@
         html += '</ul></div>';
         return html;
     }
-
+  
     /**
      * Warn user about unsaved changes
      */
@@ -417,5 +413,5 @@
             return 'You have unsaved changes. Are you sure you want to leave?';
         }
     });
-
-})(jQuery);
+  
+  })(jQuery);
