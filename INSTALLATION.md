@@ -1,4 +1,4 @@
-# WDM Custom Header - Installation Guide v1.0.1
+# WDM Custom Header - Installation Guide v1.1.0
 
 ## Quick Installation
 
