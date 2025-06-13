@@ -83,36 +83,115 @@ $show_search = $options['show_search'] ?? false;
                 $target = esc_attr($item['target'] ?? '_self');
                 $submenu = $item['submenu'] ?? [];
                 $has_dropdown = !empty($submenu);
+                
                 $dropdown_id = sanitize_title($item['text'] ?? uniqid('nav_'));
               ?>
               <li class="Nav-item <?php echo $has_dropdown ? 'has-megadropdown' : ''; ?>">
-                <?php if ($has_dropdown): ?>
-                  <button class="Nav-toggle Nav-link" type="button" data-expands="<?php echo esc_attr($dropdown_id); ?>" aria-haspopup="true" aria-expanded="false">
-                    <?php echo $text; ?>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" width="11" height="7" aria-hidden="true">
-                      <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="currentColor"/>
-                    </svg>
-                  </button>
-                  <div class="Nav-megaDropdown" id="<?php echo esc_attr($dropdown_id); ?>" aria-hidden="true">
-                    <div class="Nav-megaDropdown-wrapper Nav-megaDropdown-wrap">
-                      <div class="Nav-megaDropdown-col is-col-1">
-                        <ul class="Nav-megaDropdown-list" role="list">
-                          <?php foreach ($submenu as $sub): ?>
-                            <li class="Nav-megaDropdown-item">
-                              <a class="Nav-megaDropdown-link" href="<?php echo esc_url($sub['url'] ?? '#'); ?>" target="<?php echo esc_attr($sub['target'] ?? '_self'); ?>">
-                                <?php echo esc_html($sub['text'] ?? ''); ?>
-                              </a>
-                            </li>
-                          <?php endforeach; ?>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                <?php else: ?>
-                  <a class="Nav-link" href="<?php echo $url; ?>" target="<?php echo $target; ?>">
-                    <?php echo $text; ?>
-                  </a>
-                <?php endif; ?>
+              <?php if ($has_dropdown): ?>
+  <button class="Nav-toggle Nav-link" type="button" data-expands="<?php echo esc_attr($dropdown_id); ?>" aria-haspopup="true" aria-expanded="false">
+    <?php echo $text; ?>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11 7" width="11" height="7" aria-hidden="true">
+      <path d="M10.5 1.45L5.55 6.4.6 1.45 2.01.04l3.54 3.53L9.09.04z" fill="currentColor"/>
+    </svg>
+  </button>
+
+  <?php if (!empty($item['mega_menu']) && $item['mega_menu'] == 1): ?>
+<!-- Mega Dropdown -->
+<div class="Nav-megaDropdown" id="<?php echo esc_attr($dropdown_id); ?>" aria-hidden="true">
+  <div class="Nav-megaDropdown-wrapper Nav-megaDropdown-wrap">
+
+    <!-- Column 1: Title & Description -->
+    <div class="Nav-megaDropdown-col is-col-1">
+      <div class="Nav-megaDropdown-content">
+        <a id="mega-dropdown-title-<?php echo esc_attr($dropdown_id); ?>" class="Nav-megaDropdown-title is-col-1" href="<?php echo esc_url($url); ?>">
+          <?php echo $text; ?>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+            <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+            <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+          </svg>
+        </a>
+        <?php if (!empty($item['description'])): ?>
+          <p class="Nav-megaDropdown-description"><?php echo esc_html($item['description']); ?></p>
+        <?php endif; ?>
+      </div>
+    </div>
+
+    <!-- Column 2 -->
+    <?php if (!empty($item['columns'][0]['title']) || !empty($item['columns'][0]['links'])): ?>
+      <div class="Nav-megaDropdown-col is-col-2">
+        <?php if (!empty($item['columns'][0]['title'])): ?>
+          <p id="mega-dropdown-title-<?php echo esc_attr($dropdown_id); ?>-col2" class="Nav-megaDropdown-header">
+            <?php echo esc_html($item['columns'][0]['title']); ?>
+          </p>
+        <?php endif; ?>
+        <ul class="Nav-megaDropdown-list" aria-labelledby="mega-dropdown-title-<?php echo esc_attr($dropdown_id); ?>-col2" role="list">
+          <?php foreach ($item['columns'][0]['links'] ?? [] as $link): ?>
+            <li class="Nav-megaDropdown-item">
+              <a href="<?php echo esc_url($link['url'] ?? '#'); ?>" class="Nav-megaDropdown-link">
+                <?php echo esc_html($link['text'] ?? ''); ?>
+              </a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+
+    <!-- Column 3 -->
+    <?php if (!empty($item['columns'][1]['title']) || !empty($item['columns'][1]['links'])): ?>
+      <div class="Nav-megaDropdown-col is-col-3">
+        <?php if (!empty($item['columns'][1]['title'])): ?>
+          <p id="mega-dropdown-title-<?php echo esc_attr($dropdown_id); ?>-col3" class="Nav-megaDropdown-header">
+            <?php echo esc_html($item['columns'][1]['title']); ?>
+          </p>
+        <?php endif; ?>
+        <ul class="Nav-megaDropdown-list" aria-labelledby="mega-dropdown-title-<?php echo esc_attr($dropdown_id); ?>-col3" role="list">
+          <?php foreach ($item['columns'][1]['links'] ?? [] as $link): ?>
+            <li class="Nav-megaDropdown-item">
+              <a href="<?php echo esc_url($link['url'] ?? '#'); ?>" class="Nav-megaDropdown-link">
+                <?php echo esc_html($link['text'] ?? ''); ?>
+              </a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+
+  </div>
+</div>
+  <?php else: ?>
+    <!-- Standard Dropdown -->
+    <div class="Nav-dropdown" id="<?php echo esc_attr($dropdown_id); ?>" aria-hidden="true">
+      <div class="Nav-dropdown-wrap">
+        <ul class="Nav-dropdown-list" role="list">
+          <?php if (!empty($item['text']) || !empty($item['description'])): ?>
+            <li class="Nav-dropdown-parent">
+              <a class="Nav-dropdown-title" href="<?php echo esc_url($url); ?>">
+                <?php echo esc_html($item['text']); ?>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
+                  <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
+                  <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
+                </svg>
+              </a>
+              <?php if (!empty($item['description'])): ?>
+                <p class="Nav-dropdown-description"><?php echo esc_html($item['description']); ?></p>
+              <?php endif; ?>
+            </li>
+          <?php endif; ?>
+          <?php foreach ($submenu as $index => $sub): ?>
+            <li class="Nav-dropdown-item animate-nav-dropdown-<?php echo $index + 1; ?>">
+              <a class="Nav-dropdown-link" href="<?php echo esc_url($sub['url'] ?? '#'); ?>"><?php echo esc_html($sub['text'] ?? ''); ?></a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    </div>
+  <?php endif; ?>
+<?php else: ?>
+  <a class="Nav-link" href="<?php echo $url; ?>" target="<?php echo $target; ?>">
+    <?php echo $text; ?>
+  </a>
+<?php endif; ?>
+
               </li>
             <?php endforeach; ?>
           </ul>

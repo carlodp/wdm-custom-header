@@ -196,12 +196,15 @@ class WDM_Main_Navigation {
 
 ?>
 
+<!--
+
 <hr>
 <h3>🔍 Raw Saved Data (Debug)</h3>
 <pre style="background: #f9f9f9; padding: 1em; border: 1px solid #ccc;     width: 63%;
     margin-left: 200px;">
-<?php
-$raw_menu_data = get_option('wdm_menu_items', []);
-print_r($raw_menu_data);
+    <?php
+//$raw_menu_data = get_option('wdm_menu_items', []); print_r($raw_menu_data);
 ?>
 </pre>
+
+-->
