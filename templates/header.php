@@ -9,8 +9,10 @@ if (!defined('ABSPATH')) exit;
 $options = get_option('wdm_header_options', []);
 $menu_items = get_option('wdm_menu_items', []); // ✅ Pull from the correct option
 
-$logo_url = esc_url($logo_url ?? '');
-$logo_alt = esc_attr($logo_alt ?? '');
+// Fetch and sanitize logo values
+$logo_url = esc_url($options['logo_url'] ?? '');
+$logo_alt = esc_attr($options['org_name'] ?? 'Site Logo');
+
 $volunteer = [
   'label' => $options['volunteer_text'] ?? 'Volunteer',
   'url' => $options['volunteer_url'] ?? '#volunteer'
@@ -26,7 +28,7 @@ $show_search = $options['show_search'] ?? false;
   <div class="wdm-header-container">
 
     <h1 class="wdm-logo">
-      <a class="wdm-logo-link" href="/">
+      <a class="wdm-logo-link" href="<?php echo esc_url($options['home_url'] ?? '/'); ?>">
         <span class="wdm-screen-reader"><?php echo $logo_alt; ?></span>
         <img src="<?php echo $logo_url; ?>" alt="<?php echo $logo_alt; ?>" class="wdm-logo-image">
       </a>
