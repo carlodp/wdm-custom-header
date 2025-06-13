@@ -3,7 +3,7 @@
  * Plugin Name: WDM Custom Header
  * Plugin URI: https://greybullrescue.org
  * Description: A custom responsive header with mega menu functionality for Grey Bull Rescue.
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: WDM Developer
  * License: GPL v2 or later
  * Text Domain: wdm-custom-header
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('WDM_CUSTOM_HEADER_VERSION', '1.2.0');
+define('WDM_CUSTOM_HEADER_VERSION', '1.2.1');
 define('WDM_CUSTOM_HEADER_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WDM_CUSTOM_HEADER_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
@@ -129,7 +129,7 @@ class WDM_Custom_Header_Plugin {
  * Helper function to display header
  */
 function wdm_display_header() {
-    $template_path = WDM_CUSTOM_HEADER_PLUGIN_PATH . 'templates/header-dynamic.php';
+    $template_path = WDM_CUSTOM_HEADER_PLUGIN_PATH . 'templates/header.php';
     if (file_exists($template_path)) {
         include $template_path;
     }
@@ -159,7 +159,7 @@ function wdm_custom_header_shortcode($atts) {
     );
     
     // Include the header template
-    $template_path = WDM_CUSTOM_HEADER_PLUGIN_PATH . 'templates/header-dynamic.php';
+    $template_path = WDM_CUSTOM_HEADER_PLUGIN_PATH . 'templates/header.php';
     if (file_exists($template_path)) {
         include $template_path;
     } else {

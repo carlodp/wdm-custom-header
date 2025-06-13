@@ -8,6 +8,55 @@
     margin: 20px 0;
   }
   
+  /* Tab Navigation */
+  .wdm-tab-nav {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 0;
+    display: flex;
+    overflow: hidden;
+  }
+  
+  .wdm-tab-nav button {
+    background: #f8f9fa;
+    border: none;
+    border-right: 1px solid #ddd;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    transition: all 0.2s;
+    flex: 1;
+  }
+  
+  .wdm-tab-nav button:last-child {
+    border-right: none;
+  }
+  
+  .wdm-tab-nav button:hover {
+    background: #e9ecef;
+    color: #333;
+  }
+  
+  .wdm-tab-nav button.active {
+    background: #0073aa;
+    color: #fff;
+  }
+  
+  /* Tab Content */
+  .wdm-tab-content {
+    display: none;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+  }
+  
+  .wdm-tab-content.active {
+    display: block;
+  }
+  
   .wdm-admin-header {
     background: #fff;
     border: 1px solid #ddd;

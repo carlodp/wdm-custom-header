@@ -60,6 +60,12 @@ if (!function_exists('esc_url')) {
     }
 }
 
+if (!function_exists('esc_attr')) {
+    function esc_attr($text) {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    }
+}
+
 // Simulate WordPress constants
 define('ABSPATH', __DIR__ . '/');
 
@@ -71,7 +77,12 @@ $atts = array(
 
 // Get the header HTML directly from template
 ob_start();
-include __DIR__ . '/templates/header-dynamic.php';
+$template_file = __DIR__ . '/templates/header.php';
+if (file_exists($template_file)) {
+    include $template_file;
+} else {
+    echo '<div style="color: red;">Template not found: ' . $template_file . '</div>';
+}
 $header_html = ob_get_clean();
 ?>
 <!DOCTYPE html>
