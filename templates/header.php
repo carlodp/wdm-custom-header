@@ -102,19 +102,20 @@ $show_search = $options['show_search'] ?? false;
 
     <!-- Column 1: Title & Description -->
     <div class="Nav-megaDropdown-col is-col-1">
-      <div class="Nav-megaDropdown-content">
+    <div class="Nav-megaDropdown-content">
         <a id="mega-dropdown-title-<?php echo esc_attr($dropdown_id); ?>" class="Nav-megaDropdown-title is-col-1" href="<?php echo esc_url($url); ?>">
-          <?php echo $text; ?>
+          <?php echo esc_html($item['submenu'][0]['text'] ?? ''); ?>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
             <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
             <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
           </svg>
         </a>
-        <?php if (!empty($item['description'])): ?>
-          <p class="Nav-megaDropdown-description"><?php echo esc_html($item['description']); ?></p>
+        <?php if (!empty($item['submenu'][0]['description'])): ?>
+          <p class="Nav-megaDropdown-description"><?php echo wp_kses_post(stripslashes($item['submenu'][0]['description'])); ?></p>
         <?php endif; ?>
       </div>
     </div>
+
 
     <!-- Column 2 -->
     <?php if (!empty($item['columns'][0]['title']) || !empty($item['columns'][0]['links'])): ?>
@@ -166,25 +167,30 @@ $show_search = $options['show_search'] ?? false;
           <?php if (!empty($item['text']) || !empty($item['description'])): ?>
             <li class="Nav-dropdown-parent">
               <a class="Nav-dropdown-title" href="<?php echo esc_url($url); ?>">
-                <?php echo esc_html($item['text']); ?>
+                <?php echo esc_html($item['submenu'][0]['text'] ?? ''); ?>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
                   <circle cx="12" cy="12" r="11" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></circle>
                   <path d="m10.213 7.15 5.215 5.215-5.215 5.215" stroke="var(--icon-color, #D0D3D4)" stroke-width="2"></path>
                 </svg>
               </a>
-              <?php if (!empty($item['description'])): ?>
-                <p class="Nav-dropdown-description"><?php echo esc_html($item['description']); ?></p>
+              <?php if (!empty($item['submenu'][0]['description'])): ?>
+                <p class="Nav-megaDropdown-description"><?php echo wp_kses_post(stripslashes($item['submenu'][0]['description'])); ?></p>
               <?php endif; ?>
             </li>
           <?php endif; ?>
+
           <?php foreach ($submenu as $index => $sub): ?>
+            <?php if ($index === 0) continue; ?>
             <li class="Nav-dropdown-item animate-nav-dropdown-<?php echo $index + 1; ?>">
-              <a class="Nav-dropdown-link" href="<?php echo esc_url($sub['url'] ?? '#'); ?>"><?php echo esc_html($sub['text'] ?? ''); ?></a>
+              <a class="Nav-dropdown-link" href="<?php echo esc_url($sub['url'] ?? '#'); ?>">
+                <?php echo esc_html($sub['text'] ?? ''); ?>
+              </a>
             </li>
           <?php endforeach; ?>
         </ul>
       </div>
     </div>
+
   <?php endif; ?>
 <?php else: ?>
   <a class="Nav-link" href="<?php echo $url; ?>" target="<?php echo $target; ?>">

@@ -246,13 +246,15 @@
                     </div>
                 </div>
                 
-                <div class="wdm-form-row">
-                    <div class="wdm-form-col">
+                ${submenuIndex === 0 ? `
+                    <div class="wdm-form-row">
+                      <div class="wdm-form-col">
                         <label class="wdm-form-label">Description</label>
                         <textarea name="wdm_menu_items[${menuIndex}][submenu][${submenuIndex}][description]" class="wdm-form-input wdm-form-textarea" placeholder="Optional description for mega menu"></textarea>
                         <div class="wdm-help-text">Brief description shown in mega menu dropdowns</div>
+                      </div>
                     </div>
-                </div>
+                  ` : ''}                  
             </div>
         `;
     }

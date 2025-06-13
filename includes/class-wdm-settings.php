@@ -103,14 +103,20 @@ class WDM_Settings {
             if (isset($item['submenu']) && is_array($item['submenu'])) {
                 foreach ($item['submenu'] as $sub_index => $sub_item) {
                     if (!is_array($sub_item)) continue;
-
+                
                     $sanitized_sub = array();
                     $sanitized_sub['text'] = isset($sub_item['text']) ? sanitize_text_field($sub_item['text']) : '';
                     $sanitized_sub['url']  = isset($sub_item['url']) ? esc_url_raw($sub_item['url']) : '';
                     $sanitized_sub['target'] = isset($sub_item['target']) && in_array($sub_item['target'], array('_self', '_blank')) ? $sub_item['target'] : '_self';
-
+                
+                    // ✅ Only include 'description' for Main Submenu (index 0)
+                    if ($sub_index === 0 && isset($sub_item['description'])) {
+                        $sanitized_sub['description'] = wp_kses_post($sub_item['description']);
+                    }
+                
                     $sanitized_item['submenu'][] = $sanitized_sub;
                 }
+                
             }
 
             $sanitized[] = $sanitized_item;

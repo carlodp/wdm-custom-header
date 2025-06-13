@@ -59,7 +59,7 @@ class WDM_Main_Navigation {
 
     private function process_menu_submission() {
         $menu_items = array();
-        
+    
         if (isset($_POST['wdm_menu_items']) && is_array($_POST['wdm_menu_items'])) {
             foreach ($_POST['wdm_menu_items'] as $index => $item) {
                 if (!empty($item['text'])) {
@@ -69,31 +69,68 @@ class WDM_Main_Navigation {
                         'target'     => sanitize_text_field($item['target']),
                         'mega_menu'  => isset($item['mega_menu']) && $item['mega_menu'] === '1' ? '1' : '0'
                     );
-
-                    $submenu_items123 = array();
+    
+                    // ✅ Submenu block — correctly structured
+                    $submenu_items = array();
                     if (!empty($item['submenu']) && is_array($item['submenu'])) {
                         foreach ($item['submenu'] as $sub_index => $sub_item) {
                             if (!empty($sub_item['text'])) {
-                                $submenu_items123[$sub_index] = array(
-                                    'text'        => sanitize_text_field($sub_item['text']),
-                                    'url'         => esc_url_raw($sub_item['url']),
-                                    'target'      => sanitize_text_field($sub_item['target']),
-                                    'description' => sanitize_text_field($sub_item['description'] ?? '')
+                                $submenu_item = array(
+                                    'text'   => sanitize_text_field($sub_item['text']),
+                                    'url'    => esc_url_raw($sub_item['url']),
+                                    'target' => sanitize_text_field($sub_item['target']),
                                 );
+    
+                                if ($sub_index == 0) {
+                                    $submenu_item['description'] = wp_kses_post($sub_item['description'] ?? '');
+                                }
+    
+                                $submenu_items[$sub_index] = $submenu_item;
                             }
                         }
                     }
-
-                    $menu_item['submenu'] = $submenu_items123; // Always set submenu
+    
+                    $menu_item['submenu'] = $submenu_items;
+    
+                    // ✅ Mega Menu Columns block
+                    if (!empty($menu_item['mega_menu']) && $menu_item['mega_menu'] === '1') {
+                        $columns = [];
+    
+                        if (!empty($item['columns']) && is_array($item['columns'])) {
+                            foreach ($item['columns'] as $col_index => $column) {
+                                $col_title = sanitize_text_field($column['title'] ?? '');
+                                $links = [];
+    
+                                if (!empty($column['links']) && is_array($column['links'])) {
+                                    foreach ($column['links'] as $link) {
+                                        if (!empty($link['text'])) {
+                                            $links[] = array(
+                                                'text' => sanitize_text_field($link['text']),
+                                                'url'  => esc_url_raw($link['url'] ?? '#'),
+                                            );
+                                        }
+                                    }
+                                }
+    
+                                $columns[] = array(
+                                    'title' => $col_title,
+                                    'links' => $links
+                                );
+                            }
+                        }
+    
+                        $menu_item['columns'] = $columns;
+                    }
+    
                     $menu_items[$index] = $menu_item;
                 }
             }
         }
-
+    
         update_option('wdm_menu_items', $menu_items);
         error_log('Menu items updated: ' . print_r($menu_items, true));
         return $menu_items;
-    }
+    }    
 
     private function render_menu_items($menu_items) {
         if (!is_array($menu_items)) return;
@@ -151,16 +188,18 @@ class WDM_Main_Navigation {
         }
     }
 
-    private function render_submenu_items($menu_index, $submenu_items123) {
-        foreach ($submenu_items123 as $sub_index => $sub_item) {
+    private function render_submenu_items($menu_index, $submenu_items) {
+        foreach ($submenu_items as $sub_index => $sub_item) {
             $text = esc_attr($sub_item['text'] ?? '');
             $url  = esc_attr($sub_item['url'] ?? '');
             $target = esc_attr($sub_item['target'] ?? '_self');
-            $description = esc_textarea($sub_item['description'] ?? '');
+            $description = esc_textarea(stripslashes($sub_item['description'] ?? ''));
     ?>
             <div class="wdm-submenu-item" data-submenu-index="<?php echo $sub_index; ?>">
                 <div class="wdm-submenu-item-header">
-                    <span class="wdm-submenu-title">Submenu Item <?php echo $sub_index + 1; ?></span>
+                    <span class="wdm-submenu-title">
+                        <?php echo ($sub_index === 0) ? 'Main Submenu' : 'Submenu Item ' . ($sub_index + 1); ?>
+                    </span>
                     <button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-submenu-item">Remove</button>
                 </div>
                 
@@ -182,19 +221,24 @@ class WDM_Main_Navigation {
                     </div>
                 </div>
     
-                <div class="wdm-form-row">
-                    <div class="wdm-form-col">
-                        <label class="wdm-form-label">Description</label>
-                        <textarea name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][description]" class="wdm-form-input wdm-form-textarea"><?php echo $description; ?></textarea>
+                <?php if ($sub_index === 0): ?>
+                    <div class="wdm-form-row">
+                        <div class="wdm-form-col">
+                            <label class="wdm-form-label">Description</label>
+                            <textarea name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][description]" class="wdm-form-input wdm-form-textarea"><?php echo $description; ?></textarea>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
             </div>
     <?php
         }
-    }    
+    }
+    
+      
 }
 
 ?>
+
 
 <!--
 
@@ -203,7 +247,7 @@ class WDM_Main_Navigation {
 <pre style="background: #f9f9f9; padding: 1em; border: 1px solid #ccc;     width: 63%;
     margin-left: 200px;">
     <?php
-//$raw_menu_data = get_option('wdm_menu_items', []); print_r($raw_menu_data);
+    //$raw_menu_data = get_option('wdm_menu_items', []); print_r($raw_menu_data);
 ?>
 </pre>
 
