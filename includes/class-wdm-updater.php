@@ -42,14 +42,27 @@ class WDM_Updater {
             return $transient;
         }
         
+        // Initialize response array if it doesn't exist
+        if (!isset($transient->response)) {
+            $transient->response = array();
+        }
+        
+        // Check if our plugin is in the checked array
+        if (!isset($transient->checked[$this->plugin_slug])) {
+            return $transient;
+        }
+        
         $remote_version = $this->get_remote_version();
         
         if ($remote_version && version_compare($this->version, $remote_version, '<')) {
             $transient->response[$this->plugin_slug] = (object) array(
                 'slug' => $this->plugin_slug,
+                'plugin' => $this->plugin_slug,
                 'new_version' => $remote_version,
                 'url' => $this->get_github_repo_url(),
-                'package' => $this->get_download_url()
+                'package' => $this->get_download_url(),
+                'tested' => '6.4',
+                'compatibility' => new stdClass()
             );
         }
         
@@ -103,7 +116,7 @@ class WDM_Updater {
             return $result;
         }
         
-        if ($args->slug !== $this->plugin_slug) {
+        if (!isset($args->slug) || $args->slug !== $this->plugin_slug) {
             return $result;
         }
         
