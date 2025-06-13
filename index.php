@@ -66,6 +66,12 @@ if (!function_exists('esc_attr')) {
     }
 }
 
+if (!function_exists('sanitize_title')) {
+    function sanitize_title($title) {
+        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
+    }
+}
+
 // Simulate WordPress constants
 define('ABSPATH', __DIR__ . '/');
 

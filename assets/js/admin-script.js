@@ -316,10 +316,8 @@
      * Mark form as changed
      */
     function markAsChanged() {
-        if (!$('body').hasClass('wdm-form-changed')) {
-            $('body').addClass('wdm-form-changed');
-            $('.wdm-save-changes-notice').fadeIn();
-        }
+        // Remove form change tracking to prevent "Leave site?" dialog
+        // Form changes are now tracked internally without browser intervention
     }
   
     /**

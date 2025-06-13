@@ -7,7 +7,7 @@
 if (!defined('ABSPATH')) exit;
 
 $options = get_option('wdm_header_options', []);
-$menu_items = get_option('wdm_menu_items', []);
+$menu_items = get_option('wdm_header_menu_data', []);
 
 $logo_url = esc_url($logo_url ?? '');
 $logo_alt = esc_attr($logo_alt ?? '');
@@ -37,8 +37,7 @@ $show_search = $options['show_search'] ?? false;
       <nav class="wdm-nav-secondary" aria-label="Secondary" id="secondary-nav">
         <div class="wdm-utility-nav">
           <ul class="wdm-utility-list is-desktop" role="list">
-            <!-- Placeholder for future utility items -->
-            <pre><?php print_r(get_option('wdm_menu_items')); ?></pre>
+            <!-- Dynamic utility navigation items would go here -->
           </ul>
 
           <div class="wdm-utility-buttons">
@@ -60,7 +59,7 @@ $show_search = $options['show_search'] ?? false;
 
           <?php foreach ($menu_items as $item): ?>
             <li class="Nav-item <?php echo (!empty($item['submenu']) ? 'has-megadropdown' : ''); ?>">
-              <?php if (!empty($item['submenu'])): ?>
+              <?php if (!empty($item['submenu_items']) || !empty($item['submenu'])): ?>
                 <?php $dropdown_id = sanitize_title($item['text'] ?? uniqid('nav_')); ?>
                 <button class="Nav-toggle Nav-link" type="button" data-expands="<?php echo esc_attr($dropdown_id); ?>" aria-haspopup="true" aria-expanded="false">
                   <?php echo esc_html($item['text']); ?>
@@ -70,7 +69,7 @@ $show_search = $options['show_search'] ?? false;
                   <div class="Nav-megaDropdown-wrapper Nav-megaDropdown-wrap">
                     <div class="Nav-megaDropdown-col is-col-1">
                       <ul class="Nav-megaDropdown-list" role="list">
-                        <?php foreach ($item['submenu'] as $sub): ?>
+                        <?php foreach (($item['submenu_items'] ?? $item['submenu'] ?? []) as $sub): ?>
                           <li class="Nav-megaDropdown-item">
                             <a class="Nav-megaDropdown-link" href="<?php echo esc_url($sub['url']); ?>" target="<?php echo esc_attr($sub['target']); ?>">
                               <?php echo esc_html($sub['text']); ?>
