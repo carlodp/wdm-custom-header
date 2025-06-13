@@ -95,7 +95,10 @@ class WDM_Settings {
             $sanitized_item['text']   = isset($item['text']) ? sanitize_text_field($item['text']) : '';
             $sanitized_item['url']    = isset($item['url']) ? esc_url_raw($item['url']) : '';
             $sanitized_item['target'] = isset($item['target']) && in_array($item['target'], array('_self', '_blank')) ? $item['target'] : '_self';
-            $sanitized_item['submenu_items'] = array();
+            $sanitized_item['mega_menu'] = isset($item['mega_menu']) && $item['mega_menu'] === '1' ? true : false;
+
+            
+            $sanitized_item['submenu'] = array();
 
             if (isset($item['submenu']) && is_array($item['submenu'])) {
                 foreach ($item['submenu'] as $sub_index => $sub_item) {
@@ -106,7 +109,7 @@ class WDM_Settings {
                     $sanitized_sub['url']  = isset($sub_item['url']) ? esc_url_raw($sub_item['url']) : '';
                     $sanitized_sub['target'] = isset($sub_item['target']) && in_array($sub_item['target'], array('_self', '_blank')) ? $sub_item['target'] : '_self';
 
-                    $sanitized_item['submenu_items'][] = $sanitized_sub;
+                    $sanitized_item['submenu'][] = $sanitized_sub;
                 }
             }
 

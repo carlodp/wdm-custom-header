@@ -199,6 +199,16 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="wdm-form-row">
+                    <div class="wdm-form-col wdm-form-col-full">
+                        <label class="wdm-form-label">
+                        <input type="hidden" name="wdm_menu_items[${index}][mega_menu]" value="0" />
+                        <input type="checkbox" name="wdm_menu_items[${index}][mega_menu]" value="1" />
+                        Enable Mega Menu
+                        </label>
+                    </div>
+                </div>
                 
                 <div class="wdm-submenu-items hidden">
                     <!-- Submenu items will be added here -->
