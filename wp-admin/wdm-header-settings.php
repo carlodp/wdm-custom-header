@@ -219,20 +219,22 @@ function get_default_utility_buttons() {
                                                 </label>
                                             </td>
                                         </tr>
-                                        <?php if (!empty($item['has_dropdown']) && !empty($item['dropdown_items'])): ?>
+                                        <?php if (!empty($item['has_dropdown'])): ?>
                                         <tr class="dropdown-section">
                                             <th>Dropdown Items</th>
                                             <td>
                                                 <div class="dropdown-items">
-                                                    <?php foreach ($item['dropdown_items'] as $d_index => $dropdown_item): ?>
-                                                    <div class="dropdown-item">
-                                                        <input type="text" name="menu_items[<?php echo $index; ?>][dropdown_items][<?php echo $d_index; ?>][title]" value="<?php echo htmlspecialchars($dropdown_item['title']); ?>" placeholder="Title" class="form-control">
-                                                        <input type="text" name="menu_items[<?php echo $index; ?>][dropdown_items][<?php echo $d_index; ?>][url]" value="<?php echo htmlspecialchars($dropdown_item['url']); ?>" placeholder="URL" class="form-control">
-                                                        <button type="button" class="btn btn-danger" onclick="removeDropdownItem(this)">Remove</button>
-                                                    </div>
-                                                    <?php endforeach; ?>
+                                                    <?php if (!empty($item['dropdown_items'])): ?>
+                                                        <?php foreach ($item['dropdown_items'] as $d_index => $dropdown_item): ?>
+                                                        <div class="dropdown-item">
+                                                            <input type="text" name="menu_items[<?php echo $index; ?>][dropdown_items][<?php echo $d_index; ?>][title]" value="<?php echo htmlspecialchars($dropdown_item['title']); ?>" placeholder="Title" class="form-control">
+                                                            <input type="text" name="menu_items[<?php echo $index; ?>][dropdown_items][<?php echo $d_index; ?>][url]" value="<?php echo htmlspecialchars($dropdown_item['url']); ?>" placeholder="URL" class="form-control">
+                                                            <button type="button" class="btn btn-danger" onclick="removeDropdownItem(this)">Remove</button>
+                                                        </div>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary" onclick="addDropdownItem(this)">Add Dropdown Item</button>
+                                                <button type="button" class="btn btn-secondary" onclick="addDropdownItem(this, <?php echo $index; ?>)">Add Dropdown Item</button>
                                             </td>
                                         </tr>
                                         <?php endif; ?>
@@ -415,8 +417,17 @@ function get_default_utility_buttons() {
             button.closest('.dropdown-item').remove();
         }
         
-        function addDropdownItem(button) {
-            console.log('Add dropdown item functionality');
+        function addDropdownItem(button, menuIndex) {
+            const container = button.closest('td').querySelector('.dropdown-items');
+            const dropdownIndex = container.children.length;
+            const template = `
+                <div class="dropdown-item">
+                    <input type="text" name="menu_items[${menuIndex}][dropdown_items][${dropdownIndex}][title]" value="" placeholder="Title" class="form-control">
+                    <input type="text" name="menu_items[${menuIndex}][dropdown_items][${dropdownIndex}][url]" value="" placeholder="URL" class="form-control">
+                    <button type="button" class="btn btn-danger" onclick="removeDropdownItem(this)">Remove</button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', template);
         }
     </script>
 </body>

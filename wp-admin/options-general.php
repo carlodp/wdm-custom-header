@@ -496,7 +496,7 @@ function get_default_utility_buttons() {
                 <li><a href="#general">General</a></li>
                 <li><a href="#writing">Writing</a></li>
                 <li><a href="#reading">Reading</a></li>
-                <li><a href="options-general.php?page=wdm-header-settings" class="current">WDM Header</a></li>
+                <li><a href="wdm-header-settings.php" class="current">WDM Header</a></li>
             </ul>
         </div>
     </div>

@@ -270,7 +270,7 @@ define('ABSPATH', dirname(__DIR__) . '/');
                 <li><a href="#general">General</a></li>
                 <li><a href="#writing">Writing</a></li>
                 <li><a href="#reading">Reading</a></li>
-                <li><a href="options-general.php?page=wdm-header-settings" class="current">WDM Header</a></li>
+                <li><a href="wdm-settings.php">WDM Header</a></li>
             </ul>
         </div>
     </div>
@@ -298,7 +298,7 @@ define('ABSPATH', dirname(__DIR__) . '/');
                 <div class="inside">
                     <p>Your custom header is active and configured. Manage all header settings including navigation menu, utility buttons, and styling options.</p>
                     <p style="margin-top: 15px;">
-                        <a href="options-general.php?page=wdm-header-settings" class="btn">Header Settings</a>
+                        <a href="wdm-settings.php" class="btn">Header Settings</a>
                         <a href="../" class="btn btn-secondary" style="margin-left: 10px;">View Site</a>
                     </p>
                 </div>
