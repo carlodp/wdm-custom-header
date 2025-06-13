@@ -84,6 +84,13 @@ class WDM_Settings {
         $sanitized['github_repo'] = isset($input['github_repo']) ? sanitize_text_field($input['github_repo']) : '';
         $sanitized['auto_update'] = isset($input['auto_update']) ? '1' : '0';
         
+        // Utility navigation settings
+        $sanitized['volunteer_text'] = isset($input['volunteer_text']) ? sanitize_text_field($input['volunteer_text']) : 'Volunteer';
+        $sanitized['volunteer_url'] = isset($input['volunteer_url']) ? esc_url_raw($input['volunteer_url']) : '#volunteer';
+        $sanitized['donate_text'] = isset($input['donate_text']) ? sanitize_text_field($input['donate_text']) : 'Donate';
+        $sanitized['donate_url'] = isset($input['donate_url']) ? esc_url_raw($input['donate_url']) : '#donate';
+        $sanitized['show_search'] = isset($input['show_search']) ? '1' : '0';
+        
         return $sanitized;
     }
     
@@ -144,17 +151,32 @@ class WDM_Settings {
         }
         
         $api_url = "https://api.github.com/repos/{$username}/{$repo}/releases/latest";
-        $response = wp_remote_get($api_url);
+        $response = wp_remote_get($api_url, array(
+            'timeout' => 30,
+            'headers' => array(
+                'User-Agent' => 'WDM-Custom-Header-Plugin'
+            )
+        ));
         
         if (is_wp_error($response)) {
-            wp_send_json_error('Failed to connect to GitHub API');
+            wp_send_json_error('Failed to connect to GitHub API: ' . $response->get_error_message());
         }
         
+        $response_code = wp_remote_retrieve_response_code($response);
         $body = wp_remote_retrieve_body($response);
+        
+        if ($response_code !== 200) {
+            wp_send_json_error('GitHub API returned error code: ' . $response_code . '. Response: ' . $body);
+        }
+        
         $release = json_decode($body, true);
         
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            wp_send_json_error('Invalid JSON response from GitHub API');
+        }
+        
         if (isset($release['tag_name'])) {
-            $remote_version = $release['tag_name'];
+            $remote_version = ltrim($release['tag_name'], 'v');
             $current_version = WDM_CUSTOM_HEADER_VERSION;
             
             if (version_compare($current_version, $remote_version, '<')) {
@@ -162,7 +184,7 @@ class WDM_Settings {
                     'update_available' => true,
                     'current_version' => $current_version,
                     'remote_version' => $remote_version,
-                    'download_url' => $release['zipball_url']
+                    'download_url' => isset($release['zipball_url']) ? $release['zipball_url'] : ''
                 ));
             } else {
                 wp_send_json_success(array(
@@ -172,7 +194,7 @@ class WDM_Settings {
                 ));
             }
         } else {
-            wp_send_json_error('Invalid response from GitHub API');
+            wp_send_json_error('No release information found. Make sure the repository has releases.');
         }
     }
     
@@ -430,6 +452,45 @@ class WDM_Settings {
                                         <input type="checkbox" name="wdm_header_options[load_css]" value="1" <?php checked(isset($options['load_css']) ? $options['load_css'] : '1', '1'); ?> />
                                         <label>Enable default header styles</label>
                                         <p class="description">Uncheck to use your own custom CSS styles.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <h3>Utility Navigation Settings</h3>
+                            <table class="form-table">
+                                <tr>
+                                    <th scope="row">Volunteer Button Text</th>
+                                    <td>
+                                        <input type="text" name="wdm_header_options[volunteer_text]" value="<?php echo esc_attr(isset($options['volunteer_text']) ? $options['volunteer_text'] : 'Volunteer'); ?>" class="regular-text" />
+                                        <p class="description">Text for the volunteer button in utility navigation.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Volunteer Button URL</th>
+                                    <td>
+                                        <input type="url" name="wdm_header_options[volunteer_url]" value="<?php echo esc_attr(isset($options['volunteer_url']) ? $options['volunteer_url'] : '#volunteer'); ?>" class="regular-text" />
+                                        <p class="description">URL for the volunteer button.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Donate Button Text</th>
+                                    <td>
+                                        <input type="text" name="wdm_header_options[donate_text]" value="<?php echo esc_attr(isset($options['donate_text']) ? $options['donate_text'] : 'Donate'); ?>" class="regular-text" />
+                                        <p class="description">Text for the donate button in utility navigation.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Donate Button URL</th>
+                                    <td>
+                                        <input type="url" name="wdm_header_options[donate_url]" value="<?php echo esc_attr(isset($options['donate_url']) ? $options['donate_url'] : '#donate'); ?>" class="regular-text" />
+                                        <p class="description">URL for the donate button.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Show Search</th>
+                                    <td>
+                                        <input type="checkbox" name="wdm_header_options[show_search]" value="1" <?php checked(isset($options['show_search']) ? $options['show_search'] : '1', '1'); ?> />
+                                        <label>Enable search functionality in header</label>
                                     </td>
                                 </tr>
                             </table>

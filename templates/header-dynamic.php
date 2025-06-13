@@ -4,8 +4,16 @@
  * Uses menu data from admin settings
  */
 
-// Get dynamic menu items from admin settings
+// Get dynamic menu items and general options from admin settings
 $menu_items = get_option('wdm_menu_items', array());
+$header_options = get_option('wdm_header_options', array());
+
+// Utility navigation settings
+$volunteer_text = isset($header_options['volunteer_text']) ? $header_options['volunteer_text'] : 'Volunteer';
+$volunteer_url = isset($header_options['volunteer_url']) ? $header_options['volunteer_url'] : '#volunteer';
+$donate_text = isset($header_options['donate_text']) ? $header_options['donate_text'] : 'Donate';
+$donate_url = isset($header_options['donate_url']) ? $header_options['donate_url'] : '#donate';
+$show_search = isset($header_options['show_search']) ? $header_options['show_search'] : '1';
 
 // Default fallback if no menu items configured
 if (empty($menu_items)) {
@@ -132,10 +140,11 @@ if (empty($menu_items)) {
     <nav class="Header-nav-utility UtilityNav" role="navigation" aria-label="Utility">
       <div class="UtilityNav-wrap">
         <div class="UtilityNav-buttons">
-          <a href="#volunteer" class="UtilityNav-buttons-btn btn-solid btn-solid-gray">Volunteer</a>
-          <a href="#donate" class="UtilityNav-buttons-btn btn-solid btn-solid-orange">Donate</a>
+          <a href="<?php echo esc_url($volunteer_url); ?>" class="UtilityNav-buttons-btn btn-solid btn-solid-gray"><?php echo esc_html($volunteer_text); ?></a>
+          <a href="<?php echo esc_url($donate_url); ?>" class="UtilityNav-buttons-btn btn-solid btn-solid-orange"><?php echo esc_html($donate_text); ?></a>
         </div>
         
+        <?php if ($show_search === '1'): ?>
         <div class="UtilityNav-search">
           <button class="UtilityNav-search-toggle btn-icon" data-toggle="search" type="button" aria-label="Search" aria-expanded="false">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false" aria-hidden="true" width="24" height="24" class="icon">
@@ -143,6 +152,7 @@ if (empty($menu_items)) {
             </svg>
           </button>
         </div>
+        <?php endif; ?>
       </div>
     </nav>
     
@@ -283,6 +293,7 @@ if (empty($menu_items)) {
       
     </div>
     
+    <?php if ($show_search === '1'): ?>
     <!-- Search Panel -->
     <div class="Header-search" id="search" aria-hidden="true">
       <div class="Header-search-wrap">
@@ -301,6 +312,7 @@ if (empty($menu_items)) {
         </button>
       </div>
     </div>
+    <?php endif; ?>
     
   </div>
 </header>
