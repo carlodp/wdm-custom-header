@@ -38,13 +38,8 @@ class WDM_Settings {
      * Initialize settings
      */
     public function settings_init() {
-        // Register settings
         \register_setting('wdm_header_settings', 'wdm_header_load_css');
-        \register_setting('wdm_header_settings', 'wdm_header_logo_url');
-        \register_setting('wdm_header_settings', 'wdm_header_utility_buttons');
-        \register_setting('wdm_header_settings', 'wdm_header_menu_items');
         
-        // General Settings Section
         \add_settings_section(
             'wdm_header_general',
             'General Settings',
@@ -59,67 +54,13 @@ class WDM_Settings {
             'wdm_header_settings',
             'wdm_header_general'
         );
-        
-        \add_settings_field(
-            'wdm_header_logo_url',
-            'Logo URL',
-            array($this, 'logo_url_callback'),
-            'wdm_header_settings',
-            'wdm_header_general'
-        );
-        
-        // Utility Buttons Section
-        \add_settings_section(
-            'wdm_header_buttons',
-            'Utility Buttons',
-            array($this, 'buttons_section_callback'),
-            'wdm_header_settings'
-        );
-        
-        \add_settings_field(
-            'wdm_header_utility_buttons',
-            'Configure Buttons',
-            array($this, 'utility_buttons_callback'),
-            'wdm_header_settings',
-            'wdm_header_buttons'
-        );
-        
-        // Menu Items Section
-        \add_settings_section(
-            'wdm_header_menu',
-            'Navigation Menu',
-            array($this, 'menu_section_callback'),
-            'wdm_header_settings'
-        );
-        
-        \add_settings_field(
-            'wdm_header_menu_items',
-            'Menu Items',
-            array($this, 'menu_items_callback'),
-            'wdm_header_settings',
-            'wdm_header_menu'
-        );
     }
     
     /**
      * Settings section callback
      */
     public function settings_section_callback() {
-        echo '<p>Configure WDM Custom Header general settings.</p>';
-    }
-    
-    /**
-     * Buttons section callback
-     */
-    public function buttons_section_callback() {
-        echo '<p>Configure the utility buttons (Volunteer, Donate, etc.)</p>';
-    }
-    
-    /**
-     * Menu section callback
-     */
-    public function menu_section_callback() {
-        echo '<p>Configure the main navigation menu items and dropdowns.</p>';
+        echo '<p>Configure WDM Custom Header settings.</p>';
     }
     
     /**
@@ -132,201 +73,6 @@ class WDM_Settings {
     }
     
     /**
-     * Logo URL field callback
-     */
-    public function logo_url_callback() {
-        $logo_url = get_option('wdm_header_logo_url', 'https://greybullrescue.org/wp-content/uploads/2025/02/GB_Rescue-Color.png');
-        echo '<input type="url" name="wdm_header_logo_url" value="' . esc_attr($logo_url) . '" class="regular-text" />';
-        echo '<p class="description">Enter the full URL to your logo image</p>';
-    }
-    
-    /**
-     * Utility buttons field callback
-     */
-    public function utility_buttons_callback() {
-        $buttons = get_option('wdm_header_utility_buttons', $this->get_default_buttons());
-        echo '<div id="wdm-utility-buttons-container">';
-        
-        if (is_array($buttons)) {
-            foreach ($buttons as $index => $button) {
-                $this->render_button_field($index, $button);
-            }
-        }
-        
-        echo '</div>';
-        echo '<button type="button" id="add-utility-button" class="button">Add Button</button>';
-        echo '<script>
-        document.getElementById("add-utility-button").addEventListener("click", function() {
-            var container = document.getElementById("wdm-utility-buttons-container");
-            var index = container.children.length;
-            var html = `' . $this->get_button_field_html('INDEX', array()) . '`.replace(/INDEX/g, index);
-            container.insertAdjacentHTML("beforeend", html);
-        });
-        </script>';
-    }
-    
-    /**
-     * Menu items field callback
-     */
-    public function menu_items_callback() {
-        $menu_items = get_option('wdm_header_menu_items', $this->get_default_menu_items());
-        echo '<div id="wdm-menu-items-container">';
-        
-        if (is_array($menu_items)) {
-            foreach ($menu_items as $index => $item) {
-                $this->render_menu_item_field($index, $item);
-            }
-        }
-        
-        echo '</div>';
-        echo '<button type="button" id="add-menu-item" class="button">Add Menu Item</button>';
-        echo '<script>
-        document.getElementById("add-menu-item").addEventListener("click", function() {
-            var container = document.getElementById("wdm-menu-items-container");
-            var index = container.children.length;
-            var html = `' . $this->get_menu_item_field_html('INDEX', array()) . '`.replace(/INDEX/g, index);
-            container.insertAdjacentHTML("beforeend", html);
-        });
-        </script>';
-    }
-    
-    /**
-     * Get default button configuration
-     */
-    private function get_default_buttons() {
-        return array(
-            array(
-                'label' => 'VOLUNTEER',
-                'url' => '#volunteer',
-                'class' => 'btn-volunteer',
-                'target' => '_self'
-            ),
-            array(
-                'label' => 'DONATE',
-                'url' => '#donate',
-                'class' => 'btn-donate',
-                'target' => '_blank'
-            )
-        );
-    }
-    
-    /**
-     * Get default menu items
-     */
-    private function get_default_menu_items() {
-        return array(
-            array(
-                'label' => 'How We Serve',
-                'type' => 'megamenu',
-                'columns' => array(
-                    array(
-                        'title' => 'How We Serve',
-                        'description' => 'Service, to us, is a mindset.',
-                        'items' => array()
-                    ),
-                    array(
-                        'title' => 'What We Do',
-                        'items' => array(
-                            array('label' => 'Disaster Response', 'url' => '#disaster-response'),
-                            array('label' => 'Long Term Recovery', 'url' => '#long-term-recovery')
-                        )
-                    )
-                )
-            ),
-            array(
-                'label' => 'How to Get Involved',
-                'type' => 'dropdown',
-                'items' => array(
-                    array('label' => 'Volunteer With Us', 'url' => '#volunteer-with-us'),
-                    array('label' => 'Become a Partner', 'url' => '#become-a-partner')
-                )
-            )
-        );
-    }
-    
-    /**
-     * Render button field
-     */
-    private function render_button_field($index, $button) {
-        echo $this->get_button_field_html($index, $button);
-    }
-    
-    /**
-     * Get button field HTML
-     */
-    private function get_button_field_html($index, $button) {
-        $label = isset($button['label']) ? esc_attr($button['label']) : '';
-        $url = isset($button['url']) ? esc_attr($button['url']) : '';
-        $class = isset($button['class']) ? esc_attr($button['class']) : '';
-        $target = isset($button['target']) ? esc_attr($button['target']) : '_self';
-        
-        return '<div class="wdm-button-field" style="border: 1px solid #ddd; padding: 15px; margin: 10px 0;">
-            <h4>Button ' . ($index + 1) . '</h4>
-            <table class="form-table">
-                <tr>
-                    <th><label>Label</label></th>
-                    <td><input type="text" name="wdm_header_utility_buttons[' . $index . '][label]" value="' . $label . '" /></td>
-                </tr>
-                <tr>
-                    <th><label>URL</label></th>
-                    <td><input type="url" name="wdm_header_utility_buttons[' . $index . '][url]" value="' . $url . '" class="regular-text" /></td>
-                </tr>
-                <tr>
-                    <th><label>CSS Class</label></th>
-                    <td><input type="text" name="wdm_header_utility_buttons[' . $index . '][class]" value="' . $class . '" /></td>
-                </tr>
-                <tr>
-                    <th><label>Target</label></th>
-                    <td>
-                        <select name="wdm_header_utility_buttons[' . $index . '][target]">
-                            <option value="_self"' . selected('_self', $target, false) . '>Same Window</option>
-                            <option value="_blank"' . selected('_blank', $target, false) . '>New Window</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <button type="button" onclick="this.parentElement.remove();" class="button">Remove Button</button>
-        </div>';
-    }
-    
-    /**
-     * Render menu item field
-     */
-    private function render_menu_item_field($index, $item) {
-        echo $this->get_menu_item_field_html($index, $item);
-    }
-    
-    /**
-     * Get menu item field HTML
-     */
-    private function get_menu_item_field_html($index, $item) {
-        $label = isset($item['label']) ? esc_attr($item['label']) : '';
-        $type = isset($item['type']) ? esc_attr($item['type']) : 'dropdown';
-        
-        return '<div class="wdm-menu-field" style="border: 1px solid #ddd; padding: 15px; margin: 10px 0;">
-            <h4>Menu Item ' . ($index + 1) . '</h4>
-            <table class="form-table">
-                <tr>
-                    <th><label>Label</label></th>
-                    <td><input type="text" name="wdm_header_menu_items[' . $index . '][label]" value="' . $label . '" /></td>
-                </tr>
-                <tr>
-                    <th><label>Type</label></th>
-                    <td>
-                        <select name="wdm_header_menu_items[' . $index . '][type]">
-                            <option value="dropdown"' . selected('dropdown', $type, false) . '>Dropdown</option>
-                            <option value="megamenu"' . selected('megamenu', $type, false) . '>Mega Menu</option>
-                            <option value="link"' . selected('link', $type, false) . '>Simple Link</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <p><em>Note: Advanced dropdown configuration requires additional development.</em></p>
-            <button type="button" onclick="this.parentElement.remove();" class="button">Remove Menu Item</button>
-        </div>';
-    }
-    
-    /**
      * Render settings page
      */
     public function settings_page() {
@@ -335,9 +81,9 @@ class WDM_Settings {
             <h1>WDM Header Settings</h1>
             <form method="post" action="options.php">
                 <?php
-                \settings_fields('wdm_header_settings');
-                \do_settings_sections('wdm_header_settings');
-                \submit_button();
+                settings_fields('wdm_header_settings');
+                do_settings_sections('wdm_header_settings');
+                submit_button();
                 ?>
             </form>
         </div>
