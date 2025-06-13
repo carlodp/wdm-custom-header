@@ -95,7 +95,7 @@ class WDM_Settings {
             $sanitized_item['text']   = isset($item['text']) ? sanitize_text_field($item['text']) : '';
             $sanitized_item['url']    = isset($item['url']) ? esc_url_raw($item['url']) : '';
             $sanitized_item['target'] = isset($item['target']) && in_array($item['target'], array('_self', '_blank')) ? $item['target'] : '_self';
-            $sanitized_item['mega_menu'] = isset($item['mega_menu']) && $item['mega_menu'] === '1' ? true : false;
+            $sanitized_item['mega_menu'] = isset($item['mega_menu']) && $item['mega_menu'] === '1' ? '1' : '0';
 
             
             $sanitized_item['submenu'] = array();
