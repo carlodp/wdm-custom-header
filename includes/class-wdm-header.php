@@ -98,8 +98,8 @@ class WDM_Header {
         // Start output buffering
         ob_start();
         
-        // Include header template
-        $template_path = WDM_CUSTOM_HEADER_PLUGIN_PATH . 'templates/header.php';
+        // Include dynamic header template
+        $template_path = WDM_CUSTOM_HEADER_PLUGIN_PATH . 'templates/header-dynamic.php';
         if (file_exists($template_path)) {
             include $template_path;
         } else {

@@ -1,7 +1,7 @@
 <?php
 /**
  * WDM Settings Class
- * Handles admin settings page functionality with GitHub auto-update
+ * Handles admin settings page functionality with dynamic menu management and GitHub auto-update
  */
 
 namespace WDM_Custom_Header;
@@ -19,6 +19,7 @@ class WDM_Settings {
     public function __construct() {
         \add_action('admin_menu', array($this, 'add_admin_menu'));
         \add_action('admin_init', array($this, 'settings_init'));
+        \add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
         \add_action('wp_ajax_wdm_check_update', array($this, 'ajax_check_update'));
         \add_action('wp_ajax_wdm_force_update', array($this, 'ajax_force_update'));
     }
@@ -37,110 +38,93 @@ class WDM_Settings {
     }
     
     /**
+     * Enqueue admin assets
+     */
+    public function enqueue_admin_assets($hook_suffix) {
+        // Only load on our settings page
+        if ($hook_suffix !== 'settings_page_wdm-header-settings') {
+            return;
+        }
+        
+        wp_enqueue_script('jquery-ui-sortable');
+        
+        wp_enqueue_style(
+            'wdm-admin-styles',
+            WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/css/admin-styles.css',
+            array(),
+            WDM_CUSTOM_HEADER_VERSION
+        );
+        
+        wp_enqueue_script(
+            'wdm-admin-script',
+            WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/js/admin-script.js',
+            array('jquery', 'jquery-ui-sortable'),
+            WDM_CUSTOM_HEADER_VERSION,
+            true
+        );
+    }
+    
+    /**
      * Initialize settings
      */
     public function settings_init() {
-        \register_setting('wdm_header_settings', 'wdm_header_options');
-        
-        \add_settings_section(
-            'wdm_header_general',
-            'General Settings',
-            array($this, 'general_section_callback'),
-            'wdm_header_settings'
-        );
-        
-        \add_settings_field(
-            'load_css',
-            'Load Default CSS',
-            array($this, 'load_css_callback'),
-            'wdm_header_settings',
-            'wdm_header_general'
-        );
-        
-        \add_settings_section(
-            'wdm_header_github',
-            'GitHub Auto-Update Settings',
-            array($this, 'github_section_callback'),
-            'wdm_header_settings'
-        );
-        
-        \add_settings_field(
-            'github_username',
-            'GitHub Username',
-            array($this, 'github_username_callback'),
-            'wdm_header_settings',
-            'wdm_header_github'
-        );
-        
-        \add_settings_field(
-            'github_repo',
-            'GitHub Repository',
-            array($this, 'github_repo_callback'),
-            'wdm_header_settings',
-            'wdm_header_github'
-        );
-        
-        \add_settings_field(
-            'auto_update',
-            'Enable Auto-Update',
-            array($this, 'auto_update_callback'),
-            'wdm_header_settings',
-            'wdm_header_github'
-        );
+        // Register settings
+        \register_setting('wdm_header_settings', 'wdm_header_options', array($this, 'sanitize_options'));
+        \register_setting('wdm_menu_settings', 'wdm_menu_items', array($this, 'sanitize_menu_items'));
     }
     
     /**
-     * General settings section callback
+     * Sanitize general options
      */
-    public function general_section_callback() {
-        echo '<p>Configure basic header settings.</p>';
+    public function sanitize_options($input) {
+        $sanitized = array();
+        
+        $sanitized['load_css'] = isset($input['load_css']) ? '1' : '0';
+        $sanitized['github_username'] = isset($input['github_username']) ? sanitize_text_field($input['github_username']) : '';
+        $sanitized['github_repo'] = isset($input['github_repo']) ? sanitize_text_field($input['github_repo']) : '';
+        $sanitized['auto_update'] = isset($input['auto_update']) ? '1' : '0';
+        
+        return $sanitized;
     }
     
     /**
-     * GitHub settings section callback
+     * Sanitize menu items
      */
-    public function github_section_callback() {
-        echo '<p>Configure GitHub repository for automatic plugin updates.</p>';
-    }
-    
-    /**
-     * Load CSS field callback
-     */
-    public function load_css_callback() {
-        $options = get_option('wdm_header_options', array());
-        $load_css = isset($options['load_css']) ? $options['load_css'] : '1';
-        echo '<input type="checkbox" name="wdm_header_options[load_css]" value="1" ' . checked('1', $load_css, false) . ' />';
-        echo '<label> Enable default header styles</label>';
-    }
-    
-    /**
-     * GitHub username field callback
-     */
-    public function github_username_callback() {
-        $options = get_option('wdm_header_options', array());
-        $username = isset($options['github_username']) ? $options['github_username'] : '';
-        echo '<input type="text" name="wdm_header_options[github_username]" value="' . esc_attr($username) . '" placeholder="your-username" />';
-        echo '<p class="description">Enter your GitHub username where the plugin repository is hosted.</p>';
-    }
-    
-    /**
-     * GitHub repository field callback
-     */
-    public function github_repo_callback() {
-        $options = get_option('wdm_header_options', array());
-        $repo = isset($options['github_repo']) ? $options['github_repo'] : '';
-        echo '<input type="text" name="wdm_header_options[github_repo]" value="' . esc_attr($repo) . '" placeholder="repository-name" />';
-        echo '<p class="description">Enter the repository name (e.g., wdm-custom-header).</p>';
-    }
-    
-    /**
-     * Auto-update field callback
-     */
-    public function auto_update_callback() {
-        $options = get_option('wdm_header_options', array());
-        $auto_update = isset($options['auto_update']) ? $options['auto_update'] : '0';
-        echo '<input type="checkbox" name="wdm_header_options[auto_update]" value="1" ' . checked('1', $auto_update, false) . ' />';
-        echo '<label> Enable automatic updates from GitHub repository</label>';
+    public function sanitize_menu_items($input) {
+        if (!is_array($input)) {
+            return array();
+        }
+        
+        $sanitized = array();
+        
+        foreach ($input as $index => $item) {
+            if (!is_array($item)) continue;
+            
+            $sanitized_item = array();
+            $sanitized_item['text'] = isset($item['text']) ? sanitize_text_field($item['text']) : '';
+            $sanitized_item['url'] = isset($item['url']) ? esc_url_raw($item['url']) : '';
+            $sanitized_item['target'] = isset($item['target']) && in_array($item['target'], array('_self', '_blank')) ? $item['target'] : '_self';
+            $sanitized_item['submenu'] = array();
+            
+            // Sanitize submenu items
+            if (isset($item['submenu']) && is_array($item['submenu'])) {
+                foreach ($item['submenu'] as $sub_index => $sub_item) {
+                    if (!is_array($sub_item)) continue;
+                    
+                    $sanitized_sub = array();
+                    $sanitized_sub['text'] = isset($sub_item['text']) ? sanitize_text_field($sub_item['text']) : '';
+                    $sanitized_sub['url'] = isset($sub_item['url']) ? esc_url_raw($sub_item['url']) : '';
+                    $sanitized_sub['target'] = isset($sub_item['target']) && in_array($sub_item['target'], array('_self', '_blank')) ? $sub_item['target'] : '_self';
+                    $sanitized_sub['description'] = isset($sub_item['description']) ? sanitize_textarea_field($sub_item['description']) : '';
+                    
+                    $sanitized_item['submenu'][] = $sanitized_sub;
+                }
+            }
+            
+            $sanitized[] = $sanitized_item;
+        }
+        
+        return $sanitized;
     }
     
     /**
@@ -207,36 +191,214 @@ class WDM_Settings {
     }
     
     /**
+     * Get default menu items
+     */
+    private function get_default_menu_items() {
+        return array(
+            array(
+                'text' => 'Home',
+                'url' => '#',
+                'target' => '_self',
+                'submenu' => array()
+            ),
+            array(
+                'text' => 'About',
+                'url' => '#about',
+                'target' => '_self',
+                'submenu' => array(
+                    array(
+                        'text' => 'Our Mission',
+                        'url' => '#mission',
+                        'target' => '_self',
+                        'description' => 'Learn about our rescue mission and values'
+                    ),
+                    array(
+                        'text' => 'Our Team',
+                        'url' => '#team',
+                        'target' => '_self',
+                        'description' => 'Meet our dedicated rescue team'
+                    ),
+                    array(
+                        'text' => 'Success Stories',
+                        'url' => '#stories',
+                        'target' => '_self',
+                        'description' => 'Read inspiring rescue success stories'
+                    )
+                )
+            ),
+            array(
+                'text' => 'Services',
+                'url' => '#services',
+                'target' => '_self',
+                'submenu' => array(
+                    array(
+                        'text' => 'Animal Rescue',
+                        'url' => '#rescue',
+                        'target' => '_self',
+                        'description' => 'Emergency animal rescue operations'
+                    ),
+                    array(
+                        'text' => 'Adoption',
+                        'url' => '#adoption',
+                        'target' => '_self',
+                        'description' => 'Find your perfect companion'
+                    ),
+                    array(
+                        'text' => 'Volunteer',
+                        'url' => '#volunteer',
+                        'target' => '_self',
+                        'description' => 'Join our volunteer program'
+                    )
+                )
+            ),
+            array(
+                'text' => 'Contact',
+                'url' => '#contact',
+                'target' => '_self',
+                'submenu' => array()
+            )
+        );
+    }
+    
+    /**
      * Render settings page
      */
     public function settings_page() {
+        // Handle form submissions
+        if (isset($_POST['wdm_save_menu']) && wp_verify_nonce($_POST['wdm_menu_nonce'], 'wdm_save_menu_settings')) {
+            $menu_items = isset($_POST['wdm_menu_items']) ? $_POST['wdm_menu_items'] : array();
+            $sanitized_menu = $this->sanitize_menu_items($menu_items);
+            update_option('wdm_menu_items', $sanitized_menu);
+            add_settings_error('wdm_menu_settings', 'menu_updated', 'Menu settings saved successfully!', 'success');
+        }
+        
+        if (isset($_POST['wdm_save_general']) && wp_verify_nonce($_POST['wdm_general_nonce'], 'wdm_save_general_settings')) {
+            $options = isset($_POST['wdm_header_options']) ? $_POST['wdm_header_options'] : array();
+            $sanitized_options = $this->sanitize_options($options);
+            update_option('wdm_header_options', $sanitized_options);
+            add_settings_error('wdm_header_settings', 'options_updated', 'General settings saved successfully!', 'success');
+        }
+        
+        // Get current options
+        $options = get_option('wdm_header_options', array());
+        $menu_items = get_option('wdm_menu_items', $this->get_default_menu_items());
+        
         ?>
-        <div class="wrap">
-            <h1>WDM Custom Header Settings</h1>
+        <div class="wrap wdm-admin-container">
+            <div class="wdm-admin-header">
+                <h1>WDM Custom Header Settings</h1>
+                <p>Manage your header menu content, appearance, and plugin settings.</p>
+            </div>
             
-            <form method="post" action="options.php">
-                <?php
-                settings_fields('wdm_header_settings');
-                do_settings_sections('wdm_header_settings');
-                submit_button();
-                ?>
-            </form>
+            <?php settings_errors(); ?>
             
-            <div class="wdm-update-section" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 5px;">
-                <h2>Plugin Information & Updates</h2>
-                <p><strong>Current Version:</strong> <?php echo WDM_CUSTOM_HEADER_VERSION; ?></p>
-                
-                <div id="wdm-update-status" style="margin: 15px 0;"></div>
-                
-                <p>
-                    <button type="button" id="wdm-check-update" class="button button-primary">Check for Updates</button>
-                    <button type="button" id="wdm-force-update" class="button">Force Update Check</button>
-                </p>
-                
-                <div class="shortcode-info" style="margin-top: 20px; padding: 15px; background: #fff; border-left: 4px solid #0073aa;">
-                    <h3>Usage Instructions</h3>
-                    <p><strong>Shortcode:</strong> Use <code>[wdm_custom_header]</code> to display the header in posts, pages, or widgets.</p>
-                    <p><strong>PHP Function:</strong> Use <code>&lt;?php wdm_display_header(); ?&gt;</code> in your theme files.</p>
+            <div class="wdm-tab-nav">
+                <button type="button" class="active" data-tab="menu-content">Menu Content</button>
+                <button type="button" data-tab="general-settings">General Settings</button>
+                <button type="button" data-tab="plugin-info">Plugin Information</button>
+            </div>
+            
+            <!-- Menu Content Tab -->
+            <div id="menu-content" class="wdm-tab-content active">
+                <div class="wdm-settings-section">
+                    <h2 class="wdm-section-header">Dynamic Menu Management</h2>
+                    <div class="wdm-section-content">
+                        <form method="post" id="wdm-menu-settings-form">
+                            <?php wp_nonce_field('wdm_save_menu_settings', 'wdm_menu_nonce'); ?>
+                            
+                            <div class="wdm-notice">
+                                <strong>Instructions:</strong> Drag menu items to reorder them. Use "Add Submenu" to create dropdown menus. Empty URL fields will create dropdown-only items.
+                            </div>
+                            
+                            <div class="wdm-menu-items">
+                                <?php $this->render_menu_items($menu_items); ?>
+                            </div>
+                            
+                            <div class="wdm-add-buttons">
+                                <button type="button" class="wdm-btn wdm-btn-primary wdm-add-menu-item">Add Menu Item</button>
+                            </div>
+                            
+                            <div class="wdm-preview-section">
+                                <div class="wdm-preview-header">Menu Preview <button type="button" class="wdm-btn wdm-btn-small wdm-preview-header">Generate Preview</button></div>
+                                <div class="wdm-preview-content">Click "Generate Preview" to see current menu structure</div>
+                            </div>
+                            
+                            <input type="submit" name="wdm_save_menu" class="button button-primary button-large" value="Save Menu Settings" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- General Settings Tab -->
+            <div id="general-settings" class="wdm-tab-content">
+                <div class="wdm-settings-section">
+                    <h2 class="wdm-section-header">General Settings</h2>
+                    <div class="wdm-section-content">
+                        <form method="post">
+                            <?php wp_nonce_field('wdm_save_general_settings', 'wdm_general_nonce'); ?>
+                            
+                            <table class="form-table">
+                                <tr>
+                                    <th scope="row">Load Default CSS</th>
+                                    <td>
+                                        <input type="checkbox" name="wdm_header_options[load_css]" value="1" <?php checked(isset($options['load_css']) ? $options['load_css'] : '1', '1'); ?> />
+                                        <label>Enable default header styles</label>
+                                        <p class="description">Uncheck to use your own custom CSS styles.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <h3>GitHub Auto-Update Settings</h3>
+                            <table class="form-table">
+                                <tr>
+                                    <th scope="row">GitHub Username</th>
+                                    <td>
+                                        <input type="text" name="wdm_header_options[github_username]" value="<?php echo esc_attr(isset($options['github_username']) ? $options['github_username'] : ''); ?>" placeholder="your-username" class="regular-text" />
+                                        <p class="description">Enter your GitHub username where the plugin repository is hosted.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">GitHub Repository</th>
+                                    <td>
+                                        <input type="text" name="wdm_header_options[github_repo]" value="<?php echo esc_attr(isset($options['github_repo']) ? $options['github_repo'] : ''); ?>" placeholder="repository-name" class="regular-text" />
+                                        <p class="description">Enter the repository name (e.g., wdm-custom-header).</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Enable Auto-Update</th>
+                                    <td>
+                                        <input type="checkbox" name="wdm_header_options[auto_update]" value="1" <?php checked(isset($options['auto_update']) ? $options['auto_update'] : '0', '1'); ?> />
+                                        <label>Enable automatic updates from GitHub repository</label>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <input type="submit" name="wdm_save_general" class="button button-primary" value="Save General Settings" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Plugin Information Tab -->
+            <div id="plugin-info" class="wdm-tab-content">
+                <div class="wdm-settings-section">
+                    <h2 class="wdm-section-header">Plugin Information & Updates</h2>
+                    <div class="wdm-section-content">
+                        <p><strong>Current Version:</strong> <?php echo WDM_CUSTOM_HEADER_VERSION; ?></p>
+                        
+                        <div id="wdm-update-status" style="margin: 15px 0;"></div>
+                        
+                        <p>
+                            <button type="button" id="wdm-check-update" class="button button-primary">Check for Updates</button>
+                            <button type="button" id="wdm-force-update" class="button">Force Update Check</button>
+                        </p>
+                        
+                        <div class="wdm-notice">
+                            <h3>Usage Instructions</h3>
+                            <p><strong>Shortcode:</strong> Use <code>[wdm_custom_header]</code> to display the header in posts, pages, or widgets.</p>
+                            <p><strong>PHP Function:</strong> Use <code>&lt;?php wdm_display_header(); ?&gt;</code> in your theme files.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -303,5 +465,104 @@ class WDM_Settings {
         });
         </script>
         <?php
+    }
+    
+    /**
+     * Render menu items in admin interface
+     */
+    private function render_menu_items($menu_items) {
+        foreach ($menu_items as $index => $item) {
+            $text = isset($item['text']) ? esc_attr($item['text']) : '';
+            $url = isset($item['url']) ? esc_attr($item['url']) : '';
+            $target = isset($item['target']) ? $item['target'] : '_self';
+            $submenu = isset($item['submenu']) ? $item['submenu'] : array();
+            
+            ?>
+            <div class="wdm-menu-item" data-index="<?php echo $index; ?>">
+                <div class="wdm-menu-item-header">
+                    <span class="wdm-drag-handle">⋮⋮</span>
+                    <span class="wdm-menu-item-title">Menu Item <?php echo $index + 1; ?></span>
+                    <div class="wdm-menu-item-actions">
+                        <button type="button" class="wdm-btn wdm-btn-small wdm-add-submenu-item">Add Submenu</button>
+                        <button type="button" class="wdm-btn wdm-btn-small wdm-toggle-submenu">
+                            <?php echo count($submenu) > 0 ? 'Hide Submenu' : 'Show Submenu (0)'; ?>
+                        </button>
+                        <button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-menu-item">Remove</button>
+                    </div>
+                </div>
+                
+                <div class="wdm-form-row">
+                    <div class="wdm-form-col">
+                        <label class="wdm-form-label">Menu Text</label>
+                        <input type="text" name="wdm_menu_items[<?php echo $index; ?>][text]" value="<?php echo $text; ?>" class="wdm-form-input" placeholder="Menu Item Text" />
+                        <div class="wdm-help-text">Text displayed in the navigation menu</div>
+                    </div>
+                    <div class="wdm-form-col">
+                        <label class="wdm-form-label">URL</label>
+                        <input type="url" name="wdm_menu_items[<?php echo $index; ?>][url]" value="<?php echo $url; ?>" class="wdm-form-input" placeholder="https://example.com" />
+                        <div class="wdm-help-text">Link destination (leave empty for dropdown-only)</div>
+                    </div>
+                    <div class="wdm-form-col-narrow">
+                        <label class="wdm-form-label">Target</label>
+                        <select name="wdm_menu_items[<?php echo $index; ?>][target]" class="wdm-form-select">
+                            <option value="_self" <?php selected($target, '_self'); ?>>Same Window</option>
+                            <option value="_blank" <?php selected($target, '_blank'); ?>>New Window</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="wdm-submenu-items <?php echo count($submenu) === 0 ? 'hidden' : ''; ?>">
+                    <?php $this->render_submenu_items($index, $submenu); ?>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    
+    /**
+     * Render submenu items
+     */
+    private function render_submenu_items($menu_index, $submenu_items) {
+        foreach ($submenu_items as $sub_index => $sub_item) {
+            $text = isset($sub_item['text']) ? esc_attr($sub_item['text']) : '';
+            $url = isset($sub_item['url']) ? esc_attr($sub_item['url']) : '';
+            $target = isset($sub_item['target']) ? $sub_item['target'] : '_self';
+            $description = isset($sub_item['description']) ? esc_textarea($sub_item['description']) : '';
+            
+            ?>
+            <div class="wdm-submenu-item" data-submenu-index="<?php echo $sub_index; ?>">
+                <div class="wdm-submenu-header">
+                    <span class="wdm-submenu-title">Submenu Item <?php echo $sub_index + 1; ?></span>
+                    <button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-submenu-item">Remove</button>
+                </div>
+                
+                <div class="wdm-form-row">
+                    <div class="wdm-form-col">
+                        <label class="wdm-form-label">Text</label>
+                        <input type="text" name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][text]" value="<?php echo $text; ?>" class="wdm-form-input" placeholder="Submenu Text" />
+                    </div>
+                    <div class="wdm-form-col">
+                        <label class="wdm-form-label">URL</label>
+                        <input type="url" name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][url]" value="<?php echo $url; ?>" class="wdm-form-input" placeholder="https://example.com" />
+                    </div>
+                    <div class="wdm-form-col-narrow">
+                        <label class="wdm-form-label">Target</label>
+                        <select name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][target]" class="wdm-form-select">
+                            <option value="_self" <?php selected($target, '_self'); ?>>Same Window</option>
+                            <option value="_blank" <?php selected($target, '_blank'); ?>>New Window</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="wdm-form-row">
+                    <div class="wdm-form-col">
+                        <label class="wdm-form-label">Description</label>
+                        <textarea name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][description]" class="wdm-form-input wdm-form-textarea" placeholder="Optional description for mega menu"><?php echo $description; ?></textarea>
+                        <div class="wdm-help-text">Brief description shown in mega menu dropdowns</div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
     }
 }
