@@ -49,6 +49,7 @@ class WDM_Custom_Header_Plugin {
     private function load_dependencies() {
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-header.php';
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-settings.php';
+        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-menu-renderer.php';
     }
 }
 
