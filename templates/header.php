@@ -4,12 +4,9 @@
  * HTML structure for the WDM Custom Header
  */
 
-// Load WordPress functions fallback for standalone usage
-require_once __DIR__ . '/../includes/wordpress-functions.php';
-
 // Prevent direct access
 if (!defined('ABSPATH')) {
-    // Allow standalone usage for demo purposes
+    exit;
 }
 ?>
 
@@ -19,10 +16,7 @@ if (!defined('ABSPATH')) {
     <h1 class="wdm-logo">
       <a class="wdm-logo-link" href="/">
         <span class="wdm-screen-reader">WDM Header</span>
-        <?php 
-        $logo_url = get_option('wdm_header_logo_url', 'https://greybullrescue.org/wp-content/uploads/2025/02/GB_Rescue-Color.png');
-        ?>
-        <img src="<?php echo esc_url($logo_url); ?>" alt="Greybull Rescue" class="wdm-logo-image">
+        <img src="https://greybullrescue.org/wp-content/uploads/2025/02/GB_Rescue-Color.png" alt="Greybull Rescue" class="wdm-logo-image">
       </a>
     </h1>
         
@@ -80,39 +74,19 @@ if (!defined('ABSPATH')) {
                 <span></span>
               </div>
             </button>
-            <?php 
-            $utility_buttons = get_option('wdm_header_utility_buttons', array(
-                array('label' => 'VOLUNTEER', 'url' => '#volunteer', 'class' => 'btn-volunteer', 'target' => '_self'),
-                array('label' => 'DONATE', 'url' => '#donate', 'class' => 'btn-donate', 'target' => '_blank')
-            ));
-            
-            foreach ($utility_buttons as $button) {
-                if (!empty($button['label']) && !empty($button['url'])) {
-                    $class = !empty($button['class']) ? $button['class'] : '';
-                    $target = !empty($button['target']) ? $button['target'] : '_self';
-                    $desktop_class = ($class === 'btn-volunteer') ? ' is-desktop' : '';
-                    
-                    echo '<a href="' . esc_url($button['url']) . '" target="' . esc_attr($target) . '" class="wdm-utility-btn ' . esc_attr($class) . $desktop_class . '">' . esc_html($button['label']) . '</a>';
-                }
-            }
-            ?>
+            <a href="#volunteer" class="wdm-utility-btn btn-volunteer is-desktop">VOLUNTEER</a>
+            <a href="#donate" target="_blank" class="wdm-utility-btn btn-donate">DONATE</a>
           </div>
         </div>
       </nav>
       
       <nav class="Header-nav-main Nav-expandable" id="nav" role="navigation" aria-label="Main">
         <div class="Nav-expandable-wrap" style="overflow: hidden;">
-          <?php 
-          // Use dynamic menu renderer if available, otherwise fall back to default
-          if (class_exists('WDM_Custom_Header\WDM_Menu_Renderer')) {
-              WDM_Custom_Header\WDM_Menu_Renderer::render_navigation_menu();
-          } else {
-              // Fallback menu structure
-              echo '<ul class="Nav-list Nav-primary" role="list">';
-              echo '<li class="Nav-item is-mobile"><a href="#volunteer" class="UtilityNav-buttons-btn btn-solid btn-solid-gray">Volunteer</a></li>';
-              echo '</ul>';
-          }
-          ?>
+          <ul class="Nav-list Nav-primary" role="list">
+            
+            <li class="Nav-item is-mobile">
+              <a href="#volunteer" class="UtilityNav-buttons-btn btn-solid btn-solid-gray">Volunteer</a>
+            </li>
             
             <li class="Nav-item has-megadropdown">
               <button class="Nav-toggle Nav-link" data-expands="nav-150" data-nav-item-toggle="" type="button" aria-haspopup="true" aria-expanded="false">
