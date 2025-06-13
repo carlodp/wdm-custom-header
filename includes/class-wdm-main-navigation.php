@@ -67,7 +67,7 @@ class WDM_Main_Navigation {
                         'text'       => sanitize_text_field($item['text']),
                         'url'        => esc_url_raw($item['url']),
                         'target'     => sanitize_text_field($item['target']),
-                        'mega_menu' => isset($item['mega_menu']) && $item['mega_menu'] === '1'
+                        'mega_menu'  => isset($item['mega_menu']) && $item['mega_menu'] === '1' ? '1' : '0'
                     );
 
                     $submenu_items123 = array();
