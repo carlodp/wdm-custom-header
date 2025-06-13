@@ -69,6 +69,25 @@ if (!defined('ABSPATH')) {
     }
     
     /**
+     * Helper function for checked/selected
+     */
+    if (!function_exists('__checked_selected_helper')) {
+        function __checked_selected_helper($helper, $current, $echo, $type) {
+            if ((string) $helper === (string) $current) {
+                $result = " $type='$type'";
+            } else {
+                $result = '';
+            }
+            
+            if ($echo) {
+                echo $result;
+            }
+            
+            return $result;
+        }
+    }
+    
+    /**
      * Fallback for checked
      */
     if (!function_exists('checked')) {
