@@ -43,7 +43,7 @@ class WDM_Custom_Header_Plugin {
         new WDM_Custom_Header\WDM_Settings();
         
         // Initialize admin interface if in admin area
-        if (is_admin()) {
+        if (function_exists('is_admin') && is_admin()) {
             WDM_Custom_Header\WDM_Admin::init();
         }
         
@@ -55,6 +55,7 @@ class WDM_Custom_Header_Plugin {
      * Load plugin dependencies
      */
     private function load_dependencies() {
+        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/wordpress-functions.php';
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-header.php';
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-settings.php';
         require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-menu-renderer.php';
@@ -85,6 +86,9 @@ class WDM_Custom_Header_Plugin {
         }
     }
 }
+
+// Load WordPress functions first
+require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/wordpress-functions.php';
 
 // Initialize the plugin
 new WDM_Custom_Header_Plugin();

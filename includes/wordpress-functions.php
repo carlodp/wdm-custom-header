@@ -68,6 +68,12 @@ if (!defined('ABSPATH')) {
         }
     }
     
+    if (!function_exists('is_admin')) {
+        function is_admin() {
+            return defined('WP_ADMIN') && WP_ADMIN;
+        }
+    }
+    
     /**
      * Helper function for checked/selected
      */
