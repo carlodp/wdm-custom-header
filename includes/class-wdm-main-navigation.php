@@ -67,7 +67,7 @@ class WDM_Main_Navigation {
                         'text'       => sanitize_text_field($item['text']),
                         'url'        => esc_url_raw($item['url']),
                         'target'     => sanitize_text_field($item['target']),
-                        'mega_menu' => isset($item['mega_menu']) && $item['mega_menu'] === '1' ? true : false
+                        'mega_menu' => isset($item['mega_menu']) && $item['mega_menu'] === '1'
                     );
 
                     $submenu_items123 = array();
@@ -136,7 +136,6 @@ class WDM_Main_Navigation {
                 <div class="wdm-form-row">
                     <div class="wdm-form-col wdm-form-col-full">
                         <label class="wdm-form-label">
-                            <input type="hidden" name="wdm_menu_items[<?php echo $index; ?>][mega_menu]" value="0" />
                             <input type="checkbox" name="wdm_menu_items[<?php echo $index; ?>][mega_menu]" value="1" <?php checked($mega_menu, true); ?> />
                             Enable Mega Menu
                         </label>
