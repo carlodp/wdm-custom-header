@@ -11,8 +11,12 @@
 
 // Prevent direct access
 if (!defined('ABSPATH')) {
-    exit;
+    // Define ABSPATH for standalone usage
+    define('ABSPATH', __DIR__ . '/');
 }
+
+// Load WordPress functions first for fallbacks
+require_once __DIR__ . '/includes/wordpress-functions.php';
 
 // Define plugin constants
 define('WDM_CUSTOM_HEADER_VERSION', '1.0.1');
@@ -39,11 +43,15 @@ class WDM_Custom_Header_Plugin {
         $this->load_dependencies();
         
         // Initialize components
-        new WDM_Custom_Header\WDM_Header();
-        new WDM_Custom_Header\WDM_Settings();
+        if (class_exists('WDM_Custom_Header\WDM_Header')) {
+            new WDM_Custom_Header\WDM_Header();
+        }
+        if (class_exists('WDM_Custom_Header\WDM_Settings')) {
+            new WDM_Custom_Header\WDM_Settings();
+        }
         
         // Initialize admin interface if in WordPress admin area
-        if (function_exists('is_admin') && is_admin()) {
+        if (function_exists('is_admin') && is_admin() && class_exists('WDM_Custom_Header\WDM_Admin')) {
             WDM_Custom_Header\WDM_Admin::init();
         }
         
@@ -55,12 +63,12 @@ class WDM_Custom_Header_Plugin {
      * Load plugin dependencies
      */
     private function load_dependencies() {
-        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/wordpress-functions.php';
-        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-header.php';
-        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-settings.php';
-        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-menu-renderer.php';
-        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-admin.php';
-        require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/class-wdm-updater.php';
+        $plugin_path = __DIR__ . '/';
+        require_once $plugin_path . 'includes/class-wdm-header.php';
+        require_once $plugin_path . 'includes/class-wdm-settings.php';
+        require_once $plugin_path . 'includes/class-wdm-menu-renderer.php';
+        require_once $plugin_path . 'includes/class-wdm-admin.php';
+        require_once $plugin_path . 'includes/class-wdm-updater.php';
     }
     
     /**
@@ -87,8 +95,7 @@ class WDM_Custom_Header_Plugin {
     }
 }
 
-// Load WordPress functions first
-require_once WDM_CUSTOM_HEADER_PLUGIN_PATH . 'includes/wordpress-functions.php';
+
 
 // Initialize the plugin
 new WDM_Custom_Header_Plugin();
