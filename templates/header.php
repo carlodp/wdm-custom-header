@@ -7,7 +7,7 @@
 if (!defined('ABSPATH')) exit;
 
 $options = get_option('wdm_header_options', []);
-$menu_items = get_option('wdm_menu_items', []); // ✅ Pull from the correct option
+$menu_items = get_option('wdm_menu_items', []);
 
 // Fetch and sanitize logo values
 $logo_url = esc_url($options['logo_url'] ?? '');
@@ -38,31 +38,30 @@ $show_search = $options['show_search'] ?? false;
 
       <nav class="wdm-nav-secondary" aria-label="Secondary" id="secondary-nav">
         <div class="wdm-utility-nav">
-          <ul class="wdm-utility-list is-desktop" role="list">
-            <li class="wdm-utility-item">
-              <a class="wdm-utility-link" href="#store">Store</a>
-            </li>
-            <li class="wdm-utility-item">
-              <a class="wdm-utility-link" href="#news">News &amp; Stories</a>
-            </li>
-            <li class="wdm-utility-item">
-              <a class="wdm-utility-link is-red" href="#request-help">
-                Request Help
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none" class="icon">
-                  <path d="M6.4375 1H13C13.5523 1 14 1.44772 14 2V16C14 16.5523 13.5523 17 13 17H6.4375M1 9H9.25M9.25 9L5.125 4.63636M9.25 9L5.125 13.3636" stroke="#BE2437" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-            </li>
-            <li class="wdm-utility-item">
-              <a class="wdm-utility-link wdm-utility-link--search" href="#search">
-                <span class="wdm-screen-reader">Search</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" width="16" height="16" class="search-icon">
-                  <circle cx="5.6" cy="5.6" r="4.6" stroke="var(--icon-color, #38444A)" stroke-width="2"/>
-                  <path d="M13.293 14.707a1 1 0 0 0 1.415-1.414l-1.415 1.415Zm-5.6-5.6 5.6 5.6 1.415-1.414-5.6-5.6-1.415 1.415Z" fill="var(--icon-color, #38444A)"/>
-                </svg>
-              </a>
-            </li>
-          </ul>
+        <?php
+$utility_menu = get_option('wdm_utility_menu', array());
+
+if (!empty($utility_menu) && is_array($utility_menu)) :
+?>
+  <ul class="wdm-utility-list is-desktop" role="list">
+    <?php foreach ($utility_menu as $item) :
+      $text   = esc_html($item['text'] ?? '');
+      $url    = esc_url($item['url'] ?? '#');
+      $target = esc_attr($item['target'] ?? '_self');
+      $icon   = trim($item['icon'] ?? '');
+    ?>
+      <li class="wdm-utility-item">
+        <a class="wdm-utility-link" href="<?php echo $url; ?>" target="<?php echo $target; ?>">
+          <?php echo $text; ?>
+          <?php if (!empty($icon)) : ?>
+            <i class="<?php echo esc_attr($icon); ?>" aria-hidden="true"></i>
+          <?php endif; ?>
+        </a>
+      </li>
+    <?php endforeach; ?>
+  </ul>
+<?php endif; ?>
+
 
           <div class="wdm-utility-buttons">
             <button class="wdm-hamburger-btn" type="button" data-expands="nav" style="display: none;">

@@ -30,12 +30,12 @@ class WDM_Plugin_Info {
                 
                 <div class="wdm-info-item">
                     <label class="wdm-info-label">Author:</label>
-                    <span class="wdm-info-value">WDM Developer</span>
+                    <span class="wdm-info-value">Carlo Santos</span>
                 </div>
                 
                 <div class="wdm-info-item">
                     <label class="wdm-info-label">Organization:</label>
-                    <span class="wdm-info-value">Greybull Rescue</span>
+                    <span class="wdm-info-value">WD Morgan Solutions</span>
                 </div>
             </div>
         </div>

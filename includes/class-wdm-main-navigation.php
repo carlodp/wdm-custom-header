@@ -23,7 +23,7 @@ class WDM_Main_Navigation {
         if (isset($_POST['wdm_menu_nonce']) && wp_verify_nonce($_POST['wdm_menu_nonce'], 'wdm_save_menu')) {
             error_log('Nonce verified, processing form.');
             $menu_items = $this->process_menu_submission();
-            echo '<div class="notice notice-success is-dismissible"><p>Main navigation menu saved successfully!</p></div>';
+            echo '<div class="wdm-notice notice notice-success is-dismissible"><p>Main navigation menu saved successfully!</p></div>';
         } else {
             error_log('Nonce check failed or not present.');
         }
@@ -34,10 +34,12 @@ class WDM_Main_Navigation {
             <div class="wdm-form-section">
                 <div class="wdm-section-header">
                     <h3>Main Navigation Menu Items</h3>
-                    <div class="wdm-section-actions">
-                        <button type="button" class="wdm-btn wdm-btn-secondary wdm-add-menu-item">Add Menu Item</button>
-                        <button type="button" class="wdm-btn wdm-btn-secondary wdm-preview-header">Preview Menu</button>
-                    </div>
+                        <div class="wdm-section-actions">
+                            <button type="button" class="wdm-btn wdm-btn-secondary wdm-add-menu-item"><i class="fas fa-plus"></i> Add Menu Item</button>
+                            <button type="submit" name="submit" class="wdm-btn wdm-btn-primary wdm-submit-btn">
+                                <i class="fas fa-save" style="margin-right: 6px;"></i> Save Main Navigation Menu
+                            </button>
+                        </div>
                 </div>
 
                 <div class="wdm-menu-items">
@@ -48,10 +50,6 @@ class WDM_Main_Navigation {
                     <h4>Menu Preview</h4>
                     <div class="wdm-preview-content"></div>
                 </div>
-            </div>
-
-            <div class="wdm-form-actions">
-                <input type="submit" name="submit" class="wdm-btn wdm-btn-primary" value="Save Main Navigation Menu" />
             </div>
         </form>
 <?php
@@ -143,12 +141,19 @@ class WDM_Main_Navigation {
 ?>
             <div class="wdm-menu-item" data-index="<?php echo $index; ?>">
                 <div class="wdm-menu-item-header">
-                    <span class="wdm-drag-handle">⋮⋮</span>
-                    <span class="wdm-menu-item-title">Menu Item <?php echo $index + 1; ?></span>
+                    <div class="drag-name-container">
+                        <span class="wdm-drag-handle">⋮⋮</span>
+                        <span class="wdm-menu-item-title">Menu Item <?php echo $index + 1; ?></span>
+                        <label class="wdm-toggle-switch">
+                            <input type="checkbox" name="wdm_menu_items[<?php echo $index; ?>][mega_menu]" value="1" <?php checked($mega_menu, true); ?>>
+                            <span class="toggle-label">Enable Mega Menu</span>
+                        </label>
+                    </div>
                     <div class="wdm-menu-item-actions">
-                        <button type="button" class="wdm-btn wdm-btn-small wdm-add-submenu-item" data-index="<?php echo $index; ?>">Add Submenu</button>
-                        <button type="button" class="wdm-btn wdm-btn-small wdm-toggle-submenu">Show Submenu (<?php echo count($submenu); ?>)</button>
-                        <button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-menu-item">Remove</button>
+                    
+                        <button type="button" class="wdm-btn wdm-btn-small wdm-add-submenu-item" data-index="<?php echo $index; ?>"><i class="fas fa-plus"></i> Add Submenu</button>
+                        <button type="button" class="wdm-btn wdm-btn-small wdm-toggle-submenu"><i class="fas fa-chevron-down"></i> Show Submenu (<?php echo count($submenu); ?>)</button>
+                        <button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-menu-item"><i class="fas fa-trash-alt"></i> Remove</button>
                     </div>
                 </div>
 
@@ -169,16 +174,6 @@ class WDM_Main_Navigation {
                         </select>
                     </div>
                 </div>
-
-                <div class="wdm-form-row">
-                    <div class="wdm-form-col wdm-form-col-full">
-                        <label class="wdm-form-label">
-                            <input type="checkbox" name="wdm_menu_items[<?php echo $index; ?>][mega_menu]" value="1" <?php checked($mega_menu, true); ?> />
-                            Enable Mega Menu
-                        </label>
-                    </div>
-                </div>
-
 
                 <div class="wdm-submenu-items hidden">
                     <?php $this->render_submenu_items($index, $submenu); ?>
@@ -203,32 +198,34 @@ class WDM_Main_Navigation {
                     <button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-submenu-item">Remove</button>
                 </div>
                 
-                <div class="wdm-form-row">
-                    <div class="wdm-form-col">
-                        <label class="wdm-form-label">Submenu Text</label>
-                        <input type="text" name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][text]" value="<?php echo $text; ?>" class="wdm-form-input" />
-                    </div>
-                    <div class="wdm-form-col">
-                        <label class="wdm-form-label">URL</label>
-                        <input type="text" name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][url]" value="<?php echo $url; ?>" class="wdm-form-input" />
-                    </div>
-                    <div class="wdm-form-col-narrow">
-                        <label class="wdm-form-label">Target</label>
-                        <select name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][target]" class="wdm-form-select">
-                            <option value="_self" <?php selected($target, '_self'); ?>>Same Window</option>
-                            <option value="_blank" <?php selected($target, '_blank'); ?>>New Window</option>
-                        </select>
-                    </div>
-                </div>
-    
-                <?php if ($sub_index === 0): ?>
+                <div class="submenu-fields">
                     <div class="wdm-form-row">
                         <div class="wdm-form-col">
-                            <label class="wdm-form-label">Description</label>
-                            <textarea name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][description]" class="wdm-form-input wdm-form-textarea"><?php echo $description; ?></textarea>
+                            <label class="wdm-form-label">Submenu Text</label>
+                            <input type="text" name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][text]" value="<?php echo $text; ?>" class="wdm-form-input" />
+                        </div>
+                        <div class="wdm-form-col">
+                            <label class="wdm-form-label">URL</label>
+                            <input type="text" name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][url]" value="<?php echo $url; ?>" class="wdm-form-input" />
+                        </div>
+                        <div class="wdm-form-col-narrow">
+                            <label class="wdm-form-label">Target</label>
+                            <select name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][target]" class="wdm-form-select">
+                                <option value="_self" <?php selected($target, '_self'); ?>>Same Window</option>
+                                <option value="_blank" <?php selected($target, '_blank'); ?>>New Window</option>
+                            </select>
                         </div>
                     </div>
-                <?php endif; ?>
+        
+                    <?php if ($sub_index === 0): ?>
+                        <div class="wdm-form-row">
+                            <div class="wdm-form-col">
+                                <label class="wdm-form-label">Description</label>
+                                <textarea name="wdm_menu_items[<?php echo $menu_index; ?>][submenu][<?php echo $sub_index; ?>][description]" class="wdm-form-input wdm-form-textarea"><?php echo $description; ?></textarea>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>      
             </div>
     <?php
         }

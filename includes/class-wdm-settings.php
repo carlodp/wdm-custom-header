@@ -30,30 +30,143 @@ class WDM_Settings {
         $this->plugin_info = new WDM_Plugin_Info();
 
         \add_action('admin_menu', array($this, 'add_admin_menu'));
+        \add_action('admin_menu', array($this, 'set_active_submenu_highlight'));
         \add_action('admin_init', array($this, 'settings_init'));
+        \add_action('admin_head', array($this, 'hide_elementor_notices_on_settings_page'));
         \add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
         \add_action('wp_ajax_wdm_check_update', array($this, 'ajax_check_update'));
         \add_action('wp_ajax_wdm_force_update', array($this, 'ajax_force_update'));
+        \add_action('admin_footer', array($this, 'hide_default_footer_on_plugin_pages'));
+        
     }
 
     public function add_admin_menu() {
-        \add_options_page(
-            'WDM Header Settings',
-            'WDM Header',
+        // Top-level menu
+        add_menu_page(
+            'Header Matrix',
+            'Header Matrix',
             'manage_options',
             'wdm-header-settings',
-            array($this, 'settings_page')
+            [$this, 'settings_page'],
+            'dashicons-screenoptions',
+            61
         );
+    
+        // Submenus with working tab links
+        add_submenu_page(
+            'wdm-header-settings',
+            'Main Navigation',
+            'Main Navigation',
+            'manage_options',
+            'wdm-header-settings&tab=main_menu',
+            [$this, 'settings_page']
+        );
+    
+        add_submenu_page(
+            'wdm-header-settings',
+            'Utility Navigation',
+            'Utility Navigation',
+            'manage_options',
+            'wdm-header-settings&tab=utility_menu',
+            [$this, 'settings_page']
+        );
+    
+        add_submenu_page(
+            'wdm-header-settings',
+            'General Settings',
+            'General Settings',
+            'manage_options',
+            'wdm-header-settings&tab=general',
+            [$this, 'settings_page']
+        );
+    
+        add_submenu_page(
+            'wdm-header-settings',
+            'Plugin Info',
+            'Plugin Info',
+            'manage_options',
+            'wdm-header-settings&tab=plugin_info',
+            [$this, 'settings_page']
+        );
+
+        global $submenu;
+        if (isset($submenu['wdm-header-settings'])) {
+            foreach ($submenu['wdm-header-settings'] as $index => $item) {
+                if (isset($item[2]) && $item[2] === 'wdm-header-settings') {
+                    unset($submenu['wdm-header-settings'][$index]);
+                    break;
+                }
+            }
+        }
+    }    
+
+    public function set_active_submenu_highlight() {
+        global $submenu_file, $parent_file;
+    
+        if (
+            isset($_GET['page']) &&
+            $_GET['page'] === 'wdm-header-settings'
+        ) {
+            $parent_file = 'wdm-header-settings';
+    
+            $tab = $_GET['tab'] ?? 'main_menu';
+    
+            switch ($tab) {
+                case 'utility_menu':
+                    $submenu_file = 'wdm-header-settings&tab=utility_menu';
+                    break;
+                case 'general':
+                    $submenu_file = 'wdm-header-settings&tab=general';
+                    break;
+                case 'plugin_info':
+                    $submenu_file = 'wdm-header-settings&tab=plugin_info';
+                    break;
+                case 'main_menu':
+                default:
+                    $submenu_file = 'wdm-header-settings&tab=main_menu';
+                    break;
+            }
+        }
+    }    
+
+    public function hide_default_footer_on_plugin_pages() {
+        $screen = get_current_screen();
+        if ($screen && $screen->id === 'toplevel_page_wdm-header-settings') {
+            echo '<style>#wpfooter { display: none !important; }</style>';
+        }
+    }
+
+    public function render_custom_footer() {
+        echo '<div class="wdm-admin-footer">
+            <p>Designed and Developed by <a href="https://wdmorgan.com" target="_blank" style="color: #666; text-decoration: underline;">WD Morgan Solutions</a></p>
+            <span style="font-size: 11px;">Plugin Version: ' . esc_html(WDM_CUSTOM_HEADER_VERSION) . '</span></p>
+        </div>';
     }
 
     public function enqueue_admin_assets($hook_suffix) {
-        if ($hook_suffix !== 'settings_page_wdm-header-settings') {
+        if ($hook_suffix !== 'toplevel_page_wdm-header-settings') {
             return;
         }
 
         wp_enqueue_script('jquery-ui-sortable');
+
+        // Enqueue Google Fonts
+        wp_enqueue_style(
+            'poppins-google-font',
+            'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap',
+            array(),
+            null
+        );
+
+        wp_enqueue_style(
+            'fontawesome',
+            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css',
+            array(),
+            '6.7.2'
+        );        
+
         wp_enqueue_style('wdm-admin-styles', WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/css/admin-styles.css', array(), WDM_CUSTOM_HEADER_VERSION);
-        wp_enqueue_script('wdm-admin-script', WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/js/admin-script.js', array('jquery', 'jquery-ui-sortable'), WDM_CUSTOM_HEADER_VERSION, true);
+        wp_enqueue_script('wdm-admin-script', WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/js/main-navigation-script.js', array('jquery', 'jquery-ui-sortable'), WDM_CUSTOM_HEADER_VERSION, true);
     }
 
     public function settings_init() {
@@ -109,7 +222,6 @@ class WDM_Settings {
                     $sanitized_sub['url']  = isset($sub_item['url']) ? esc_url_raw($sub_item['url']) : '';
                     $sanitized_sub['target'] = isset($sub_item['target']) && in_array($sub_item['target'], array('_self', '_blank')) ? $sub_item['target'] : '_self';
                 
-                    // ✅ Only include 'description' for Main Submenu (index 0)
                     if ($sub_index === 0 && isset($sub_item['description'])) {
                         $sanitized_sub['description'] = wp_kses_post($sub_item['description']);
                     }
@@ -138,12 +250,30 @@ class WDM_Settings {
             $sanitized[] = array(
                 'text'   => isset($item['text']) ? sanitize_text_field($item['text']) : '',
                 'url'    => isset($item['url']) ? esc_url_raw($item['url']) : '',
-                'target' => isset($item['target']) && in_array($item['target'], array('_self', '_blank')) ? $item['target'] : '_self'
+                'target' => isset($item['target']) && in_array($item['target'], array('_self', '_blank')) ? $item['target'] : '_self',
+                'icon'   => isset($item['icon']) ? sanitize_text_field($item['icon']) : '',
             );
         }
 
         return $sanitized;
     }
+
+    public function hide_elementor_notices_on_settings_page() {
+        $screen = get_current_screen();
+    
+        if ($screen && $screen->id === 'toplevel_page_wdm-header-settings') {
+            echo '<style>
+                .e-notice,
+                .e-notice--dismissible,
+                .e-notice--extended,
+                .elementor-message,
+                .elementor-message-success {
+                    display: none !important;
+                }
+            </style>';
+        }
+    }
+    
 
     public function ajax_check_update() {
         if (!wp_verify_nonce($_POST['nonce'], 'wdm_update_nonce') || !current_user_can('manage_options')) {
@@ -212,17 +342,39 @@ class WDM_Settings {
 
     public function settings_page() {
         $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'main_menu';
+    
+        // Set correct submenu file for highlighting
+        switch ($active_tab) {
+            case 'utility_menu':
+                $submenu_file = 'wdm-header-settings&tab=utility_menu';
+                break;
+            case 'general':
+                $submenu_file = 'wdm-header-settings&tab=general';
+                break;
+            case 'plugin_info':
+                $submenu_file = 'wdm-header-settings&tab=plugin_info';
+                break;
+            case 'main_menu':
+            default:
+                $submenu_file = 'wdm-header-settings&tab=main_menu';
+                break;
+        }
         ?>
         <div class="wrap wdm-admin-wrap">
-            <h1>WDM Custom Header Settings</h1>
+            <div class="sticky-wrapper">
+                <div class="sticky-title">
+                    <h1>Header Matrix</h1>
+                    <span>by <a href="https://wdmorgan.com/" target="_blank">WD Morgan Solutions</a></span>
+                </div>
+                
+                <h2 class="nav-tab-wrapper">
+                    <a href="?page=wdm-header-settings&tab=main_menu" class="nav-tab <?php echo $active_tab == 'main_menu' ? 'nav-tab-active' : ''; ?>"><i class="fas fa-sitemap"></i> Main Navigation Menu</a>
+                    <a href="?page=wdm-header-settings&tab=utility_menu" class="nav-tab <?php echo $active_tab == 'utility_menu' ? 'nav-tab-active' : ''; ?>"><i class="fas fa-tools"></i> Utility Navigation Menu</a>
+                    <a href="?page=wdm-header-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>"><i class="fas fa-cogs"></i> General Settings</a>
+                    <a href="?page=wdm-header-settings&tab=plugin_info" class="nav-tab <?php echo $active_tab == 'plugin_info' ? 'nav-tab-active' : ''; ?>"><i class="fas fa-info-circle"></i> Plugin Information</a>
+                </h2>
             
-            <h2 class="nav-tab-wrapper">
-                <a href="?page=wdm-header-settings&tab=main_menu" class="nav-tab <?php echo $active_tab == 'main_menu' ? 'nav-tab-active' : ''; ?>">Main Navigation Menu</a>
-                <a href="?page=wdm-header-settings&tab=utility_menu" class="nav-tab <?php echo $active_tab == 'utility_menu' ? 'nav-tab-active' : ''; ?>">Utility Navigation Menu</a>
-                <a href="?page=wdm-header-settings&tab=general" class="nav-tab <?php echo $active_tab == 'general' ? 'nav-tab-active' : ''; ?>">General Settings</a>
-                <a href="?page=wdm-header-settings&tab=plugin_info" class="nav-tab <?php echo $active_tab == 'plugin_info' ? 'nav-tab-active' : ''; ?>">Plugin Information</a>
-            </h2>
-            
+            </div>
             <div class="wdm-admin-container">
                 <?php
                 switch($active_tab) {
@@ -245,5 +397,8 @@ class WDM_Settings {
             </div>
         </div>
         <?php
+        $this->render_custom_footer();
     }
+    
 }
+
