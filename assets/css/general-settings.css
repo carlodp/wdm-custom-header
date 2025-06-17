@@ -1,0 +1,62 @@
+.general-settings-container {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.general-settings-column {
+  padding: 25px;
+  background-color: #e8e8e8;
+  border-radius: 10px;
+  border: 1px solid #d9d9d9;
+  max-width: 50%;
+  margin-bottom: 0;
+  flex: 0 0 calc(50% - 12.5px);
+  box-sizing: border-box;
+  margin-bottom: 0 !important;
+}
+
+.general-settings-column.advanced-settings {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.general-settings-column h3 {
+  margin-top: 0;
+}
+
+.logo-upload-btn-container {
+  display: flex;
+  gap: 10px;
+}
+
+.utility-button-row {
+  background: #f7f7f7;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.utility-button-row .wdm-form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.utility-button-row input[type="text"],
+.utility-button-row input[type="url"],
+.utility-button-row input[type="color"] {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.utility-button-row .remove-utility-button {
+  background: #d63638;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+}
+

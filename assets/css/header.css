@@ -8,7 +8,7 @@
 /* Main Header Container */
 .wdm-main-header {
   background: #ffffff;
-  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 5px 0px #00000080;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -215,6 +215,7 @@
   min-width: 120px;
   height: 100%;
   z-index: 999;
+  min-width: 200px;
 }
 
 .btn-volunteer {
@@ -325,6 +326,10 @@
   border-bottom: none;
   transform: translateY(-20px);
   overflow: hidden;
+}
+
+.wdm-main-header.scrolled {
+  border-bottom: 0;
 }
 
 .wdm-main-header.scrolled .wdm-hamburger-btn {
@@ -753,4 +758,68 @@
 
 .animate-nav-dropdown-6 {
   animation-delay: 0.6s;
+}
+
+.emergency-alert-banner {
+  z-index: 999999;
+  position: relative;
+  background-color: #b30000;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-height: 200px; /* adjust if your banner is taller */
+  overflow: hidden;
+  transition: max-height 0.35s linear;
+}
+
+.emergency-alert-banner.collapsed {
+  max-height: 0;
+  pointer-events: none;
+}
+
+.emergency-alert-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.alert-text-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.alert-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee-scroll 20s linear infinite;
+  animation-delay: 1s;
+}
+
+.alert-text span {
+  display: inline-block;
+  padding-right: 100px; /* spacing between repetitions */
+}
+
+.alert-button {
+  background-color: #fff;
+  color: #b30000;
+  padding: 6px 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }

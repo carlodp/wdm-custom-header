@@ -178,6 +178,9 @@ class WDM_Settings {
     public function sanitize_options($input) {
         $sanitized = array();
 
+
+        $sanitized['emergency_button_url'] = isset($input['emergency_button_url']) ? esc_url_raw($input['emergency_button_url']) : '';
+
         $sanitized['enable_sticky'] = isset($input['enable_sticky']) ? 1 : 0;
         $sanitized['enable_mobile_menu'] = isset($input['enable_mobile_menu']) ? 1 : 0;
         $sanitized['load_css'] = isset($input['load_css']) ? 1 : 0;
@@ -190,6 +193,31 @@ class WDM_Settings {
         $sanitized['logo_url'] = isset($input['logo_url']) ? esc_url_raw($input['logo_url']) : '';
         $sanitized['home_url'] = isset($input['home_url']) ? esc_url_raw($input['home_url']) : '/';
         $sanitized['custom_css'] = isset($input['custom_css']) ? wp_strip_all_tags($input['custom_css']) : '';
+        // Emergency Alert Banner Fields
+        $sanitized['enable_emergency'] = isset($input['enable_emergency']) && $input['enable_emergency'] === '1' ? '1' : '0';
+        $sanitized['emergency_text'] = isset($input['emergency_text']) ? sanitize_text_field($input['emergency_text']) : '';
+        $sanitized['emergency_button_text'] = isset($input['emergency_button_text']) ? sanitize_text_field($input['emergency_button_text']) : '';
+        $sanitized['emergency_button_url'] = isset($input['emergency_button_url']) ? esc_url_raw($input['emergency_button_url']) : '';
+
+        if (!empty($input['utility_buttons']) && is_array($input['utility_buttons'])) {
+            $sanitized['utility_buttons'] = [];
+        
+            foreach ($input['utility_buttons'] as $btn) {
+                $label = isset($btn['label']) ? sanitize_text_field($btn['label']) : '';
+                $url   = isset($btn['url']) ? esc_url_raw($btn['url']) : '';
+                $color = isset($btn['color']) ? sanitize_hex_color($btn['color']) : '#d13a30';
+        
+                if ($label && $url && count($sanitized['utility_buttons']) < 3) {
+                    $sanitized['utility_buttons'][] = [
+                        'label' => $label,
+                        'url'   => $url,
+                        'color' => $color,
+                    ];
+                }
+            }
+        } else {
+            $sanitized['utility_buttons'] = []; // fallback if missing
+        }           
 
         return $sanitized;
     }

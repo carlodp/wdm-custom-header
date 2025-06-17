@@ -12,6 +12,7 @@ $menu_items = get_option('wdm_menu_items', []);
 // Fetch and sanitize logo values
 $logo_url = esc_url($options['logo_url'] ?? '');
 $logo_alt = esc_attr($options['org_name'] ?? 'Site Logo');
+$scroll_trigger = isset($options['scroll_trigger']) ? (int) $options['scroll_trigger'] : 100;
 
 $volunteer = [
   'label' => $options['volunteer_text'] ?? 'Volunteer',
@@ -24,7 +25,29 @@ $donate = [
 $show_search = $options['show_search'] ?? false;
 ?>
 
-<header class="wdm-main-header" id="wdm-header">
+<?php if (!empty($options['enable_emergency']) && $options['enable_emergency'] === '1'): ?>
+  <div class="emergency-alert-banner">
+    <div class="emergency-alert-content">
+      <?php if (!empty($options['emergency_text'])): ?>
+        <div class="alert-text-wrapper">
+          <div class="alert-text">
+            <span><?php echo esc_html($options['emergency_text']); ?></span>
+            <span><?php echo esc_html($options['emergency_text']); ?></span>
+          </div>
+        </div>
+      <?php endif; ?>
+
+      <?php if (!empty($options['emergency_button_text']) && !empty($options['emergency_button_url'])): ?>
+        <a class="alert-button" href="<?php echo esc_url($options['emergency_button_url']); ?>">
+          <?php echo esc_html($options['emergency_button_text']); ?>
+        </a>
+      <?php endif; ?>
+    </div>
+  </div>
+<?php endif; ?>
+
+<header class="wdm-main-header" id="wdm-header" data-scroll-trigger="<?php echo esc_attr($scroll_trigger); ?>" data-hysteresis="10">
+
   <div class="wdm-header-container">
 
     <h1 class="wdm-logo">
@@ -38,40 +61,60 @@ $show_search = $options['show_search'] ?? false;
 
       <nav class="wdm-nav-secondary" aria-label="Secondary" id="secondary-nav">
         <div class="wdm-utility-nav">
-        <?php
-$utility_menu = get_option('wdm_utility_menu', array());
+          <?php
+          $utility_menu = get_option('wdm_utility_menu', array());
 
-if (!empty($utility_menu) && is_array($utility_menu)) :
-?>
-  <ul class="wdm-utility-list is-desktop" role="list">
-    <?php foreach ($utility_menu as $item) :
-      $text   = esc_html($item['text'] ?? '');
-      $url    = esc_url($item['url'] ?? '#');
-      $target = esc_attr($item['target'] ?? '_self');
-      $icon   = trim($item['icon'] ?? '');
-    ?>
-      <li class="wdm-utility-item">
-        <a class="wdm-utility-link" href="<?php echo $url; ?>" target="<?php echo $target; ?>">
-          <?php echo $text; ?>
-          <?php if (!empty($icon)) : ?>
-            <i class="<?php echo esc_attr($icon); ?>" aria-hidden="true"></i>
+          if (!empty($utility_menu) && is_array($utility_menu)) :
+          ?>
+            <ul class="wdm-utility-list is-desktop" role="list">
+              <?php foreach ($utility_menu as $item) :
+                $text   = esc_html($item['text'] ?? '');
+                $url    = esc_url($item['url'] ?? '#');
+                $target = esc_attr($item['target'] ?? '_self');
+                $icon   = trim($item['icon'] ?? '');
+              ?>
+                <li class="wdm-utility-item">
+                  <a class="wdm-utility-link" href="<?php echo $url; ?>" target="<?php echo $target; ?>">
+                    <?php echo $text; ?>
+                    <?php if (!empty($icon)) : ?>
+                      <i class="<?php echo esc_attr($icon); ?>" aria-hidden="true"></i>
+                    <?php endif; ?>
+                  </a>
+                </li>
+              <?php endforeach; ?>
+            </ul>
           <?php endif; ?>
-        </a>
-      </li>
-    <?php endforeach; ?>
-  </ul>
-<?php endif; ?>
-
 
           <div class="wdm-utility-buttons">
-            <button class="wdm-hamburger-btn" type="button" data-expands="nav" style="display: none;">
-              <span class="wdm-screen-reader">Menu</span>
-              <div class="wdm-hamburger-icon" aria-hidden="true"><span></span><span></span><span></span></div>
-            </button>
-            <a href="<?php echo esc_url($volunteer['url']); ?>" class="wdm-utility-btn btn-volunteer is-desktop"><?php echo esc_html($volunteer['label']); ?></a>
-            <a href="<?php echo esc_url($donate['url']); ?>" target="_blank" class="wdm-utility-btn btn-donate"><?php echo esc_html($donate['label']); ?></a>
-          </div>
+    <button class="wdm-hamburger-btn" type="button" data-expands="nav" style="display: none;">
+        <span class="wdm-screen-reader">Menu</span>
+        <div class="wdm-hamburger-icon" aria-hidden="true">
+            <span></span><span></span><span></span>
         </div>
+    </button>
+
+    <?php 
+    $utility_buttons = get_option('wdm_header_options')['utility_buttons'] ?? [];
+      foreach ($utility_buttons as $index => $btn): 
+        $label = esc_html($btn['label']);
+        $url = esc_url($btn['url']);
+        $color = esc_attr($btn['color'] ?? '#d13a30');
+        $classes = 'wdm-utility-btn';
+    
+        // Apply special classes to first two buttons
+        if ($index === 0) {
+            $classes .= ' btn-volunteer';
+        } elseif ($index === 1) {
+            $classes .= ' btn-donate';
+        } else {
+            $classes .= ' btn-utility-' . ($index + 1);
+        }
+    ?>
+        <a href="<?php echo $url; ?>" class="<?php echo esc_attr($classes); ?>" style="background-color: <?php echo $color; ?>;">
+            <?php echo $label; ?>
+        </a>
+    <?php endforeach; ?>  
+</div>
       </nav>
 
       <nav class="Header-nav-main Nav-expandable" id="nav" role="navigation" aria-label="Main">
