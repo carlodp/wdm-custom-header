@@ -31,9 +31,9 @@ class WDM_General_Settings {
         // ✅ Load custom styles for the General Settings page
         wp_enqueue_style(
             'wdm-general-settings-style',
-            plugin_dir_url(dirname(__FILE__)) . 'assets/css/general-settings.css',
+            WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/css/general-settings.css',
             array(),
-            '1.0'
+            WDM_CUSTOM_HEADER_VERSION
         );
     
         // ✅ Load custom JS with jQuery dependency

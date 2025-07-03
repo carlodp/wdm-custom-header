@@ -36,9 +36,9 @@ class WDM_Utility_Navigation {
     
         wp_enqueue_style(
             'wdm-utility-nav-style',
-            plugin_dir_url(dirname(__FILE__)) . 'assets/css/utility-nav-style.css',
+            WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/css/utility-nav-style.css',
             array(),
-            '1.0'
+            WDM_CUSTOM_HEADER_VERSION
         );
     
         // Required scripts
@@ -54,9 +54,9 @@ class WDM_Utility_Navigation {
     
         wp_enqueue_script(
             'wdm-utility-nav-script',
-            plugin_dir_url(dirname(__FILE__)) . 'assets/js/utility-script.js',
+            WDM_CUSTOM_HEADER_PLUGIN_URL . 'assets/js/utility-script.js',
             array('jquery', 'jquery-ui-sortable', 'iconpicker-js'),
-            '1.0',
+            WDM_CUSTOM_HEADER_VERSION,
             true
         );
     }
