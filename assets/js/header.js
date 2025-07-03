@@ -72,10 +72,25 @@
   function initializeMobileMenu(header) {
     const mobileToggle = header.querySelector(".wdm-hamburger-btn");
     const nav = header.querySelector(".Nav-expandable-wrap");
+    const overlay = document.getElementById("wdm-mobile-menu");
 
-    if (mobileToggle && nav) {
+    if (mobileToggle) {
       mobileToggle.addEventListener("click", function () {
-        toggleMobileMenu(mobileToggle, nav);
+        toggleMobileMenu(mobileToggle, nav, overlay, header);
+      });
+    }
+
+    if (overlay) {
+      overlay.querySelectorAll(".mobile-menu-toggle").forEach(function (btn) {
+        const id = btn.getAttribute("data-expands");
+        const panel = overlay.querySelector("#" + id);
+        btn.addEventListener("click", function () {
+          const expanded = btn.getAttribute("aria-expanded") === "true";
+          btn.setAttribute("aria-expanded", !expanded);
+          if (panel) {
+            panel.classList.toggle("active");
+          }
+        });
       });
     }
   }
@@ -83,35 +98,38 @@
   /**
    * Toggle mobile menu
    */
-  function toggleMobileMenu(toggle, nav) {
-    const isActive = nav.classList.contains("active");
-    const header = toggle.closest(".wdm-main-header");
+  function toggleMobileMenu(toggle, nav, overlay, header) {
+    const isMobile = window.innerWidth <= 768 && overlay;
 
-    if (isActive) {
-      nav.classList.remove("active");
-      toggle.classList.remove("active");
-
-      // Close all dropdowns when closing mobile menu
-      const navItems = nav.querySelectorAll(".Nav-item");
-      navItems.forEach(function (item) {
-        item.classList.remove("active");
-        const dropdown = item.querySelector(".Nav-dropdown, .Nav-megaDropdown");
-        if (dropdown) {
-          dropdown.classList.remove("active");
-        }
-      });
-
-      // Remove nav-open class from header
-      if (header) {
+    if (isMobile) {
+      const open = overlay.classList.contains("active");
+      if (open) {
+        overlay.classList.remove("active");
+        toggle.classList.remove("active");
         header.classList.remove("nav-open");
-      }
-    } else {
-      nav.classList.add("active");
-      toggle.classList.add("active");
-
-      // Add nav-open class to header
-      if (header) {
+      } else {
+        overlay.classList.add("active");
+        toggle.classList.add("active");
         header.classList.add("nav-open");
+      }
+      return;
+    }
+
+    const isActive = nav && nav.classList.contains("active");
+
+    if (nav) {
+      if (isActive) {
+        nav.classList.remove("active");
+        toggle.classList.remove("active");
+        if (header) {
+          header.classList.remove("nav-open");
+        }
+      } else {
+        nav.classList.add("active");
+        toggle.classList.add("active");
+        if (header) {
+          header.classList.add("nav-open");
+        }
       }
     }
   }
@@ -120,10 +138,19 @@
    * Initialize outside click functionality
    */
   function initializeOutsideClick(header) {
+    const overlay = document.getElementById("wdm-mobile-menu");
     document.addEventListener("click", function (e) {
-      // Check if click is outside header
-      if (!header.contains(e.target)) {
+      const clickInsideHeader = header.contains(e.target);
+      const clickInsideOverlay = overlay && overlay.contains(e.target);
+
+      if (!clickInsideHeader && !clickInsideOverlay) {
         closeAllDropdowns(header);
+        if (overlay && overlay.classList.contains("active")) {
+          overlay.classList.remove("active");
+          const toggle = header.querySelector(".wdm-hamburger-btn");
+          if (toggle) toggle.classList.remove("active");
+          header.classList.remove("nav-open");
+        }
       }
     });
   }
@@ -176,10 +203,16 @@
         // Close mobile menu
         const mobileToggle = header.querySelector(".wdm-hamburger-btn");
         const nav = header.querySelector(".Nav-expandable-wrap");
+        const overlay = document.getElementById("wdm-mobile-menu");
 
-        if (mobileToggle && nav && nav.classList.contains("active")) {
+        if (overlay && overlay.classList.contains("active")) {
+          overlay.classList.remove("active");
+          if (mobileToggle) mobileToggle.classList.remove("active");
+          header.classList.remove("nav-open");
+        } else if (mobileToggle && nav && nav.classList.contains("active")) {
           mobileToggle.classList.remove("active");
           nav.classList.remove("active");
+          header.classList.remove("nav-open");
         }
       }
     }

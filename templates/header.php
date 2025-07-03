@@ -251,3 +251,41 @@ $show_search = $options['show_search'] ?? false;
     </div>
   </div>
 </header>
+
+<?php if (!empty($menu_items)) : ?>
+  <div class="wdm-mobile-menu-overlay" id="wdm-mobile-menu" aria-hidden="true">
+    <nav class="wdm-mobile-nav" aria-label="Mobile">
+      <ul class="wdm-mobile-menu-list" role="list">
+        <?php foreach ($menu_items as $item) :
+          $text = esc_html($item['text'] ?? '');
+          $url = esc_url($item['url'] ?? '#');
+          $submenu = $item['submenu'] ?? [];
+          $has_dropdown = !empty($submenu);
+          $dropdown_id = sanitize_title(($item['text'] ?? uniqid('mobile_')) . '-mobile');
+        ?>
+          <li class="wdm-mobile-menu-item <?php echo $has_dropdown ? 'has-dropdown' : ''; ?>">
+            <?php if ($has_dropdown) : ?>
+              <button class="mobile-menu-toggle" type="button" data-expands="<?php echo esc_attr($dropdown_id); ?>">
+                <?php echo $text; ?>
+                <span class="mobile-menu-icon" aria-hidden="true"></span>
+              </button>
+              <div class="mobile-menu-dropdown" id="<?php echo esc_attr($dropdown_id); ?>" aria-hidden="true">
+                <ul class="mobile-submenu" role="list">
+                  <?php foreach ($submenu as $sub) : ?>
+                    <li class="mobile-submenu-item">
+                      <a href="<?php echo esc_url($sub['url'] ?? '#'); ?>" class="mobile-submenu-link">
+                        <?php echo esc_html($sub['text'] ?? ''); ?>
+                      </a>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
+              </div>
+            <?php else : ?>
+              <a href="<?php echo $url; ?>" class="mobile-menu-link"><?php echo $text; ?></a>
+            <?php endif; ?>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    </nav>
+  </div>
+<?php endif; ?>
