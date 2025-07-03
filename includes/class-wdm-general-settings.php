@@ -291,7 +291,3 @@ class WDM_General_Settings {
     }
       
 }
-
-echo '<pre>';
-print_r(get_option('wdm_header_options'));
-echo '</pre>';

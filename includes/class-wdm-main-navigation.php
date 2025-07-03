@@ -103,8 +103,9 @@ class WDM_Main_Navigation {
                                     foreach ($column['links'] as $link) {
                                         if (!empty($link['text'])) {
                                             $links[] = array(
-                                                'text' => sanitize_text_field($link['text']),
-                                                'url'  => esc_url_raw($link['url'] ?? '#'),
+                                                'text'   => sanitize_text_field($link['text']),
+                                                'url'    => esc_url_raw($link['url'] ?? '#'),
+                                                'target' => sanitize_text_field($link['target'] ?? '_self'),
                                             );
                                         }
                                     }
@@ -137,6 +138,7 @@ class WDM_Main_Navigation {
             $url        = esc_attr($item['url'] ?? '');
             $target     = esc_attr($item['target'] ?? '_self');
             $submenu = isset($item['submenu']) && is_array($item['submenu']) ? $item['submenu'] : [];
+            $columns = isset($item['columns']) && is_array($item['columns']) ? $item['columns'] : [];
             $mega_menu  = !empty($item['mega_menu']) ? (bool) $item['mega_menu'] : false;
 ?>
             <div class="wdm-menu-item" data-index="<?php echo $index; ?>">
@@ -151,8 +153,11 @@ class WDM_Main_Navigation {
                     </div>
                     <div class="wdm-menu-item-actions">
                     
-                        <button type="button" class="wdm-btn wdm-btn-small wdm-add-submenu-item" data-index="<?php echo $index; ?>"><i class="fas fa-plus"></i> Add Submenu</button>
-                        <button type="button" class="wdm-btn wdm-btn-small wdm-toggle-submenu"><i class="fas fa-chevron-down"></i> Show Submenu (<?php echo count($submenu); ?>)</button>
+                        <button type="button" class="wdm-btn wdm-btn-small wdm-add-submenu-item" data-index="<?php echo $index; ?>"<?php echo $mega_menu ? ' style="display:none;"' : ''; ?>><i class="fas fa-plus"></i> Add Submenu</button>
+                        <button type="button" class="wdm-btn wdm-btn-small wdm-toggle-submenu">
+                            <i class="fas fa-chevron-down"></i> 
+                            <?php echo $mega_menu ? 'Show Mega Menu (' . count($columns) . ')' : 'Show Submenu (' . count($submenu) . ')'; ?>
+                        </button>                        
                         <button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-menu-item"><i class="fas fa-trash-alt"></i> Remove</button>
                     </div>
                 </div>
@@ -175,9 +180,73 @@ class WDM_Main_Navigation {
                     </div>
                 </div>
 
-                <div class="wdm-submenu-items hidden">
-                    <?php $this->render_submenu_items($index, $submenu); ?>
+                <div class="wdm-submenu-or-columns">
+                    <?php if (!$mega_menu): ?>
+                        <div class="wdm-submenu-items">
+                            <?php
+                            // --- Always render the Main Submenu item if it exists ---
+                            if (!empty($submenu) && isset($submenu[0])): ?>
+                                <div class="wdm-main-submenu-item"<?php echo $mega_menu ? '' : ' style="margin-bottom:20px"'; ?>>
+                                    <?php
+                                        // Only pass the first submenu as array to keep render_submenu_items logic unchanged
+                                        $this->render_submenu_items($index, array($submenu[0]));
+                                    ?>
+                                </div>
+                            <?php endif; ?>
+                            <?php
+                            // Render the rest of the submenus (excluding the first one)
+                            if (count($submenu) > 1) {
+                                $this->render_submenu_items($index, array_slice($submenu, 1));
+                            }
+                            ?>
+                        </div>
+                    <?php else: ?>
+                        <div class="wdm-mega-columns">
+                            <?php
+                            // --- Always render the Main Submenu item if it exists ---
+                            if (!empty($submenu) && isset($submenu[0])): ?>
+                                <div class="wdm-main-submenu-item"<?php echo $mega_menu ? '' : ' style="margin-bottom:20px"'; ?>>
+                                    <?php
+                                        // Only pass the first submenu as array to keep render_submenu_items logic unchanged
+                                        $this->render_submenu_items($index, array($submenu[0]));
+                                    ?>
+                                </div>
+                            <?php endif; ?>
+                            <div class="wdm-mega-columns-list">
+                            <?php
+                            foreach ($columns as $col_index => $column) {
+                                // ... column rendering (same as before) ...
+                                $title = esc_attr($column['title'] ?? '');
+                                echo '<div class="wdm-mega-column" data-col-index="' . $col_index . '">';
+                                echo '<input type="text" name="wdm_menu_items[' . $index . '][columns][' . $col_index . '][title]" value="' . $title . '" class="wdm-form-input wdm-mega-col-title" placeholder="Column Title" />';
+                                echo '<div class="wdm-mega-links">';
+                                $links = isset($column['links']) && is_array($column['links']) ? $column['links'] : [];
+                                foreach ($links as $link_index => $link) {
+                                    $link_text = esc_attr($link['text'] ?? '');
+                                    $link_url = esc_attr($link['url'] ?? '');
+                                    $link_target = esc_attr($link['target'] ?? '_self');
+                                    echo '<div class="wdm-mega-link" data-link-index="' . $link_index . '">';
+                                    echo '<input type="text" name="wdm_menu_items[' . $index . '][columns][' . $col_index . '][links][' . $link_index . '][text]" value="' . $link_text . '" class="wdm-form-input" placeholder="Link Text" />';
+                                    echo '<input type="url" name="wdm_menu_items[' . $index . '][columns][' . $col_index . '][links][' . $link_index . '][url]" value="' . $link_url . '" class="wdm-form-input" placeholder="https://example.com" />';
+                                    echo '<select name="wdm_menu_items[' . $index . '][columns][' . $col_index . '][links][' . $link_index . '][target]" class="wdm-form-select">';
+                                    echo '<option value="_self"' . selected($link_target, '_self', false) . '>Same Window</option>';
+                                    echo '<option value="_blank"' . selected($link_target, '_blank', false) . '>New Window</option>';
+                                    echo '</select>';
+                                    echo '<button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-link">Remove</button>';
+                                    echo '</div>'; // .wdm-mega-link
+                                }
+                                echo '</div>'; // .wdm-mega-links
+                                echo '<button type="button" class="wdm-btn wdm-btn-small wdm-add-link" data-menu-index="' . $index . '" data-col-index="' . $col_index . '">Add Submenu Item</button>';
+                                echo '<button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-column">Remove Column</button>';
+                                echo '</div>'; // .wdm-mega-column
+                            }
+                            ?>
+                            </div>
+                            <button type="button" class="wdm-btn wdm-btn-small wdm-add-column">Add Column</button>
+                        </div>
+                    <?php endif; ?>
                 </div>
+
             </div>
 <?php
         }
@@ -235,6 +304,7 @@ class WDM_Main_Navigation {
 }
 
 ?>
+
 
 
 <!--

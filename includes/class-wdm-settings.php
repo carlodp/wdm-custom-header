@@ -226,44 +226,69 @@ class WDM_Settings {
         if (!is_array($input)) {
             return array();
         }
-
+    
         $sanitized = array();
-
+    
         foreach ($input as $index => $item) {
             if (!is_array($item)) continue;
-
+    
             $sanitized_item = array();
             $sanitized_item['text']   = isset($item['text']) ? sanitize_text_field($item['text']) : '';
             $sanitized_item['url']    = isset($item['url']) ? esc_url_raw($item['url']) : '';
             $sanitized_item['target'] = isset($item['target']) && in_array($item['target'], array('_self', '_blank')) ? $item['target'] : '_self';
             $sanitized_item['mega_menu'] = isset($item['mega_menu']) && $item['mega_menu'] === '1' ? '1' : '0';
-
-            
+    
+            // ✅ Sanitize submenu
             $sanitized_item['submenu'] = array();
-
             if (isset($item['submenu']) && is_array($item['submenu'])) {
                 foreach ($item['submenu'] as $sub_index => $sub_item) {
                     if (!is_array($sub_item)) continue;
-                
+    
                     $sanitized_sub = array();
                     $sanitized_sub['text'] = isset($sub_item['text']) ? sanitize_text_field($sub_item['text']) : '';
                     $sanitized_sub['url']  = isset($sub_item['url']) ? esc_url_raw($sub_item['url']) : '';
                     $sanitized_sub['target'] = isset($sub_item['target']) && in_array($sub_item['target'], array('_self', '_blank')) ? $sub_item['target'] : '_self';
-                
+    
                     if ($sub_index === 0 && isset($sub_item['description'])) {
                         $sanitized_sub['description'] = wp_kses_post($sub_item['description']);
                     }
-                
+    
                     $sanitized_item['submenu'][] = $sanitized_sub;
                 }
-                
             }
-
+    
+            // ✅ Sanitize mega menu columns if applicable
+            $sanitized_item['columns'] = array();
+            if ($sanitized_item['mega_menu'] === '1' && isset($item['columns']) && is_array($item['columns'])) {
+                foreach ($item['columns'] as $col) {
+                    $col_title = isset($col['title']) ? sanitize_text_field($col['title']) : '';
+                    $links = [];
+    
+                    if (isset($col['links']) && is_array($col['links'])) {
+                        foreach ($col['links'] as $link) {
+                            if (!is_array($link) || empty($link['text'])) continue;
+    
+                            $links[] = array(
+                                'text'   => sanitize_text_field($link['text']),
+                                'url'    => esc_url_raw($link['url'] ?? ''),
+                                'target' => in_array($link['target'] ?? '_self', array('_self', '_blank')) ? $link['target'] : '_self',
+                            );
+                        }
+                    }
+    
+                    $sanitized_item['columns'][] = array(
+                        'title' => $col_title,
+                        'links' => $links
+                    );
+                }
+            }
+    
             $sanitized[] = $sanitized_item;
         }
-
+    
         return $sanitized;
     }
+    
 
     public function sanitize_utility_items($input) {
         if (!is_array($input)) {
