@@ -137,10 +137,10 @@ class WDM_Settings {
     }
 
     public function render_custom_footer() {
-        echo '<div class="wdm-admin-footer">
-            <p>Designed and Developed by <a href="https://wdmorgan.com" target="_blank" style="color: #666; text-decoration: underline;">WD Morgan Solutions</a></p>
-            <span style="font-size: 11px;">Plugin Version: ' . esc_html(WDM_CUSTOM_HEADER_VERSION) . '</span></p>
-        </div>';
+        echo '<div class="wdm-admin-footer">'
+            . '<p>Designed and Developed by <a href="https://wdmorgan.com" target="_blank" style="color: #666; text-decoration: underline;">WD Morgan Solutions</a> '
+            . '<span style="font-size: 11px;">Plugin Version: ' . esc_html(WDM_CUSTOM_HEADER_VERSION) . '</span></p>'
+        . '</div>';
     }
 
     public function enqueue_admin_assets($hook_suffix) {
