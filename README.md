@@ -73,4 +73,4 @@ All CSS is contained in `assets/css/header.css` with WDM-prefixed classes for un
 
 ## Version
 
-1.0.0 - Initial release with Grey Bull Rescue branding
+1.3.0 - Initial release with Grey Bull Rescue branding
