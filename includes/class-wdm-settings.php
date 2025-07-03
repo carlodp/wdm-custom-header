@@ -206,14 +206,16 @@ class WDM_Settings {
                 $label = isset($btn['label']) ? sanitize_text_field($btn['label']) : '';
                 $url   = isset($btn['url']) ? esc_url_raw($btn['url']) : '';
                 $color = isset($btn['color']) ? sanitize_hex_color($btn['color']) : '#d13a30';
+                $featured = isset($btn['featured']) && $btn['featured'] == '1' ? '1' : '0';
         
                 if ($label && $url && count($sanitized['utility_buttons']) < 3) {
                     $sanitized['utility_buttons'][] = [
-                        'label' => $label,
-                        'url'   => $url,
-                        'color' => $color,
+                        'label'    => $label,
+                        'url'      => $url,
+                        'color'    => $color,
+                        'featured' => $featured, // <-- Add this line
                     ];
-                }
+                }                
             }
         } else {
             $sanitized['utility_buttons'] = []; // fallback if missing

@@ -192,6 +192,18 @@ class WDM_General_Settings {
                                 <label class="wdm-form-label">Button Color</label>
                                 <input type="color" name="wdm_header_options[utility_buttons][<?php echo $index; ?>][color]" value="<?php echo esc_attr($btn['color'] ?? '#d13a30'); ?>" class="wdm-color-input" />
 
+                                <label class="wdm-form-label" style="display:block; margin-top:8px;">
+                                    <input type="hidden" name="wdm_header_options[utility_buttons][<?php echo $index; ?>][featured]" value="0" />
+                                    <input type="checkbox"
+                                        name="wdm_header_options[utility_buttons][<?php echo $index; ?>][featured]"
+                                        value="1"
+                                        class="utility-feature-checkbox"
+                                        <?php checked(isset($btn['featured']) && $btn['featured'] == '1'); ?>
+                                    />
+                                    Feature button in mobile
+                                </label>
+
+
                                 <button type="button" class="remove-utility-button button">Remove</button>
                             </div>
                         <?php endforeach; ?>
@@ -252,15 +264,30 @@ class WDM_General_Settings {
                     $label = isset($btn['label']) ? sanitize_text_field($btn['label']) : '';
                     $url   = isset($btn['url']) ? esc_url_raw($btn['url']) : '';
                     $color = isset($btn['color']) && function_exists('sanitize_hex_color') ? sanitize_hex_color($btn['color']) : '#d13a30';
-            
+                    $featured = isset($btn['featured']) && $btn['featured'] == '1' ? '1' : '0';
+                
                     if ($label && $url && count($options['utility_buttons']) < 3) {
                         $options['utility_buttons'][] = [
-                            'label' => $label,
-                            'url'   => $url,
-                            'color' => $color,
+                            'label'    => $label,
+                            'url'      => $url,
+                            'color'    => $color,
+                            'featured' => $featured,
                         ];
                     }
                 }
+                
+                // Only allow one featured
+                $found_featured = false;
+                foreach ($options['utility_buttons'] as $i => &$btn) {
+                    if ($btn['featured'] === '1') {
+                        if (!$found_featured) {
+                            $found_featured = true;
+                        } else {
+                            $btn['featured'] = '0';
+                        }
+                    }
+                }
+                unset($btn);
             }            
     
             // Checkbox values
@@ -291,3 +318,18 @@ class WDM_General_Settings {
     }
       
 }
+
+?>
+
+<!--
+
+<hr>
+<h3>🔍 Raw Saved Data (Debug)</h3>
+<pre style="background: #f9f9f9; padding: 1em; border: 1px solid #ccc; width: 63%; margin-left: 200px;">
+<?php
+$raw_general_data = get_option('wdm_header_options', []);
+//print_r($raw_general_data);
+?>
+</pre>
+
+-->

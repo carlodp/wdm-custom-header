@@ -23,6 +23,8 @@
     initializeOutsideClick(header);
     initializeScrollBehavior(header);
     initializeHamburgerMenu(header);
+    initializeMobileMenuToggle(header);
+    initializeEmergencyAlertModal(header);
   }
 
   /**
@@ -303,5 +305,103 @@
         }, 350);
       });
     }
+  }
+
+  function enableMobileSubmenuToggles() {
+    jQuery(".mobile-submenu-toggle")
+      .off("click")
+      .on("click", function () {
+        const $toggle = jQuery(this);
+        const $submenu = $toggle
+          .closest(".has-dropdown")
+          .find(".mobile-submenu");
+
+        if ($submenu.is(":visible")) {
+          $submenu.slideUp(300);
+          $toggle.attr("aria-expanded", "false");
+        } else {
+          $submenu.slideDown(300);
+          $toggle.attr("aria-expanded", "true");
+        }
+      });
+  }
+
+  // Call this inside your initializeMobileMenuToggle function
+  function initializeMobileMenuToggle() {
+    const toggle = document.querySelector(".wdm-mobile-menu-toggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const overlay = document.getElementById("mobileMenuOverlay");
+    const closeBtn = document.querySelector(".wdm-mobile-menu-close");
+
+    if (!toggle || !mobileMenu || !overlay) return;
+
+    function openMenu() {
+      mobileMenu.classList.add("open");
+      overlay.classList.add("open");
+      toggle.setAttribute("aria-label", "Close Mobile Menu");
+      document.body.style.overflow = "hidden";
+      enableMobileSubmenuToggles();
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove("open");
+      overlay.classList.remove("open");
+      toggle.setAttribute("aria-label", "Open Mobile Menu");
+      document.body.style.overflow = "";
+    }
+
+    toggle.addEventListener("click", function () {
+      const isOpen = mobileMenu.classList.contains("open");
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    overlay.addEventListener("click", closeMenu);
+
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closeMenu);
+    }
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && mobileMenu.classList.contains("open")) {
+        closeMenu();
+      }
+    });
+  }
+
+  function initializeEmergencyAlertModal() {
+    const modal = document.querySelector(".emergency-alert-modal-overlay");
+    const openBtn = document.querySelector(".emergency-alert-mobile-btn");
+    const closeBtn = modal
+      ? modal.querySelector(".emergency-alert-modal-close")
+      : null;
+
+    if (!modal || !openBtn || !closeBtn) return;
+
+    function openModal() {
+      modal.style.display = "flex";
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+      document.body.style.overflow = "";
+    }
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.style.display === "flex") {
+        closeModal();
+      }
+    });
   }
 })();

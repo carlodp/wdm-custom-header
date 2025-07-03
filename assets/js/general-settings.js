@@ -43,16 +43,23 @@ jQuery(document).ready(function ($) {
       <div class="utility-button-row">
         <label class="wdm-form-label">Button Label</label>
         <input type="text" name="wdm_header_options[utility_buttons][${newIndex}][label]" placeholder="Button Label" class="wdm-form-input" />
-
+    
         <label class="wdm-form-label">Button URL</label>
         <input type="url" name="wdm_header_options[utility_buttons][${newIndex}][url]" placeholder="https://example.com" class="wdm-form-input" />
-
+    
         <label class="wdm-form-label">Button Color</label>
         <input type="color" name="wdm_header_options[utility_buttons][${newIndex}][color]" value="#d13a30" class="wdm-color-input" />
-
+    
+        <label class="wdm-form-label" style="display:block; margin-top:8px;">
+          <input type="hidden" name="wdm_header_options[utility_buttons][${newIndex}][featured]" value="0" />
+          <input type="checkbox" name="wdm_header_options[utility_buttons][${newIndex}][featured]" value="1" class="utility-feature-checkbox" />
+          Feature button in mobile
+        </label>
+    
         <button type="button" class="remove-utility-button button">Remove</button>
       </div>
     `;
+   
 
     $("#utility-buttons-wrapper").append(newRow);
     updateButtonState();
@@ -66,10 +73,17 @@ jQuery(document).ready(function ($) {
       $(this).find('input[name*="[label]"]').attr("name", `wdm_header_options[utility_buttons][${i}][label]`);
       $(this).find('input[name*="[url]"]').attr("name", `wdm_header_options[utility_buttons][${i}][url]`);
       $(this).find('input[name*="[color]"]').attr("name", `wdm_header_options[utility_buttons][${i}][color]`);
-    });
+      $(this).find('input[name*="[featured]"]').attr("name", `wdm_header_options[utility_buttons][${i}][featured]`);
+    });    
 
     updateButtonState();
   });
 
   updateButtonState(); // run on load
+
+  $(document).on('change', '.utility-feature-checkbox', function () {
+    if ($(this).is(':checked')) {
+      $('.utility-feature-checkbox').not(this).prop('checked', false);
+    }
+  });  
 });
