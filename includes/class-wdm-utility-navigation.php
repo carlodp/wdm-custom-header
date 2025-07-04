@@ -227,15 +227,3 @@ class WDM_Utility_Navigation {
         }
     }
 }
-?>
-
-<?php
-
-/*
-echo '<pre style="    width: 60%;
-    margin-left: 300px;">';
-print_r(get_option('wdm_utility_menu'));
-echo '</pre>';
-*/
-
-?>

@@ -318,18 +318,3 @@ class WDM_General_Settings {
     }
       
 }
-
-?>
-
-<!--
-
-<hr>
-<h3>🔍 Raw Saved Data (Debug)</h3>
-<pre style="background: #f9f9f9; padding: 1em; border: 1px solid #ccc; width: 63%; margin-left: 200px;">
-<?php
-$raw_general_data = get_option('wdm_header_options', []);
-//print_r($raw_general_data);
-?>
-</pre>
-
--->
