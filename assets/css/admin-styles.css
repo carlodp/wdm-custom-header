@@ -203,8 +203,13 @@ h3 {
 .wdm-submenu-item-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 15px;
+  gap: 15px;
+}
+
+.wdm-submenu-item:first-child .wdm-submenu-drag-handle {
+  display: none !important;
 }
 
 .wdm-submenu-items {
@@ -569,6 +574,12 @@ div#wpcontent {
   flex-wrap: wrap;
 }
 
+.wdm-submenu-drag-handle {
+  cursor: move;
+  margin-right: 8px;
+  color: #888;
+}
+
 .wdm-mega-link input[type="text"],
 .wdm-mega-link input[type="url"],
 .wdm-mega-link select {
@@ -602,12 +613,10 @@ div#wpcontent {
   margin-top: 7px;
 }
 
-.wdm-mega-column .wdm-btn-danger {
-  position: absolute;
-  top: 13px;
-  right: 13px;
-  padding: 4px 10px;
-  font-size: 12px;
+button.wdm-btn.wdm-btn-small.wdm-btn-danger.wdm-remove-link {
+  flex: 0 0 115px;
+  height: 100%;
+  margin: 0;
 }
 
 .wdm-mega-column .wdm-add-link {

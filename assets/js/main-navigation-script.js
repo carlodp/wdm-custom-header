@@ -25,20 +25,39 @@
   /**
    * Initialize sortable functionality for menu items
    */
-  function initializeSortable() {
-    if (typeof $.fn.sortable !== "undefined") {
-      $(".wdm-menu-items").sortable({
-        handle: ".wdm-drag-handle",
-        placeholder: "wdm-sortable-placeholder",
+/**
+ * Initialize sortable functionality for menu and submenu items
+ */
+function initializeSortable() {
+  if (typeof $.fn.sortable !== "undefined") {
+    // Main menu items sortable
+    $(".wdm-menu-items").sortable({
+      handle: ".wdm-drag-handle",
+      placeholder: "wdm-sortable-placeholder",
+      opacity: 0.8,
+      cursor: "move",
+      update: function () {
+        updateMenuIndices();
+        markAsChanged();
+      },
+    });
+
+    // Submenu items sortable
+    $(".wdm-submenu-items").each(function () {
+      $(this).sortable({
+        handle: ".wdm-submenu-drag-handle",
+        placeholder: "wdm-submenu-sortable-placeholder",
         opacity: 0.8,
         cursor: "move",
+        cancel: ".wdm-submenu-item:first-child", // Prevent first item dragging
         update: function () {
-          updateMenuIndices();
+          updateSubmenuIndices();
           markAsChanged();
         },
       });
-    }
+    });    
   }
+}
 
   /**
    * Initialize tab interface
@@ -340,6 +359,7 @@
     return `
             <div class="wdm-submenu-item" data-submenu-index="${submenuIndex}">
                 <div class="wdm-submenu-header">
+                    <span class="wdm-submenu-drag-handle">⋮⋮</span>
                     <span class="wdm-submenu-title">Submenu Item ${
                       submenuIndex + 1
                     }</span>

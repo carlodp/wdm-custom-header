@@ -69,23 +69,18 @@ class WDM_Main_Navigation {
                     );
     
                     // ✅ Submenu block — correctly structured
-                    $submenu_items = array();
                     if (!empty($item['submenu']) && is_array($item['submenu'])) {
+                        $submenu_items = [];
                         foreach ($item['submenu'] as $sub_index => $sub_item) {
-                            if (!empty($sub_item['text'])) {
-                                $submenu_item = array(
-                                    'text'   => sanitize_text_field($sub_item['text']),
-                                    'url'    => esc_url_raw($sub_item['url']),
-                                    'target' => sanitize_text_field($sub_item['target']),
-                                );
-    
-                                if ($sub_index == 0) {
-                                    $submenu_item['description'] = wp_kses_post($sub_item['description'] ?? '');
-                                }
-    
-                                $submenu_items[$sub_index] = $submenu_item;
+                            if ($sub_index === 0 || !empty($sub_item['text'])) {
+                                $submenu_items[] = [
+                                    'text'       => sanitize_text_field($sub_item['text']),
+                                    'url'        => esc_url_raw($sub_item['url']),
+                                    'target'     => sanitize_text_field($sub_item['target']),
+                                    'description'=> $sub_index === 0 ? wp_kses_post($sub_item['description'] ?? '') : ''
+                                ];
                             }
-                        }
+                        }                                             
                     }
     
                     $menu_item['submenu'] = $submenu_items;
@@ -137,10 +132,10 @@ class WDM_Main_Navigation {
             $text       = esc_attr($item['text'] ?? '');
             $url        = esc_attr($item['url'] ?? '');
             $target     = esc_attr($item['target'] ?? '_self');
-            $submenu = isset($item['submenu']) && is_array($item['submenu']) ? $item['submenu'] : [];
-            $columns = isset($item['columns']) && is_array($item['columns']) ? $item['columns'] : [];
+            $submenu    = isset($item['submenu']) && is_array($item['submenu']) ? $item['submenu'] : [];
+            $columns    = isset($item['columns']) && is_array($item['columns']) ? $item['columns'] : [];
             $mega_menu  = !empty($item['mega_menu']) ? (bool) $item['mega_menu'] : false;
-?>
+    ?>
             <div class="wdm-menu-item" data-index="<?php echo $index; ?>">
                 <div class="wdm-menu-item-header">
                     <div class="drag-name-container">
@@ -152,7 +147,6 @@ class WDM_Main_Navigation {
                         </label>
                     </div>
                     <div class="wdm-menu-item-actions">
-                    
                         <button type="button" class="wdm-btn wdm-btn-small wdm-add-submenu-item" data-index="<?php echo $index; ?>"<?php echo $mega_menu ? ' style="display:none;"' : ''; ?>><i class="fas fa-plus"></i> Add Submenu</button>
                         <button type="button" class="wdm-btn wdm-btn-small wdm-toggle-submenu">
                             <i class="fas fa-chevron-down"></i> 
@@ -161,7 +155,7 @@ class WDM_Main_Navigation {
                         <button type="button" class="wdm-btn wdm-btn-small wdm-btn-danger wdm-remove-menu-item"><i class="fas fa-trash-alt"></i> Remove</button>
                     </div>
                 </div>
-
+    
                 <div class="wdm-form-row">
                     <div class="wdm-form-col">
                         <label class="wdm-form-label">Menu Text</label>
@@ -179,43 +173,22 @@ class WDM_Main_Navigation {
                         </select>
                     </div>
                 </div>
-
+    
                 <div class="wdm-submenu-or-columns">
                     <?php if (!$mega_menu): ?>
                         <div class="wdm-submenu-items">
-                            <?php
-                            // --- Always render the Main Submenu item if it exists ---
-                            if (!empty($submenu) && isset($submenu[0])): ?>
-                                <div class="wdm-main-submenu-item"<?php echo $mega_menu ? '' : ' style="margin-bottom:20px"'; ?>>
-                                    <?php
-                                        // Only pass the first submenu as array to keep render_submenu_items logic unchanged
-                                        $this->render_submenu_items($index, array($submenu[0]));
-                                    ?>
-                                </div>
-                            <?php endif; ?>
-                            <?php
-                            // Render the rest of the submenus (excluding the first one)
-                            if (count($submenu) > 1) {
-                                $this->render_submenu_items($index, array_slice($submenu, 1));
-                            }
-                            ?>
+                            <?php if (!empty($submenu)) {
+                                $this->render_submenu_items($index, $submenu);
+                            } ?>
                         </div>
                     <?php else: ?>
                         <div class="wdm-mega-columns">
-                            <?php
-                            // --- Always render the Main Submenu item if it exists ---
-                            if (!empty($submenu) && isset($submenu[0])): ?>
-                                <div class="wdm-main-submenu-item"<?php echo $mega_menu ? '' : ' style="margin-bottom:20px"'; ?>>
-                                    <?php
-                                        // Only pass the first submenu as array to keep render_submenu_items logic unchanged
-                                        $this->render_submenu_items($index, array($submenu[0]));
-                                    ?>
-                                </div>
-                            <?php endif; ?>
+                            <?php if (!empty($submenu)) {
+                                $this->render_submenu_items($index, $submenu);
+                            } ?>
                             <div class="wdm-mega-columns-list">
                             <?php
                             foreach ($columns as $col_index => $column) {
-                                // ... column rendering (same as before) ...
                                 $title = esc_attr($column['title'] ?? '');
                                 echo '<div class="wdm-mega-column" data-col-index="' . $col_index . '">';
                                 echo '<input type="text" name="wdm_menu_items[' . $index . '][columns][' . $col_index . '][title]" value="' . $title . '" class="wdm-form-input wdm-mega-col-title" placeholder="Column Title" />';
@@ -246,14 +219,15 @@ class WDM_Main_Navigation {
                         </div>
                     <?php endif; ?>
                 </div>
-
             </div>
-<?php
+    <?php
         }
     }
+    
 
     private function render_submenu_items($menu_index, $submenu_items) {
         foreach ($submenu_items as $sub_index => $sub_item) {
+            $label = $sub_index === 0 ? 'Main Submenu' : 'Submenu Item ' . ($sub_index + 1);
             $text = esc_attr($sub_item['text'] ?? '');
             $url  = esc_attr($sub_item['url'] ?? '');
             $target = esc_attr($sub_item['target'] ?? '_self');
@@ -261,6 +235,7 @@ class WDM_Main_Navigation {
     ?>
             <div class="wdm-submenu-item" data-submenu-index="<?php echo $sub_index; ?>">
                 <div class="wdm-submenu-item-header">
+                    <span class="wdm-submenu-drag-handle">⋮⋮</span>
                     <span class="wdm-submenu-title">
                         <?php echo ($sub_index === 0) ? 'Main Submenu' : 'Submenu Item ' . ($sub_index + 1); ?>
                     </span>
@@ -298,5 +273,5 @@ class WDM_Main_Navigation {
             </div>
     <?php
         }
-    }
+    }   
 }

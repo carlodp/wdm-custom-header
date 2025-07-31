@@ -91,8 +91,8 @@ class WDM_General_Settings {
 
                     <div class="wdm-form-row">
                         <div class="wdm-form-col">
-                            <label class="wdm-form-label">Mobile Breakpoint (px)</label>
-                            <input type="number" name="wdm_header_options[mobile_breakpoint]" value="<?php echo esc_attr($options['mobile_breakpoint'] ?? '768'); ?>" class="wdm-form-input" min="320" max="1200" />
+                            <label class="wdm-form-label">Mobile Menu Breakpoint (px)</label>
+                            <input type="number" name="wdm_header_options[mobile_breakpoint]" value="<?php echo esc_attr($options['mobile_breakpoint'] ?? '768'); ?>" class="wdm-form-input" min="320" max="1500" />
                             <p class="description">Screen width below which mobile menu appears</p>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ if (!defined("ABSPATH")) {
 }
 
 $options = get_option("wdm_header_options", []);
+
 $menu_items = get_option("wdm_menu_items", []);
 
 // Fetch and sanitize logo values
@@ -28,6 +29,58 @@ $donate = [
 ];
 $show_search = $options["show_search"] ?? false;
 ?>
+
+<?php
+$mobile_breakpoint = isset($options['mobile_breakpoint']) ? absint($options['mobile_breakpoint']) : 1024;
+?>
+<style>
+  @media (max-width: <?php echo $mobile_breakpoint; ?>px) {
+    .wdm-mobile-menu {
+      width: 50%;
+    }
+    .mobile-only {
+      display: flex;
+      gap: 0;
+    }
+
+    .wdm-mobile-menu-toggle {
+      display: flex;
+    }
+
+    .wdm-nav-secondary,
+    .Header-nav-main {
+        display: none !important;
+      }
+      .wdm-header-container {
+      height: auto !important;
+    }
+
+    .wdm-header-container {
+      justify-content: space-between;
+    }
+    .wdm-logo-link {
+      padding: 10px;
+    }
+    .wdm-nav {
+      display: none !important;
+    }
+
+    .wdm-main-header.scrolled .wdm-header-container,
+    .wdm-main-header.nav-open .wdm-header-container {
+      height: auto !important;
+    }
+
+    .emergency-alert-mobile.mobile-only {
+      display: block;
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+    }
+    .emergency-alert-banner {
+      display: none;
+    }
+  }
+</style>
 
 <?php if (
     !empty($options["enable_emergency"]) &&
@@ -56,9 +109,9 @@ $show_search = $options["show_search"] ?? false;
       <?php endif; ?>
     </div>
   </div>
-  <div class="emergency-alert-mobile mobile-only" style="display: none;">
+  <div class="emergency-alert-mobile mobile-only">
     <button class="emergency-alert-mobile-btn" type="button">
-      Emergency Alert
+      <i class="fa-solid fa-exclamation"></i>
     </button>
   </div>
 <?php endif; ?>
@@ -183,9 +236,9 @@ $show_search = $options["show_search"] ?? false;
                     <!-- Column 1: Title & Description -->
                     <div class="Nav-megaDropdown-col is-col-1">
                     <div class="Nav-megaDropdown-content">
-                        <a id="mega-dropdown-title-<?php echo esc_attr(
-                            $dropdown_id
-                        ); ?>" class="Nav-megaDropdown-title is-col-1" href="<?php echo esc_url($url); ?>">
+                    <a id="mega-dropdown-title-<?php echo esc_attr(
+                        $dropdown_id
+                    ); ?>" class="Nav-megaDropdown-title is-col-1" href="<?php echo esc_url($item["submenu"][0]["url"] ?? "#"); ?>">
                           <?php echo esc_html(
                               $item["submenu"][0]["text"] ?? ""
                           ); ?>
@@ -287,9 +340,7 @@ $show_search = $options["show_search"] ?? false;
                             !empty($item["description"])
                         ): ?>
                           <li class="Nav-dropdown-parent">
-                            <a class="Nav-dropdown-title" href="<?php echo esc_url(
-                                $url
-                            ); ?>">
+                            <a class="Nav-dropdown-title" href="<?php echo esc_url($item["submenu"][0]["url"] ?? "#"); ?>">
                               <?php echo esc_html(
                                   $item["submenu"][0]["text"] ?? ""
                               ); ?>

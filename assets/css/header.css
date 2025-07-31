@@ -311,7 +311,6 @@
 /* Main Navigation */
 .Header-nav-main {
   background: #f8f9fa;
-  border-bottom: 1px solid #e5e5e5;
   padding: 0;
   transition: height 0.3s ease, transform 0.3s ease;
   height: 100%;
@@ -846,12 +845,6 @@
   overflow-y: auto;
 }
 
-@media (max-width: 1024px) {
-  .wdm-mobile-menu {
-    width: 50%;
-  }
-}
-
 /* For screens ≤ 768px: 75% width */
 @media (max-width: 768px) {
   .wdm-mobile-menu {
@@ -1029,44 +1022,6 @@
   display: none;
 }
 
-/* Show only on mobile */
-@media (max-width: 1024px) {
-  .mobile-only {
-    display: flex;
-    gap: 0;
-  }
-
-  .wdm-mobile-menu-toggle {
-    display: flex;
-  }
-
-  .wdm-nav-secondary,
-  .Header-nav-main {
-    display: none !important;
-  }
-}
-
-@media (max-width: 1024px) {
-  .wdm-header-container {
-    height: auto !important;
-  }
-
-  .wdm-header-container {
-    justify-content: space-between;
-  }
-  .wdm-logo-link {
-    padding: 10px;
-  }
-  .wdm-nav {
-    display: none !important;
-  }
-
-  .wdm-main-header.scrolled .wdm-header-container,
-  .wdm-main-header.nav-open .wdm-header-container {
-    height: auto !important;
-  }
-}
-
 @media (max-width: 767px) {
   .wdm-logo {
     width: 35%;
@@ -1074,6 +1029,9 @@
 }
 
 @media (max-width: 550px) {
+  .wdm-header-container {
+    height: 80px !important;
+  }
   .mobile-header-actions.mobile-only {
     justify-content: end;
   }
@@ -1181,29 +1139,47 @@
   color: #fff;
 }
 
-@media (max-width: 550px) {
-  .emergency-alert-banner {
-    display: none;
-  }
+.emergency-alert-banner.mobile-only {
+  display: none;
+}
 
-  .emergency-alert-mobile {
-    display: block;
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-  }
+.emergency-alert-mobile-btn {
+  background-color: #d13a30 !important;
+  color: white !important;
+  padding: 12px 20px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  width: 52px !important;
+}
 
-  .emergency-alert-mobile-btn {
-    background-color: #d13a30;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
-  }
+.emergency-alert-mobile-btn i {
+  font-size: 25px;
+}
+
+button.emergency-alert-modal-close {
+  background-color: #d13a30 !important;
+  color: white !important;
+  padding: 12px 20px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  width: 52px !important;
+  position: absolute;
+  top: -25px;
+  right: -10px;
+}
+
+.emergency-alert-modal p {
+  text-align: center;
+  color: black;
+}
+
+.alert-button {
+  background: #cf3832;
+  display: block;
+  margin: 0;
+  margin-top: 25px;
+  color: white !important;
+  text-align: center;
 }
 
 .emergency-alert-modal-overlay {
